@@ -1,0 +1,96 @@
+{
+  "version": "1.0.0",
+  "default_family": "general_correspondence",
+  "date_order": "DMY",
+  "strategy_stack": [
+    {
+      "strategy_id": "alias_rule",
+      "source_kind": "rule_engine",
+      "enabled": true,
+      "implemented": true,
+      "weight": 0.35,
+      "purpose": "Locate field anchors through alias definitions."
+    },
+    {
+      "strategy_id": "regex_pattern",
+      "source_kind": "rule_engine",
+      "enabled": true,
+      "implemented": true,
+      "weight": 0.35,
+      "purpose": "Extract candidate values with regular expressions."
+    },
+    {
+      "strategy_id": "ocr_confidence_signal",
+      "source_kind": "ocr_bbox",
+      "enabled": true,
+      "implemented": true,
+      "weight": 0.3,
+      "purpose": "Blend OCR line confidence into field confidence."
+    }
+  ],
+  "document_type_keyword_rules": [
+    {
+      "family_code": "invoice",
+      "type_code": "invoice",
+      "display_name": "Invoice",
+      "keywords": [
+        "invoice",
+        "fattura",
+        "facture",
+        "rechnung",
+        "vat",
+        "total amount",
+        "amount due"
+      ]
+    },
+    {
+      "family_code": "building_permit",
+      "type_code": "building_permit_application",
+      "display_name": "Building permit application",
+      "keywords": [
+        "building permit",
+        "permesso di costruire",
+        "planning permission",
+        "richiesta permesso",
+        "richiesta permesso di costruire"
+      ]
+    },
+    {
+      "family_code": "residence_application",
+      "type_code": "residence_application",
+      "display_name": "Residence application",
+      "keywords": [
+        "residence application",
+        "residence registration",
+        "change of residence",
+        "cambio residenza",
+        "cambio di residenza",
+        "istanza di residenza",
+        "residenza"
+      ]
+    },
+    {
+      "family_code": "general_correspondence",
+      "type_code": "general_correspondence",
+      "display_name": "General correspondence",
+      "keywords": [
+        "subject",
+        "dear",
+        "oggetto",
+        "sincerely",
+        "regards"
+      ]
+    }
+  ],
+  "global_thresholds": {
+    "auto_validate_threshold": 0.9,
+    "review_threshold": 0.8,
+    "validation_penalty": 0.25
+  },
+  "review_reason_codes": [
+    "low_confidence",
+    "validation_pattern_mismatch",
+    "required_field_missing",
+    "manual_policy_review"
+  ]
+}

@@ -1,0 +1,1194 @@
+openapi: 3.1.0
+info:
+  title: xTRACT Document Processing API
+  version: 0.1.0
+  description: >
+    REST API for xTRACT (KOKUTBON/xTRACT): an open-source, local-first platform
+    for document intake, OCR, metadata extraction, backoffice human review,
+    and institutional protocol integration.
+    Document access, uploads, queues, statistics, and exports are scoped to the
+    authenticated institution, including institutional administrators. Foreign
+    document or exception identifiers return 404; foreign institution filters
+    and uploads return 403. Deployment bootstrap credentials can provision
+    institutional tokens, while institutional administrators can delegate only
+    within their own institution.
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+
+servers:
+  - url: http://localhost:8000
+    description: Local development server
+
+security:
+  - BearerAuth: []
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: >
+        Authentication via standard HTTP Authorization Bearer token.
+        Required for all `/api/` endpoints except `/api/v1/health` when XTRACT_API_TOKEN is configured.
+        Query string tokens are strictly rejected for security.
+
+  schemas:
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          example: INVALID_CONTENT
+        message:
+          type: string
+          example: The request payload could not be validated.
+        details:
+          type: object
+          additionalProperties: true
+
+    HealthStatus:
+      type: object
+      required:
+        - status
+        - service
+        - version
+      properties:
+        status:
+          type: string
+          example: healthy
+        service:
+          type: string
+          example: xtract
+        version:
+          type: string
+          example: 0.1.0
+
+    InstitutionProfile:
+      type: object
+      required:
+        - version
+        - institution_id
+        - institution_name
+        - app_title
+        - logo_url
+        - accent_color
+        - default_locale
+        - supported_locales
+      properties:
+        version:
+          type: string
+          example: 1.0.0
+        institution_id:
+          type: string
+          example: default
+        institution_name:
+          type: string
+          example: xTRACT
+        app_title:
+          type: string
+          example: xTRACT · Operator Console
+        tagline:
+          type: string
+          example: Local-First Document Intake, OCR, and Metadata Extraction
+        logo_url:
+          type: string
+          example: /branding/logo-mark.svg
+        logo_dark_url:
+          type: string
+          example: /branding/logo-mark.svg
+        app_icon_url:
+          type: string
+          example: /branding/logo-app-icon.png
+        favicon_url:
+          type: string
+          example: /branding/logo-mark.svg
+        accent_color:
+          type: string
+          example: "#111111"
+        country_code:
+          type: string
+          example: IT
+        default_locale:
+          type: string
+          example: en
+        supported_locales:
+          type: array
+          items:
+            type: string
+          example: ["en", "it"]
+        contact_email:
+          type: string
+          example: ops@example.org
+
+    ConfigInfo:
+      type: object
+      required:
+        - version
+        - document_families
+        - workflow_stages
+        - reprocess_scopes
+        - defaults
+        - max_upload_bytes
+        - allowed_mime_types
+        - ocr_engines
+        - auth_required
+      properties:
+        version:
+          type: string
+          example: 0.1.0
+        document_families:
+          type: array
+          items:
+            type: object
+        workflow_stages:
+          type: array
+          items:
+            type: string
+        reprocess_scopes:
+          type: array
+          items:
+            type: string
+        defaults:
+          type: object
+          properties:
+            institution_id:
+              type: string
+            office_id:
+              type: string
+        max_upload_bytes:
+          type: integer
+        allowed_mime_types:
+          type: array
+          items:
+            type: string
+        ocr_engines:
+          type: array
+          items:
+            type: object
+        auth_required:
+          type: boolean
+        config_pack:
+          type: string
+          example: general
+        available_packs:
+          type: array
+          items:
+            $ref: '#/components/schemas/DomainPackInfo'
+
+    DomainPackInfo:
+      type: object
+      required:
+        - pack_id
+        - name
+        - version
+        - country_code
+        - default_locale
+        - supported_locales
+        - is_active
+      properties:
+        pack_id:
+          type: string
+          example: it-pa
+        name:
+          type: string
+          example: Italian Public Administration (PA Digitale)
+        version:
+          type: string
+          example: 1.0.0
+        description:
+          type: string
+          example: Preset configuration for Italian public administrations
+        country_code:
+          type: string
+          example: IT
+        default_locale:
+          type: string
+          example: it
+        supported_locales:
+          type: array
+          items:
+            type: string
+          example: ["it", "en"]
+        is_active:
+          type: boolean
+          example: true
+
+    PacksResponse:
+      type: object
+      required:
+        - active_pack
+        - packs
+      properties:
+        active_pack:
+          type: string
+          example: general
+        packs:
+          type: array
+          items:
+            $ref: '#/components/schemas/DomainPackInfo'
+
+    AuthConfig:
+      type: object
+      required:
+        - auth_required
+        - auth_mode
+        - available_roles
+        - available_permissions
+      properties:
+        auth_required:
+          type: boolean
+        auth_mode:
+          type: string
+          example: auto
+        oidc_issuer_url:
+          type: string
+        oidc_client_id:
+          type: string
+        available_roles:
+          type: array
+          items:
+            type: string
+        available_permissions:
+          type: array
+          items:
+            type: string
+
+    AuthUserResponse:
+      type: object
+      required:
+        - user_id
+        - display_name
+        - institution_id
+        - office_id
+        - roles
+        - permissions
+        - auth_method
+      properties:
+        user_id:
+          type: string
+          example: mario.rossi
+        display_name:
+          type: string
+          example: Mario Rossi
+        email:
+          type: string
+        institution_id:
+          type: string
+          example: it-comune-demo
+        office_id:
+          type: string
+          example: anagrafe
+        roles:
+          type: array
+          items:
+            type: string
+        permissions:
+          type: array
+          items:
+            type: string
+        auth_method:
+          type: string
+          example: jwt
+
+    AuthTokenRequest:
+      type: object
+      properties:
+        user_id:
+          type: string
+          example: operator1
+        display_name:
+          type: string
+          example: Front Desk Operator
+        email:
+          type: string
+        roles:
+          type: array
+          minItems: 1
+          items:
+            type: string
+            enum: [admin, supervisor, operator, viewer, auditor]
+        institution_id:
+          type: string
+        office_id:
+          type: string
+        expires_in:
+          type: integer
+          default: 86400
+          minimum: 1
+          maximum: 86400
+        api_token:
+          type: string
+          description: Configured shared API token for bootstrap authorization
+
+    AuthTokenResponse:
+      type: object
+      required:
+        - access_token
+        - token_type
+        - expires_in
+        - user_id
+        - roles
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+          example: Bearer
+        expires_in:
+          type: integer
+          example: 86400
+        user_id:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+
+    ConnectorSummary:
+      type: object
+      required:
+        - connector_id
+        - system_name
+        - description
+        - channel_type
+        - status
+        - supported_commands
+      properties:
+        connector_id:
+          type: string
+          example: local_registry
+        system_name:
+          type: string
+          example: xtract-registry
+        description:
+          type: string
+          example: Built-in registry that issues sequential registration numbers per institution and year.
+        channel_type:
+          type: string
+          example: local_registry
+        status:
+          type: string
+          example: active
+        supported_commands:
+          type: array
+          items:
+            type: string
+          example: ["protocol.register"]
+        reference_prefix:
+          type: string
+          example: REG
+        ownership:
+          type: object
+
+    ConnectorsResponse:
+      type: object
+      required:
+        - connectors
+      properties:
+        connectors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConnectorSummary'
+
+    DocumentUploadRequest:
+
+      type: object
+      properties:
+        filename:
+          type: string
+          example: invoice_2026_01.pdf
+        content_base64:
+          type: string
+          description: Base64-encoded document bytes (mutually exclusive with text_content)
+        text_content:
+          type: string
+          description: Plain text content (mutually exclusive with content_base64)
+        mime_type:
+          type: string
+          example: application/pdf
+        title:
+          type: string
+          example: Commercial Invoice INV-2026-001
+        document_family:
+          type: string
+          default: auto
+          example: invoice
+        institution_id:
+          type: string
+          example: default
+        office_id:
+          type: string
+          example: general
+
+    DocumentUploadResponse:
+      type: object
+      required:
+        - status
+        - document_id
+        - job_id
+        - title
+        - workflow_stage
+        - created_at
+      properties:
+        status:
+          type: string
+          example: accepted
+        document_id:
+          type: string
+          format: uuid
+        job_id:
+          type: string
+        title:
+          type: string
+        workflow_stage:
+          type: string
+          example: acquired
+        created_at:
+          type: string
+          format: date-time
+
+    WorkspaceResponse:
+      type: object
+      required:
+        - schema_version
+        - document_id
+        - document_summary
+        - workflow_state
+        - viewer
+        - field_panels
+      properties:
+        schema_version:
+          type: string
+          example: 1.0.0
+        document_id:
+          type: string
+          format: uuid
+        institution_id:
+          type: string
+        office_id:
+          type: string
+        document_summary:
+          type: object
+        workflow_state:
+          type: object
+        viewer:
+          type: object
+        field_panels:
+          type: array
+          items:
+            type: object
+        review_history:
+          type: array
+          items:
+            type: object
+        audit_timeline:
+          type: array
+          items:
+            type: object
+        exception_context:
+          type: array
+          items:
+            type: object
+        permitted_actions:
+          type: array
+          items:
+            type: string
+
+    FieldUpdateRequest:
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          type: string
+          nullable: true
+          example: INV-2026-9999
+        comment:
+          type: string
+          example: Corrected typo in serial prefix
+        force:
+          type: boolean
+          default: false
+
+    ReviewCompleteRequest:
+      type: object
+      properties:
+        comment:
+          type: string
+          example: All fields manually verified
+
+    ReviewReopenRequest:
+      type: object
+      properties:
+        reason:
+          type: string
+          example: Re-evaluating date field
+
+    DiscardRequest:
+      type: object
+      properties:
+        reason:
+          type: string
+          example: Illegible or blank document
+
+    ReprocessRequest:
+      type: object
+      properties:
+        scope:
+          type: string
+          enum: [all, ocr, extraction, integration]
+          default: extraction
+        reason_code:
+          type: string
+          default: operator_request
+        comment:
+          type: string
+        related_exception_id:
+          type: string
+          format: uuid
+
+    AssistantQueryRequest:
+      type: object
+      required:
+        - prompt
+      properties:
+        prompt:
+          type: string
+          example: What is the total VAT amount on this invoice?
+
+paths:
+  /api/v1/health:
+    get:
+      summary: Health check
+      security: []
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+
+  /api/v1/branding:
+    get:
+      summary: Institution identity and white-label branding configuration
+      security: []
+      responses:
+        '200':
+          description: Branding profile and visual theme tokens
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstitutionProfile'
+
+  /api/v1/packs:
+    get:
+      summary: Installed country and domain preset packs
+      security: []
+      responses:
+        '200':
+          description: Active pack and catalog of available preset packs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PacksResponse'
+
+  /api/v1/auth/config:
+    get:
+      summary: Authentication discovery and capability metadata
+      security: []
+      responses:
+        '200':
+          description: Public authentication settings and available roles/permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthConfig'
+
+  /api/v1/auth/me:
+    get:
+      summary: Current authenticated operator identity and RBAC permissions
+      responses:
+        '200':
+          description: Operator identity, institution affiliation, and permission matrix
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthUserResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/auth/token:
+    post:
+      summary: Mint a signed institutional JWT Bearer token
+      description: Requires a verified administrator bearer token or trusted proxy identity, or the configured shared API token in the request body. Institutional administrators may mint tokens only for their own institution; the shared bootstrap credential may provision other institutions. Anonymous development access cannot mint tokens. A signing key must be configured.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthTokenRequest'
+      responses:
+        '200':
+          description: Signed JWT token with roles and expiration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokenResponse'
+        '401':
+          description: Unauthorized (Admin authorization or valid api_token required)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Authenticated user lacks administrator permission
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Invalid roles or token lifetime
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: No token signing key configured
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/config:
+    get:
+      summary: System and platform configuration
+      responses:
+        '200':
+          description: Configuration settings and capabilities
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigInfo'
+
+  /api/v1/stats:
+    get:
+      summary: Document stage statistics
+      responses:
+        '200':
+          description: Aggregate stage counts and processing stats
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /api/v1/connectors:
+    get:
+      summary: List registered protocol and interoperability connectors
+      responses:
+        '200':
+          description: List of available protocol connectors and status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectorsResponse'
+
+  /api/v1/documents:
+    post:
+      summary: Ingest a new document
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DocumentUploadRequest'
+      responses:
+        '201':
+          description: Document accepted and queued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentUploadResponse'
+        '400':
+          description: Invalid request body or encoding
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Duplicate document rejected
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Payload exceeds size limit
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '415':
+          description: Unsupported media type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    get:
+      summary: Search documents
+      parameters:
+        - name: q
+          in: query
+          schema:
+            type: string
+          description: Free-text search query across OCR text and metadata
+        - name: stage
+          in: query
+          schema:
+            type: string
+          description: Filter by workflow stage
+        - name: institution_id
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 200
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /api/v1/documents/{document_id}:
+    get:
+      summary: Retrieve document workspace
+      parameters:
+        - name: document_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Full workspace read model
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceResponse'
+        '404':
+          description: Document not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/documents/{document_id}/source:
+    get:
+      summary: Download original document bytes
+      parameters:
+        - name: document_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: download
+          in: query
+          schema:
+            type: boolean
+          description: If true, sets Content-Disposition to attachment
+      responses:
+        '200':
+          description: Raw document content
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Source file not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/documents/{document_id}/ocr:
+    get:
+      summary: Retrieve normalized OCR output
+      parameters:
+        - name: document_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OCR pages, text lines, and bounding boxes
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: OCR output not available yet
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/documents/{document_id}/export:
+    get:
+      summary: Export single document metadata record
+      parameters:
+        - name: document_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: include_text
+          in: query
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: JSON export record
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          description: Document not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/documents/{document_id}/fields/{field_code}:
+    put:
+      summary: Update or correct field value
+      parameters:
+        - name: document_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: field_code
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FieldUpdateRequest'
+      responses:
+        '200':
+          description: Updated document workspace
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceResponse'
+        '404':
+          description: Document or field not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v1/documents/{document_id}/fields/{field_code}/confirm:
+    post:
+      summary: Confirm extracted field value
+      parameters:
+        - name: document_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: field_code
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Updated document workspace
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceResponse'
+
+  /api/v1/documents/{document_id}/review/complete:
+    post:
+      summary: Complete manual review and promote to validated
+      parameters:
+        - name: document_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewCompleteRequest'
+      responses:
+        '200':
+          description: Validated workspace
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceResponse'
+
+  /api/v1/documents/{document_id}/review/reopen:
+    post:
+      summary: Reopen completed document for verification
+      parameters:
+        - name: document_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewReopenRequest'
+      responses:
+        '200':
+          description: Updated workspace
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceResponse'
+
+  /api/v1/documents/{document_id}/discard:
+    post:
+      summary: Discard invalid or unprocessable document
+      parameters:
+        - name: document_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiscardRequest'
+      responses:
+        '200':
+          description: Discarded workspace
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceResponse'
+
+  /api/v1/documents/{document_id}/reprocess:
+    post:
+      summary: Request reprocessing of document pipeline
+      parameters:
+        - name: document_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReprocessRequest'
+      responses:
+        '202':
+          description: Reprocessing jobs enqueued
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /api/v1/documents/{document_id}/integration/retry:
+    post:
+      summary: Retry external protocol integration dispatch
+      parameters:
+        - name: document_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '202':
+          description: Integration dispatch enqueued
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /api/v1/documents/{document_id}/assistant:
+    post:
+      summary: Ask the local source-bounded assistant
+      parameters:
+        - name: document_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssistantQueryRequest'
+      responses:
+        '200':
+          description: Assistant answer card with citations
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /api/v1/review-queue:
+    get:
+      summary: List documents requiring human review
+      parameters:
+        - name: institution_id
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Review queue worklist
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /api/v1/exceptions:
+    get:
+      summary: List system and pipeline exceptions
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [open, resolved]
+        - name: institution_id
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Exception inbox list
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /api/v1/exceptions/{exception_id}/resolve:
+    post:
+      summary: Mark exception as resolved
+      parameters:
+        - name: exception_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                comment:
+                  type: string
+      responses:
+        '200':
+          description: Exception marked resolved
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /api/v1/export/documents.jsonl:
+    get:
+      summary: Export documents in JSON Lines format
+      parameters:
+        - name: stage
+          in: query
+          schema:
+            type: string
+            default: validated
+        - name: include_text
+          in: query
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Streaming JSON Lines export
+          content:
+            application/x-ndjson:
+              schema:
+                type: string
+
+  /api/v1/export/documents.json:
+    get:
+      summary: Export documents as JSON array
+      parameters:
+        - name: stage
+          in: query
+          schema:
+            type: string
+            default: validated
+      responses:
+        '200':
+          description: JSON array of validated documents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+
+  /api/v1/export/fields.csv:
+    get:
+      summary: Export extracted fields as CSV
+      parameters:
+        - name: stage
+          in: query
+          schema:
+            type: string
+            default: validated
+      responses:
+        '200':
+          description: CSV spreadsheet export
+          content:
+            text/csv:
+              schema:
+                type: string

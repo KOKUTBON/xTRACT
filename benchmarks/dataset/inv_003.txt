@@ -1,0 +1,6 @@
+FATTURA
+Fornitore: Example Supplier Three
+Numero fattura: 2026/0441
+Data fattura: 2026-01-20
+Partita IVA: IT00000000000
+Totale: 580,00 €

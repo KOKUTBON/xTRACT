@@ -1,0 +1,350 @@
+{
+  "version": "1.0.0",
+  "document_types": [
+    {
+      "type_code": "general_correspondence",
+      "display_name": "Protocollo generale",
+      "family_code": "general_correspondence",
+      "taxonomy_version": "1.0.0",
+      "fields": [
+        {
+          "field_code": "document_date",
+          "label": "Data documento",
+          "value_type": "date",
+          "required": true,
+          "review_threshold": 0.8,
+          "normalization_rules": [
+            "strip",
+            "date_iso"
+          ],
+          "validation_pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        {
+          "field_code": "reference_number",
+          "label": "Numero protocollo",
+          "value_type": "identifier",
+          "required": false,
+          "review_threshold": 0.8,
+          "normalization_rules": [
+            "strip",
+            "uppercase"
+          ],
+          "validation_pattern": "^[A-Za-z0-9][A-Za-z0-9/._\\-]{0,63}$"
+        },
+        {
+          "field_code": "sender_name",
+          "label": "Mittente",
+          "value_type": "string",
+          "required": false,
+          "review_threshold": 0.8,
+          "normalization_rules": [
+            "strip",
+            "collapse_whitespace"
+          ],
+          "validation_pattern": "^[^\\d\\n]{2,120}$"
+        },
+        {
+          "field_code": "recipient_name",
+          "label": "Destinatario",
+          "value_type": "string",
+          "required": false,
+          "review_threshold": 0.8,
+          "normalization_rules": [
+            "strip",
+            "collapse_whitespace"
+          ],
+          "validation_pattern": "^[^\\d\\n]{2,120}$"
+        },
+        {
+          "field_code": "subject",
+          "label": "Oggetto",
+          "value_type": "text",
+          "required": true,
+          "review_threshold": 0.8,
+          "normalization_rules": [
+            "strip",
+            "collapse_whitespace"
+          ],
+          "validation_pattern": "^.{3,300}$"
+        },
+        {
+          "field_code": "fiscal_code",
+          "label": "Codice Fiscale / P.IVA",
+          "value_type": "identifier",
+          "required": false,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "fiscal_code"
+          ],
+          "validation_pattern": "^[A-Z0-9]{11,16}$"
+        },
+        {
+          "field_code": "pec_address",
+          "label": "Indirizzo PEC",
+          "value_type": "string",
+          "required": false,
+          "review_threshold": 0.8,
+          "normalization_rules": [
+            "strip"
+          ],
+          "validation_pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$"
+        }
+      ]
+    },
+    {
+      "type_code": "invoice",
+      "display_name": "Fattura / FatturaPA",
+      "family_code": "invoice",
+      "taxonomy_version": "1.0.0",
+      "fields": [
+        {
+          "field_code": "invoice_number",
+          "label": "Numero fattura",
+          "value_type": "identifier",
+          "required": true,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "uppercase"
+          ],
+          "validation_pattern": "^[A-Za-z0-9][A-Za-z0-9/._\\-]{0,63}$"
+        },
+        {
+          "field_code": "invoice_date",
+          "label": "Data fattura",
+          "value_type": "date",
+          "required": true,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "date_iso"
+          ],
+          "validation_pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        {
+          "field_code": "supplier_name",
+          "label": "Cedente / Fornitore",
+          "value_type": "string",
+          "required": false,
+          "review_threshold": 0.8,
+          "normalization_rules": [
+            "strip",
+            "collapse_whitespace"
+          ],
+          "validation_pattern": "^[^\\d\\n]{2,120}$"
+        },
+        {
+          "field_code": "vat_number",
+          "label": "Partita IVA",
+          "value_type": "identifier",
+          "required": false,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "vat_number"
+          ],
+          "validation_pattern": "^[A-Z]{0,2}[0-9A-Z]{6,14}$"
+        },
+        {
+          "field_code": "fiscal_code",
+          "label": "Codice Fiscale",
+          "value_type": "identifier",
+          "required": false,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "fiscal_code"
+          ],
+          "validation_pattern": "^[A-Z0-9]{11,16}$"
+        },
+        {
+          "field_code": "total_amount",
+          "label": "Totale documento",
+          "value_type": "decimal",
+          "required": true,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "decimal"
+          ],
+          "validation_pattern": "^-?\\d+(\\.\\d{1,2})?$"
+        },
+        {
+          "field_code": "cig_code",
+          "label": "Codice CIG",
+          "value_type": "identifier",
+          "required": false,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "alphanumeric"
+          ],
+          "validation_pattern": "^[A-Z0-9]{10}$"
+        },
+        {
+          "field_code": "cup_code",
+          "label": "Codice CUP",
+          "value_type": "identifier",
+          "required": false,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "alphanumeric"
+          ],
+          "validation_pattern": "^[A-Z0-9]{15}$"
+        },
+        {
+          "field_code": "iban",
+          "label": "IBAN accredito",
+          "value_type": "identifier",
+          "required": false,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "iban"
+          ],
+          "validation_pattern": "^[A-Z]{2}\\d{2}[A-Z0-9]{11,30}$"
+        }
+      ]
+    },
+    {
+      "type_code": "building_permit_application",
+      "display_name": "Istanza Edilizia (SUE)",
+      "family_code": "building_permit",
+      "taxonomy_version": "1.0.0",
+      "fields": [
+        {
+          "field_code": "applicant_full_name",
+          "label": "Richiedente / Titolare",
+          "value_type": "string",
+          "required": true,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "collapse_whitespace",
+            "title_case"
+          ],
+          "validation_pattern": "^[^\\d\\n]{2,120}$"
+        },
+        {
+          "field_code": "fiscal_code",
+          "label": "Codice Fiscale",
+          "value_type": "identifier",
+          "required": false,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "fiscal_code"
+          ],
+          "validation_pattern": "^[A-Z0-9]{11,16}$"
+        },
+        {
+          "field_code": "case_number",
+          "label": "Numero pratica SUE",
+          "value_type": "identifier",
+          "required": true,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "uppercase"
+          ],
+          "validation_pattern": "^[A-Za-z0-9][A-Za-z0-9/._\\-]{0,63}$"
+        },
+        {
+          "field_code": "request_date",
+          "label": "Data presentazione",
+          "value_type": "date",
+          "required": true,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "date_iso"
+          ],
+          "validation_pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        {
+          "field_code": "property_address",
+          "label": "Indirizzo immobile",
+          "value_type": "text",
+          "required": false,
+          "review_threshold": 0.8,
+          "normalization_rules": [
+            "strip",
+            "collapse_whitespace"
+          ],
+          "validation_pattern": "^.{5,200}$"
+        }
+      ]
+    },
+    {
+      "type_code": "residence_application",
+      "display_name": "Dichiarazione Residenza (ANPR)",
+      "family_code": "residence_application",
+      "taxonomy_version": "1.0.0",
+      "fields": [
+        {
+          "field_code": "applicant_full_name",
+          "label": "Richiedente",
+          "value_type": "string",
+          "required": true,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "collapse_whitespace",
+            "title_case"
+          ],
+          "validation_pattern": "^[^\\d\\n]{2,120}$"
+        },
+        {
+          "field_code": "fiscal_code",
+          "label": "Codice Fiscale",
+          "value_type": "identifier",
+          "required": false,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "fiscal_code"
+          ],
+          "validation_pattern": "^[A-Z0-9]{11,16}$"
+        },
+        {
+          "field_code": "application_number",
+          "label": "Numero istanza",
+          "value_type": "identifier",
+          "required": true,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "uppercase"
+          ],
+          "validation_pattern": "^[A-Za-z0-9][A-Za-z0-9/._\\-]{0,63}$"
+        },
+        {
+          "field_code": "request_date",
+          "label": "Data istanza",
+          "value_type": "date",
+          "required": true,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "date_iso"
+          ],
+          "validation_pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        {
+          "field_code": "new_address",
+          "label": "Nuovo recapito / residenza",
+          "value_type": "text",
+          "required": false,
+          "review_threshold": 0.8,
+          "normalization_rules": [
+            "strip",
+            "collapse_whitespace"
+          ],
+          "validation_pattern": "^.{5,200}$"
+        }
+      ]
+    }
+  ]
+}

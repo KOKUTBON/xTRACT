@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xtract.dev/schemas/assistant-answer.v1.schema.json",
+  "title": "Assistant Answer v1",
+  "description": "Source-bounded answer card returned by the operator document assistant. Answers cite the stored OCR text, field values, or audit events they are based on and never make administrative decisions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "document_id",
+    "prompt",
+    "intent_id",
+    "response_mode",
+    "title",
+    "answer_text",
+    "citations",
+    "limitations",
+    "decision_boundary",
+    "suggested_prompts",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0.0" },
+    "document_id": { "type": "string", "format": "uuid" },
+    "prompt": { "type": "string" },
+    "intent_id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+    "response_mode": { "type": "string", "enum": ["answer", "abstain", "handoff"] },
+    "title": { "type": "string" },
+    "answer_text": { "type": "string" },
+    "citations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_type", "source_label", "locator", "evidence_excerpt"],
+        "properties": {
+          "source_type": { "type": "string", "enum": ["ocr_text", "field_value", "review_task", "audit_event", "exception", "external_reference"] },
+          "source_label": { "type": "string" },
+          "locator": { "type": "string" },
+          "evidence_excerpt": { "type": "string" }
+        }
+      }
+    },
+    "limitations": { "type": "array", "items": { "type": "string" } },
+    "decision_boundary": { "type": "string" },
+    "suggested_prompts": { "type": "array", "items": { "type": "string" } },
+    "generated_at": { "type": "string", "format": "date-time" }
+  }
+}

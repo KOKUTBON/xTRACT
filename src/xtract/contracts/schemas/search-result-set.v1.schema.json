@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xtract.dev/schemas/search-result-set.v1.schema.json",
+  "title": "Search Result Set v1",
+  "description": "Operational search projection across documents, metadata, text, and workflow state.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "applied_filters",
+    "hits"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "applied_filters": {
+      "$ref": "#/$defs/AppliedFilters"
+    },
+    "hits": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/SearchHit"
+      }
+    }
+  },
+  "$defs": {
+    "AppliedFilters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "text_query",
+        "workflow_stage",
+        "institution_id"
+      ],
+      "properties": {
+        "text_query": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "workflow_stage": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "institution_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "MatchedMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "field_code",
+        "label",
+        "value"
+      ],
+      "properties": {
+        "field_code": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "string",
+            "number",
+            "boolean",
+            "null"
+          ]
+        }
+      }
+    },
+    "SearchHit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "document_id",
+        "institution_id",
+        "office_id",
+        "workflow_stage",
+        "source_filename",
+        "document_type_display_name",
+        "matched_metadata",
+        "matched_text_excerpt"
+      ],
+      "properties": {
+        "document_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "institution_id": {
+          "type": "string"
+        },
+        "office_id": {
+          "type": "string"
+        },
+        "workflow_stage": {
+          "type": "string"
+        },
+        "source_filename": {
+          "type": "string"
+        },
+        "document_type_display_name": {
+          "type": "string"
+        },
+        "matched_metadata": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MatchedMetadata"
+          }
+        },
+        "matched_text_excerpt": {
+          "type": "string"
+        },
+        "external_reference_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

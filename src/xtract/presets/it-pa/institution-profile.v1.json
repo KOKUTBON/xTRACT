@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "institution_id": "comune-italiano",
+  "institution_name": "Comune di Esempio",
+  "app_title": "xTRACT · Protocollo e Documenti PA",
+  "tagline": "Acquisizione Sovrana, OCR ed Estrazione Metadati per la Pubblica Amministrazione",
+  "logo_url": "/branding/logo-mark.svg",
+  "logo_dark_url": "/branding/logo-mark.svg",
+  "app_icon_url": "/branding/logo-app-icon.png",
+  "favicon_url": "/branding/logo-mark.svg",
+  "accent_color": "#0066cc",
+  "accent_color_dark": "#4da6ff",
+  "country_code": "IT",
+  "default_locale": "it",
+  "supported_locales": [
+    "it",
+    "en"
+  ],
+  "contact_email": "protocol@example.test"
+}

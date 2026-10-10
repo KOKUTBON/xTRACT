@@ -1,0 +1,300 @@
+{
+  "generated": "2026-10-10",
+  "scope": "Dependency metadata observed from committed npm locks and local validation environments. Not a legal clearance or complete binary/container SBOM. Preserve upstream notices and inspect assets separately.",
+  "dependencies": [
+    {
+      "ecosystem": "python",
+      "name": "CacheControl",
+      "version": "0.14.4",
+      "license": "Apache-2.0",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "Pygments",
+      "version": "2.21.0",
+      "license": "BSD-2-Clause",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "attrs",
+      "version": "26.1.0",
+      "license": "MIT",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "boolean.py",
+      "version": "5.0",
+      "license": "BSD-2-Clause",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "certifi",
+      "version": "2026.7.22",
+      "license": "MPL-2.0",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "charset-normalizer",
+      "version": "3.5.2",
+      "license": "MIT",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "coverage",
+      "version": "7.16.2",
+      "license": "Apache-2.0",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "cyclonedx-python-lib",
+      "version": "11.12.0",
+      "license": "Apache-2.0",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "defusedxml",
+      "version": "0.7.1",
+      "license": "PSFL",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "filelock",
+      "version": "4.1.0",
+      "license": "MIT",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "idna",
+      "version": "3.20",
+      "license": "BSD-3-Clause",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "iniconfig",
+      "version": "2.3.1",
+      "license": "MIT",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "jsonschema",
+      "version": "4.26.0",
+      "license": "MIT",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "jsonschema-specifications",
+      "version": "2025.9.1",
+      "license": "MIT",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "license-expression",
+      "version": "30.4.4",
+      "license": "Apache-2.0",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "markdown-it-py",
+      "version": "4.2.0",
+      "license": "License :: OSI Approved :: MIT License",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "mdurl",
+      "version": "0.1.2",
+      "license": "License :: OSI Approved :: MIT License",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "msgpack",
+      "version": "1.2.3",
+      "license": "Apache-2.0",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "packageurl-python",
+      "version": "0.17.6",
+      "license": "MIT",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "packaging",
+      "version": "26.3",
+      "license": "Apache-2.0 OR BSD-2-Clause",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "pillow",
+      "version": "12.3.0",
+      "license": "MIT-CMU",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "pip-requirements-parser",
+      "version": "32.0.1",
+      "license": "MIT",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "pip_api",
+      "version": "0.0.35",
+      "license": "See upstream package license text (metadata contains full terms)",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "pip_audit",
+      "version": "2.10.1",
+      "license": "License :: OSI Approved :: Apache Software License",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "platformdirs",
+      "version": "4.12.4",
+      "license": "MIT",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "pluggy",
+      "version": "1.6.0",
+      "license": "MIT",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "py-serializable",
+      "version": "2.1.0",
+      "license": "Apache-2.0",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "pyparsing",
+      "version": "3.3.3",
+      "license": "MIT",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "pypdfium2",
+      "version": "5.14.0",
+      "license": "BSD-3-Clause, Apache-2.0, dependency licenses",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "pytesseract",
+      "version": "0.3.13",
+      "license": "Apache License 2.0",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "pytest",
+      "version": "9.1.1",
+      "license": "MIT",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "pytest-cov",
+      "version": "7.1.0",
+      "license": "MIT",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "referencing",
+      "version": "0.37.0",
+      "license": "MIT",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "requests",
+      "version": "2.34.2",
+      "license": "Apache-2.0",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "rich",
+      "version": "15.0.0",
+      "license": "MIT",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "rpds-py",
+      "version": "2026.9.1",
+      "license": "MIT",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "ruff",
+      "version": "0.17.0",
+      "license": "MIT",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "sortedcontainers",
+      "version": "2.4.0",
+      "license": "Apache 2.0",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "tomli",
+      "version": "2.5.0",
+      "license": "MIT",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "tomli_w",
+      "version": "1.2.0",
+      "license": "License :: OSI Approved :: MIT License",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "typing_extensions",
+      "version": "4.16.0",
+      "license": "PSF-2.0",
+      "scope": "local validation environment; may include development/optional dependencies"
+    },
+    {
+      "ecosystem": "python",
+      "name": "urllib3",
+      "version": "2.8.0",
+      "license": "MIT",
+      "scope": "local validation environment; may include development/optional dependencies"
+    }
+  ]
+}

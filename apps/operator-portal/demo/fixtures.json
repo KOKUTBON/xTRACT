@@ -1,0 +1,1265 @@
+{
+  "config": {
+    "version": "0.1.0",
+    "institution": {
+      "version": "1.0.0",
+      "institution_id": "default",
+      "institution_name": "xTRACT",
+      "app_title": "xTRACT \u00b7 Interactive demo",
+      "tagline": "Local-First Document Intake, OCR, and Metadata Extraction",
+      "logo_url": "./branding/logo-mark.svg",
+      "logo_dark_url": "./branding/logo-mark.svg",
+      "app_icon_url": "./branding/logo-app-icon.png",
+      "favicon_url": "./branding/logo-mark.svg",
+      "accent_color": "#111111",
+      "accent_color_dark": "#ffffff",
+      "country_code": "IT",
+      "default_locale": "en",
+      "supported_locales": [
+        "en",
+        "it"
+      ],
+      "contact_email": ""
+    },
+    "config_pack": "general",
+    "available_packs": [
+      {
+        "pack_id": "general",
+        "name": "General International",
+        "version": "1.0.0",
+        "description": "Standard international correspondence, invoices, and generic public records.",
+        "country_code": "XX",
+        "default_locale": "en",
+        "supported_locales": [
+          "en",
+          "it",
+          "es",
+          "fr",
+          "de"
+        ],
+        "is_active": true
+      },
+      {
+        "pack_id": "it-pa",
+        "name": "Italian Public Administration (PA Digitale)",
+        "version": "1.0.0",
+        "description": "Preset per la Pubblica Amministrazione Italiana: Codice Fiscale, PEC, Protocollo Informatico AgID, FatturaPA, SUE edilizia e ANPR anagrafe.",
+        "country_code": "IT",
+        "default_locale": "it",
+        "supported_locales": [
+          "it",
+          "en"
+        ],
+        "is_active": false
+      }
+    ],
+    "document_families": [
+      {
+        "family_code": "general_correspondence",
+        "type_code": "general_correspondence",
+        "display_name": "General correspondence",
+        "fields": [
+          {
+            "field_code": "document_date",
+            "label": "Document date",
+            "value_type": "date",
+            "required": true
+          },
+          {
+            "field_code": "reference_number",
+            "label": "Reference number",
+            "value_type": "identifier",
+            "required": false
+          },
+          {
+            "field_code": "sender_name",
+            "label": "Sender",
+            "value_type": "string",
+            "required": false
+          },
+          {
+            "field_code": "recipient_name",
+            "label": "Recipient",
+            "value_type": "string",
+            "required": false
+          },
+          {
+            "field_code": "subject",
+            "label": "Subject",
+            "value_type": "text",
+            "required": true
+          }
+        ]
+      },
+      {
+        "family_code": "invoice",
+        "type_code": "invoice",
+        "display_name": "Invoice",
+        "fields": [
+          {
+            "field_code": "invoice_number",
+            "label": "Invoice number",
+            "value_type": "identifier",
+            "required": true
+          },
+          {
+            "field_code": "invoice_date",
+            "label": "Invoice date",
+            "value_type": "date",
+            "required": true
+          },
+          {
+            "field_code": "supplier_name",
+            "label": "Supplier",
+            "value_type": "string",
+            "required": false
+          },
+          {
+            "field_code": "vat_number",
+            "label": "VAT number",
+            "value_type": "identifier",
+            "required": false
+          },
+          {
+            "field_code": "total_amount",
+            "label": "Total amount",
+            "value_type": "decimal",
+            "required": true
+          }
+        ]
+      },
+      {
+        "family_code": "building_permit",
+        "type_code": "building_permit_application",
+        "display_name": "Building permit application",
+        "fields": [
+          {
+            "field_code": "applicant_full_name",
+            "label": "Applicant full name",
+            "value_type": "string",
+            "required": true
+          },
+          {
+            "field_code": "case_number",
+            "label": "Case number",
+            "value_type": "identifier",
+            "required": true
+          },
+          {
+            "field_code": "request_date",
+            "label": "Request date",
+            "value_type": "date",
+            "required": true
+          },
+          {
+            "field_code": "property_address",
+            "label": "Property address",
+            "value_type": "text",
+            "required": false
+          }
+        ]
+      },
+      {
+        "family_code": "residence_application",
+        "type_code": "residence_application",
+        "display_name": "Residence application",
+        "fields": [
+          {
+            "field_code": "applicant_full_name",
+            "label": "Applicant full name",
+            "value_type": "string",
+            "required": true
+          },
+          {
+            "field_code": "application_number",
+            "label": "Application number",
+            "value_type": "identifier",
+            "required": true
+          },
+          {
+            "field_code": "request_date",
+            "label": "Request date",
+            "value_type": "date",
+            "required": true
+          },
+          {
+            "field_code": "new_address",
+            "label": "New address",
+            "value_type": "text",
+            "required": false
+          }
+        ]
+      }
+    ],
+    "workflow_stages": [
+      "acquired",
+      "ocr_executed",
+      "to_be_verified",
+      "validated",
+      "protocol_pending",
+      "protocol_registered",
+      "discarded",
+      "failed"
+    ],
+    "reprocess_scopes": [
+      "ocr",
+      "extraction",
+      "integration"
+    ],
+    "defaults": {
+      "institution_id": "default",
+      "office_id": "general"
+    },
+    "offices": [],
+    "max_upload_bytes": 1048576,
+    "allowed_mime_types": [
+      "text/plain"
+    ],
+    "ocr_engines": [],
+    "auth_required": false,
+    "auth": {
+      "auth_required": false,
+      "auth_mode": "auto",
+      "oidc_issuer_url": "",
+      "oidc_client_id": "xtract-console",
+      "available_roles": [
+        "admin",
+        "supervisor",
+        "operator",
+        "viewer",
+        "auditor"
+      ],
+      "available_permissions": [
+        "admin:manage",
+        "doc:approve",
+        "doc:discard",
+        "doc:read",
+        "doc:reprocess",
+        "export:read",
+        "field:edit"
+      ]
+    }
+  },
+  "branding": {
+    "version": "1.0.0",
+    "institution_id": "default",
+    "institution_name": "xTRACT",
+    "app_title": "xTRACT \u00b7 Interactive demo",
+    "tagline": "Local-First Document Intake, OCR, and Metadata Extraction",
+    "logo_url": "./branding/logo-mark.svg",
+    "logo_dark_url": "./branding/logo-mark.svg",
+    "app_icon_url": "./branding/logo-app-icon.png",
+    "favicon_url": "./branding/logo-mark.svg",
+    "accent_color": "#111111",
+    "accent_color_dark": "#ffffff",
+    "country_code": "IT",
+    "default_locale": "en",
+    "supported_locales": [
+      "en",
+      "it"
+    ],
+    "contact_email": ""
+  },
+  "documents": [
+    {
+      "schema_version": "1.0.0",
+      "document_id": "ca30f605-376c-4fe7-a17f-ab955c929d53",
+      "institution_id": "default",
+      "office_id": "general",
+      "document_summary": {
+        "title": "building-permit.txt",
+        "document_family": "building_permit",
+        "document_type_code": "building_permit_application",
+        "document_type_display_name": "Building permit application",
+        "mime_type": "text/plain",
+        "byte_size": 84,
+        "sha256": "83400398d4815d03008a9f168484f656779a086ceb94cca6289557719c7006e1",
+        "created_at": "2026-10-05T08:47:58.387716Z",
+        "ocr_engine": "text",
+        "ocr_confidence": 1.0,
+        "registration_reference": null,
+        "source_filename": "building-permit.txt"
+      },
+      "workflow_state": {
+        "stage": "to_be_verified",
+        "updated_at": "2026-10-05T08:47:58.405881Z",
+        "updated_by": "system",
+        "reason": ""
+      },
+      "queue_context": {
+        "task_id": "115eee3c-c478-4672-816b-ec27896f575c",
+        "queue_status": "ready",
+        "priority": "high",
+        "reason_codes": [
+          "low_confidence",
+          "required_field_missing",
+          "validation_pattern_mismatch"
+        ]
+      },
+      "viewer": {
+        "source_filename": "building-permit.txt",
+        "page_count": 1,
+        "ocr_text": "Building permit request\nApplicant: Example Applicant One\nCase number:\nRequest date: 31/13/2026",
+        "review_copy_path": "ocr-artifacts/default/ca30f605-376c-4fe7-a17f-ab955c929d53/normalized_review_copy.txt"
+      },
+      "field_panels": [
+        {
+          "field_code": "applicant_full_name",
+          "label": "Applicant full name",
+          "value_type": "string",
+          "required": true,
+          "validation_pattern": "^[^\\d\\n]{2,120}$",
+          "extracted_value": "Example Applicant One",
+          "validated_value": null,
+          "current_value": "Example Applicant One",
+          "review_required": false,
+          "review_reason_codes": [],
+          "confidence_score": 1.0,
+          "source_text": "Applicant: Example Applicant One",
+          "source_page_number": 1,
+          "aliases": [],
+          "snapshots": [
+            {
+              "lifecycle_stage": "extracted",
+              "value": "Example Applicant One",
+              "created_at": "2026-10-05T08:47:58.403293Z",
+              "created_by": "service:extraction-engine",
+              "note": "Extraction run ff66e763-2bf6-4432-8c9c-1907ecf48489"
+            }
+          ]
+        },
+        {
+          "field_code": "case_number",
+          "label": "Case number",
+          "value_type": "identifier",
+          "required": true,
+          "validation_pattern": "^[A-Za-z0-9][A-Za-z0-9/._\\-]{0,63}$",
+          "extracted_value": null,
+          "validated_value": null,
+          "current_value": null,
+          "review_required": true,
+          "review_reason_codes": [
+            "required_field_missing"
+          ],
+          "confidence_score": 0.0,
+          "source_text": "Case number:",
+          "source_page_number": 1,
+          "aliases": [],
+          "snapshots": [
+            {
+              "lifecycle_stage": "extracted",
+              "value": null,
+              "created_at": "2026-10-05T08:47:58.403293Z",
+              "created_by": "service:extraction-engine",
+              "note": "Extraction run ff66e763-2bf6-4432-8c9c-1907ecf48489"
+            }
+          ]
+        },
+        {
+          "field_code": "request_date",
+          "label": "Request date",
+          "value_type": "date",
+          "required": true,
+          "validation_pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "extracted_value": "31/13/2026",
+          "validated_value": null,
+          "current_value": "31/13/2026",
+          "review_required": true,
+          "review_reason_codes": [
+            "low_confidence",
+            "validation_pattern_mismatch"
+          ],
+          "confidence_score": 0.75,
+          "source_text": "Request date: 31/13/2026",
+          "source_page_number": 1,
+          "aliases": [],
+          "snapshots": [
+            {
+              "lifecycle_stage": "extracted",
+              "value": "31/13/2026",
+              "created_at": "2026-10-05T08:47:58.403293Z",
+              "created_by": "service:extraction-engine",
+              "note": "Extraction run ff66e763-2bf6-4432-8c9c-1907ecf48489"
+            }
+          ]
+        },
+        {
+          "field_code": "property_address",
+          "label": "Property address",
+          "value_type": "text",
+          "required": false,
+          "validation_pattern": "^.{5,200}$",
+          "extracted_value": null,
+          "validated_value": null,
+          "current_value": null,
+          "review_required": false,
+          "review_reason_codes": [],
+          "confidence_score": 0.0,
+          "source_text": null,
+          "source_page_number": null,
+          "aliases": [],
+          "snapshots": [
+            {
+              "lifecycle_stage": "extracted",
+              "value": null,
+              "created_at": "2026-10-05T08:47:58.403293Z",
+              "created_by": "service:extraction-engine",
+              "note": "Extraction run ff66e763-2bf6-4432-8c9c-1907ecf48489"
+            }
+          ]
+        }
+      ],
+      "review_history": [],
+      "audit_timeline": [
+        {
+          "event_type": "document.acquired",
+          "occurred_at": "2026-10-05T08:47:58.389578Z",
+          "actor_id": "operator",
+          "outcome": "success",
+          "details_summary": "byte_size=84, filename=building-permit.txt, mime_type=text/plain, sha256=83400398d4815d03008a9f168484f656779a086ceb94cca6289557719c7006e1, source_ingest_id=ingest-ca30f605"
+        },
+        {
+          "event_type": "ocr.executed",
+          "occurred_at": "2026-10-05T08:47:58.395506Z",
+          "actor_id": "ocr-orchestrator",
+          "outcome": "success",
+          "details_summary": "avg_confidence=1.0, character_count=83, page_count=1, selected_engine=text"
+        },
+        {
+          "event_type": "extraction.completed",
+          "occurred_at": "2026-10-05T08:47:58.406392Z",
+          "actor_id": "extraction-engine",
+          "outcome": "success",
+          "details_summary": "document_family=building_permit, document_type=building_permit_application, fields=4, fields_needing_review=2, run_id=ff66e763-2bf6-4432-8c9c-1907ecf48489"
+        },
+        {
+          "event_type": "review.requested",
+          "occurred_at": "2026-10-05T08:47:58.406931Z",
+          "actor_id": "extraction-engine",
+          "outcome": "success",
+          "details_summary": "pending_tasks=2"
+        }
+      ],
+      "exception_context": [
+        {
+          "exception_id": "demo-missing-reference",
+          "exception_code": "missing_required_metadata",
+          "status": "open",
+          "severity": "warning",
+          "opened_at": "2026-10-05T08:47:58.387716Z",
+          "message": "Sample issue: verify the case number and request date against the source document."
+        }
+      ],
+      "external_references": [],
+      "permitted_actions": [
+        "correct_field",
+        "complete_review",
+        "discard_document",
+        "open_audit",
+        "request_reprocessing"
+      ],
+      "processing": {
+        "active": false,
+        "jobs": [
+          {
+            "job_id": "b7ff94d0-eed8-42fb-91d8-1b8d945f08df",
+            "job_type": "extraction.extract_metadata",
+            "status": "completed",
+            "attempts": 1,
+            "max_attempts": 5,
+            "last_error_message": null,
+            "created_at": "2026-10-05T08:47:58.396042Z",
+            "updated_at": "2026-10-05T08:47:58.407455Z"
+          },
+          {
+            "job_id": "34ffacbb-2b95-48ba-9bff-d38fd7cf0b47",
+            "job_type": "ocr.process_document",
+            "status": "completed",
+            "attempts": 1,
+            "max_attempts": 5,
+            "last_error_message": null,
+            "created_at": "2026-10-05T08:47:58.390149Z",
+            "updated_at": "2026-10-05T08:47:58.396884Z"
+          }
+        ]
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "document_id": "6313c7c0-8edb-4cc5-8ce7-15d4553c01a2",
+      "institution_id": "default",
+      "office_id": "general",
+      "document_summary": {
+        "title": "northwind-invoice.txt",
+        "document_family": "invoice",
+        "document_type_code": "invoice",
+        "document_type_display_name": "Invoice",
+        "mime_type": "text/plain",
+        "byte_size": 164,
+        "sha256": "ca799cf7bcfe5baea0bfff4ef387d1f9c360a6a1931dc2aebeb59d5bb9eaafe7",
+        "created_at": "2026-10-05T08:47:58.414556Z",
+        "ocr_engine": "text",
+        "ocr_confidence": 1.0,
+        "registration_reference": "REG-2026-000001",
+        "source_filename": "northwind-invoice.txt"
+      },
+      "workflow_state": {
+        "stage": "protocol_registered",
+        "updated_at": "2026-10-05T08:47:58.441568Z",
+        "updated_by": "system",
+        "reason": ""
+      },
+      "queue_context": {
+        "task_id": null,
+        "queue_status": "completed",
+        "priority": "low",
+        "reason_codes": []
+      },
+      "viewer": {
+        "source_filename": "northwind-invoice.txt",
+        "page_count": 1,
+        "ocr_text": "INVOICE\nSupplier: Example Supplier One\nInvoice number: INV-2026-0017\nInvoice date: 3 March 2026\nVAT number: IT00000000000\nSubtotal 1.000,00\nTotal amount: 1.220,00 \u20ac",
+        "review_copy_path": "ocr-artifacts/default/6313c7c0-8edb-4cc5-8ce7-15d4553c01a2/normalized_review_copy.txt"
+      },
+      "field_panels": [
+        {
+          "field_code": "invoice_number",
+          "label": "Invoice number",
+          "value_type": "identifier",
+          "required": true,
+          "validation_pattern": "^[A-Za-z0-9][A-Za-z0-9/._\\-]{0,63}$",
+          "extracted_value": "INV-2026-0017",
+          "validated_value": null,
+          "current_value": "INV-2026-0017",
+          "review_required": false,
+          "review_reason_codes": [],
+          "confidence_score": 1.0,
+          "source_text": "Invoice number: INV-2026-0017",
+          "source_page_number": 1,
+          "aliases": [],
+          "snapshots": [
+            {
+              "lifecycle_stage": "extracted",
+              "value": "INV-2026-0017",
+              "created_at": "2026-10-05T08:47:58.432025Z",
+              "created_by": "service:extraction-engine",
+              "note": "Extraction run 391830c9-1af3-4642-9d6d-086f41df3a69"
+            }
+          ]
+        },
+        {
+          "field_code": "invoice_date",
+          "label": "Invoice date",
+          "value_type": "date",
+          "required": true,
+          "validation_pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "extracted_value": "2026-03-03",
+          "validated_value": null,
+          "current_value": "2026-03-03",
+          "review_required": false,
+          "review_reason_codes": [],
+          "confidence_score": 1.0,
+          "source_text": "Invoice date: 3 March 2026",
+          "source_page_number": 1,
+          "aliases": [],
+          "snapshots": [
+            {
+              "lifecycle_stage": "extracted",
+              "value": "2026-03-03",
+              "created_at": "2026-10-05T08:47:58.432025Z",
+              "created_by": "service:extraction-engine",
+              "note": "Extraction run 391830c9-1af3-4642-9d6d-086f41df3a69"
+            }
+          ]
+        },
+        {
+          "field_code": "supplier_name",
+          "label": "Supplier",
+          "value_type": "string",
+          "required": false,
+          "validation_pattern": "^[^\\d\\n]{2,120}$",
+          "extracted_value": "Example Supplier One",
+          "validated_value": null,
+          "current_value": "Example Supplier One",
+          "review_required": false,
+          "review_reason_codes": [],
+          "confidence_score": 1.0,
+          "source_text": "Supplier: Example Supplier One",
+          "source_page_number": 1,
+          "aliases": [],
+          "snapshots": [
+            {
+              "lifecycle_stage": "extracted",
+              "value": "Example Supplier One",
+              "created_at": "2026-10-05T08:47:58.432025Z",
+              "created_by": "service:extraction-engine",
+              "note": "Extraction run 391830c9-1af3-4642-9d6d-086f41df3a69"
+            }
+          ]
+        },
+        {
+          "field_code": "vat_number",
+          "label": "VAT number",
+          "value_type": "identifier",
+          "required": false,
+          "validation_pattern": "^[A-Z]{0,2}[0-9A-Z]{6,14}$",
+          "extracted_value": "IT00000000000",
+          "validated_value": null,
+          "current_value": "IT00000000000",
+          "review_required": false,
+          "review_reason_codes": [],
+          "confidence_score": 1.0,
+          "source_text": "VAT number: IT00000000000",
+          "source_page_number": 1,
+          "aliases": [],
+          "snapshots": [
+            {
+              "lifecycle_stage": "extracted",
+              "value": "IT00000000000",
+              "created_at": "2026-10-05T08:47:58.432025Z",
+              "created_by": "service:extraction-engine",
+              "note": "Extraction run 391830c9-1af3-4642-9d6d-086f41df3a69"
+            }
+          ]
+        },
+        {
+          "field_code": "total_amount",
+          "label": "Total amount",
+          "value_type": "decimal",
+          "required": true,
+          "validation_pattern": "^-?\\d+(\\.\\d{1,2})?$",
+          "extracted_value": "1220.00",
+          "validated_value": null,
+          "current_value": "1220.00",
+          "review_required": false,
+          "review_reason_codes": [],
+          "confidence_score": 1.0,
+          "source_text": "Total amount: 1.220,00 \u20ac",
+          "source_page_number": 1,
+          "aliases": [],
+          "snapshots": [
+            {
+              "lifecycle_stage": "extracted",
+              "value": "1220.00",
+              "created_at": "2026-10-05T08:47:58.432025Z",
+              "created_by": "service:extraction-engine",
+              "note": "Extraction run 391830c9-1af3-4642-9d6d-086f41df3a69"
+            }
+          ]
+        }
+      ],
+      "review_history": [],
+      "audit_timeline": [
+        {
+          "event_type": "document.acquired",
+          "occurred_at": "2026-10-05T08:47:58.416008Z",
+          "actor_id": "operator",
+          "outcome": "success",
+          "details_summary": "byte_size=164, filename=northwind-invoice.txt, mime_type=text/plain, sha256=ca799cf7bcfe5baea0bfff4ef387d1f9c360a6a1931dc2aebeb59d5bb9eaafe7, source_ingest_id=ingest-6313c7c0"
+        },
+        {
+          "event_type": "ocr.executed",
+          "occurred_at": "2026-10-05T08:47:58.421448Z",
+          "actor_id": "ocr-orchestrator",
+          "outcome": "success",
+          "details_summary": "avg_confidence=1.0, character_count=161, page_count=1, selected_engine=text"
+        },
+        {
+          "event_type": "extraction.completed",
+          "occurred_at": "2026-10-05T08:47:58.433243Z",
+          "actor_id": "extraction-engine",
+          "outcome": "success",
+          "details_summary": "document_family=invoice, document_type=invoice, fields=5, fields_needing_review=0, run_id=391830c9-1af3-4642-9d6d-086f41df3a69"
+        },
+        {
+          "event_type": "review.completed",
+          "occurred_at": "2026-10-05T08:47:58.433847Z",
+          "actor_id": "extraction-engine",
+          "outcome": "success",
+          "details_summary": "reason=All fields met confidence and validation thresholds"
+        },
+        {
+          "event_type": "protocol.requested",
+          "occurred_at": "2026-10-05T08:47:58.438878Z",
+          "actor_id": "integration-hub",
+          "outcome": "success",
+          "details_summary": "command_id=0dccaa1d-237c-46a7-9425-dc605225da1e, connector_id=local_registry, route_id=register_all_validated_documents"
+        },
+        {
+          "event_type": "protocol.registered",
+          "occurred_at": "2026-10-05T08:47:58.442456Z",
+          "actor_id": "integration-hub",
+          "outcome": "success",
+          "details_summary": "connector_id=local_registry, reference_id=REG-2026-000001"
+        }
+      ],
+      "exception_context": [],
+      "external_references": [
+        {
+          "system_name": "Demo registry",
+          "reference_type": "registration_number",
+          "reference_id": "REG-2026-000001",
+          "status": "synchronized",
+          "synchronized_at": "2026-10-05T08:47:58Z"
+        }
+      ],
+      "permitted_actions": [
+        "correct_field",
+        "reopen_review",
+        "open_audit",
+        "request_reprocessing"
+      ],
+      "processing": {
+        "active": false,
+        "jobs": [
+          {
+            "job_id": "3496cdd5-9ede-4f34-b535-fe9036f75c1a",
+            "job_type": "integration.dispatch_protocol",
+            "status": "completed",
+            "attempts": 1,
+            "max_attempts": 5,
+            "last_error_message": null,
+            "created_at": "2026-10-05T08:47:58.434433Z",
+            "updated_at": "2026-10-05T08:47:58.443339Z"
+          },
+          {
+            "job_id": "0384d063-4396-4d07-b5db-6c5f3857cac6",
+            "job_type": "extraction.extract_metadata",
+            "status": "completed",
+            "attempts": 1,
+            "max_attempts": 5,
+            "last_error_message": null,
+            "created_at": "2026-10-05T08:47:58.421990Z",
+            "updated_at": "2026-10-05T08:47:58.435373Z"
+          },
+          {
+            "job_id": "419cf7d2-f2c0-4087-a47c-e91955768c3b",
+            "job_type": "ocr.process_document",
+            "status": "completed",
+            "attempts": 1,
+            "max_attempts": 5,
+            "last_error_message": null,
+            "created_at": "2026-10-05T08:47:58.416613Z",
+            "updated_at": "2026-10-05T08:47:58.422930Z"
+          }
+        ]
+      }
+    },
+    {
+      "schema_version": "1.0.0",
+      "document_id": "3c70ff41-597c-4fef-8d1c-90c486994c66",
+      "institution_id": "default",
+      "office_id": "general",
+      "document_summary": {
+        "title": "archive-request.txt",
+        "document_family": "general_correspondence",
+        "document_type_code": "general_correspondence",
+        "document_type_display_name": "General correspondence",
+        "mime_type": "text/plain",
+        "byte_size": 205,
+        "sha256": "a3437dc6ce90e1679147ab9391b2c83e95b32e1e005d0a92c4dd5d153dee2bef",
+        "created_at": "2026-10-05T08:47:58.450479Z",
+        "ocr_engine": "text",
+        "ocr_confidence": 1.0,
+        "registration_reference": "REG-2026-000002",
+        "source_filename": "archive-request.txt"
+      },
+      "workflow_state": {
+        "stage": "protocol_registered",
+        "updated_at": "2026-10-05T08:47:58.474807Z",
+        "updated_by": "system",
+        "reason": ""
+      },
+      "queue_context": {
+        "task_id": null,
+        "queue_status": "completed",
+        "priority": "low",
+        "reason_codes": []
+      },
+      "viewer": {
+        "source_filename": "archive-request.txt",
+        "page_count": 1,
+        "ocr_text": "ACME Services Ltd\nFrom: Jane Doe\nTo: City Records Office\nDate: 12/03/2026\nOur reference: AB-2026/0042\nSubject: Request for archive copies\n\nDear Sir or Madam,\nplease send the requested copies.\nKind regards",
+        "review_copy_path": "ocr-artifacts/default/3c70ff41-597c-4fef-8d1c-90c486994c66/normalized_review_copy.txt"
+      },
+      "field_panels": [
+        {
+          "field_code": "document_date",
+          "label": "Document date",
+          "value_type": "date",
+          "required": true,
+          "validation_pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "extracted_value": "2026-03-12",
+          "validated_value": null,
+          "current_value": "2026-03-12",
+          "review_required": false,
+          "review_reason_codes": [],
+          "confidence_score": 1.0,
+          "source_text": "Date: 12/03/2026",
+          "source_page_number": 1,
+          "aliases": [],
+          "snapshots": [
+            {
+              "lifecycle_stage": "extracted",
+              "value": "2026-03-12",
+              "created_at": "2026-10-05T08:47:58.465950Z",
+              "created_by": "service:extraction-engine",
+              "note": "Extraction run 9b71c8be-a6bb-471c-95ac-6182db8ecb07"
+            }
+          ]
+        },
+        {
+          "field_code": "reference_number",
+          "label": "Reference number",
+          "value_type": "identifier",
+          "required": false,
+          "validation_pattern": "^[A-Za-z0-9][A-Za-z0-9/._\\-]{0,63}$",
+          "extracted_value": "AB-2026/0042",
+          "validated_value": null,
+          "current_value": "AB-2026/0042",
+          "review_required": false,
+          "review_reason_codes": [],
+          "confidence_score": 1.0,
+          "source_text": "Our reference: AB-2026/0042",
+          "source_page_number": 1,
+          "aliases": [],
+          "snapshots": [
+            {
+              "lifecycle_stage": "extracted",
+              "value": "AB-2026/0042",
+              "created_at": "2026-10-05T08:47:58.465950Z",
+              "created_by": "service:extraction-engine",
+              "note": "Extraction run 9b71c8be-a6bb-471c-95ac-6182db8ecb07"
+            }
+          ]
+        },
+        {
+          "field_code": "sender_name",
+          "label": "Sender",
+          "value_type": "string",
+          "required": false,
+          "validation_pattern": "^[^\\d\\n]{2,120}$",
+          "extracted_value": "Jane Doe",
+          "validated_value": null,
+          "current_value": "Jane Doe",
+          "review_required": false,
+          "review_reason_codes": [],
+          "confidence_score": 1.0,
+          "source_text": "From: Jane Doe",
+          "source_page_number": 1,
+          "aliases": [],
+          "snapshots": [
+            {
+              "lifecycle_stage": "extracted",
+              "value": "Jane Doe",
+              "created_at": "2026-10-05T08:47:58.465950Z",
+              "created_by": "service:extraction-engine",
+              "note": "Extraction run 9b71c8be-a6bb-471c-95ac-6182db8ecb07"
+            }
+          ]
+        },
+        {
+          "field_code": "recipient_name",
+          "label": "Recipient",
+          "value_type": "string",
+          "required": false,
+          "validation_pattern": "^[^\\d\\n]{2,120}$",
+          "extracted_value": "City Records Office",
+          "validated_value": null,
+          "current_value": "City Records Office",
+          "review_required": false,
+          "review_reason_codes": [],
+          "confidence_score": 1.0,
+          "source_text": "To: City Records Office",
+          "source_page_number": 1,
+          "aliases": [],
+          "snapshots": [
+            {
+              "lifecycle_stage": "extracted",
+              "value": "City Records Office",
+              "created_at": "2026-10-05T08:47:58.465950Z",
+              "created_by": "service:extraction-engine",
+              "note": "Extraction run 9b71c8be-a6bb-471c-95ac-6182db8ecb07"
+            }
+          ]
+        },
+        {
+          "field_code": "subject",
+          "label": "Subject",
+          "value_type": "text",
+          "required": true,
+          "validation_pattern": "^.{3,300}$",
+          "extracted_value": "Request for archive copies",
+          "validated_value": null,
+          "current_value": "Request for archive copies",
+          "review_required": false,
+          "review_reason_codes": [],
+          "confidence_score": 1.0,
+          "source_text": "Subject: Request for archive copies",
+          "source_page_number": 1,
+          "aliases": [],
+          "snapshots": [
+            {
+              "lifecycle_stage": "extracted",
+              "value": "Request for archive copies",
+              "created_at": "2026-10-05T08:47:58.465950Z",
+              "created_by": "service:extraction-engine",
+              "note": "Extraction run 9b71c8be-a6bb-471c-95ac-6182db8ecb07"
+            }
+          ]
+        }
+      ],
+      "review_history": [],
+      "audit_timeline": [
+        {
+          "event_type": "document.acquired",
+          "occurred_at": "2026-10-05T08:47:58.451985Z",
+          "actor_id": "operator",
+          "outcome": "success",
+          "details_summary": "byte_size=205, filename=archive-request.txt, mime_type=text/plain, sha256=a3437dc6ce90e1679147ab9391b2c83e95b32e1e005d0a92c4dd5d153dee2bef, source_ingest_id=ingest-3c70ff41"
+        },
+        {
+          "event_type": "ocr.executed",
+          "occurred_at": "2026-10-05T08:47:58.457374Z",
+          "actor_id": "ocr-orchestrator",
+          "outcome": "success",
+          "details_summary": "avg_confidence=1.0, character_count=204, page_count=1, selected_engine=text"
+        },
+        {
+          "event_type": "extraction.completed",
+          "occurred_at": "2026-10-05T08:47:58.467202Z",
+          "actor_id": "extraction-engine",
+          "outcome": "success",
+          "details_summary": "document_family=general_correspondence, document_type=general_correspondence, fields=5, fields_needing_review=0, run_id=9b71c8be-a6bb-471c-95ac-6182db8ecb07"
+        },
+        {
+          "event_type": "review.completed",
+          "occurred_at": "2026-10-05T08:47:58.467770Z",
+          "actor_id": "extraction-engine",
+          "outcome": "success",
+          "details_summary": "reason=All fields met confidence and validation thresholds"
+        },
+        {
+          "event_type": "protocol.requested",
+          "occurred_at": "2026-10-05T08:47:58.472674Z",
+          "actor_id": "integration-hub",
+          "outcome": "success",
+          "details_summary": "command_id=b74d5bae-6321-4028-8ab8-afc9adf64a5d, connector_id=local_registry, route_id=register_all_validated_documents"
+        },
+        {
+          "event_type": "protocol.registered",
+          "occurred_at": "2026-10-05T08:47:58.475740Z",
+          "actor_id": "integration-hub",
+          "outcome": "success",
+          "details_summary": "connector_id=local_registry, reference_id=REG-2026-000002"
+        }
+      ],
+      "exception_context": [],
+      "external_references": [
+        {
+          "system_name": "Demo registry",
+          "reference_type": "registration_number",
+          "reference_id": "REG-2026-000002",
+          "status": "synchronized",
+          "synchronized_at": "2026-10-05T08:47:58Z"
+        }
+      ],
+      "permitted_actions": [
+        "correct_field",
+        "reopen_review",
+        "open_audit",
+        "request_reprocessing"
+      ],
+      "processing": {
+        "active": false,
+        "jobs": [
+          {
+            "job_id": "d1cf258d-0459-4615-81c0-5b3183072ab0",
+            "job_type": "integration.dispatch_protocol",
+            "status": "completed",
+            "attempts": 1,
+            "max_attempts": 5,
+            "last_error_message": null,
+            "created_at": "2026-10-05T08:47:58.468368Z",
+            "updated_at": "2026-10-05T08:47:58.476607Z"
+          },
+          {
+            "job_id": "b7ab0c9b-bb83-4ebf-8a56-56587760012e",
+            "job_type": "extraction.extract_metadata",
+            "status": "completed",
+            "attempts": 1,
+            "max_attempts": 5,
+            "last_error_message": null,
+            "created_at": "2026-10-05T08:47:58.457938Z",
+            "updated_at": "2026-10-05T08:47:58.469341Z"
+          },
+          {
+            "job_id": "e8962335-d49d-4628-92e2-780f32cafdf7",
+            "job_type": "ocr.process_document",
+            "status": "completed",
+            "attempts": 1,
+            "max_attempts": 5,
+            "last_error_message": null,
+            "created_at": "2026-10-05T08:47:58.452591Z",
+            "updated_at": "2026-10-05T08:47:58.458879Z"
+          }
+        ]
+      }
+    }
+  ],
+  "taxonomy": {
+    "version": "1.0.0",
+    "document_types": [
+      {
+        "type_code": "general_correspondence",
+        "display_name": "General correspondence",
+        "family_code": "general_correspondence",
+        "taxonomy_version": "1.0.0",
+        "fields": [
+          {
+            "field_code": "document_date",
+            "label": "Document date",
+            "value_type": "date",
+            "required": true,
+            "review_threshold": 0.8,
+            "normalization_rules": [
+              "strip",
+              "date_iso"
+            ],
+            "validation_pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          {
+            "field_code": "reference_number",
+            "label": "Reference number",
+            "value_type": "identifier",
+            "required": false,
+            "review_threshold": 0.8,
+            "normalization_rules": [
+              "strip",
+              "uppercase"
+            ],
+            "validation_pattern": "^[A-Za-z0-9][A-Za-z0-9/._\\-]{0,63}$"
+          },
+          {
+            "field_code": "sender_name",
+            "label": "Sender",
+            "value_type": "string",
+            "required": false,
+            "review_threshold": 0.8,
+            "normalization_rules": [
+              "strip",
+              "collapse_whitespace"
+            ],
+            "validation_pattern": "^[^\\d\\n]{2,120}$"
+          },
+          {
+            "field_code": "recipient_name",
+            "label": "Recipient",
+            "value_type": "string",
+            "required": false,
+            "review_threshold": 0.8,
+            "normalization_rules": [
+              "strip",
+              "collapse_whitespace"
+            ],
+            "validation_pattern": "^[^\\d\\n]{2,120}$"
+          },
+          {
+            "field_code": "subject",
+            "label": "Subject",
+            "value_type": "text",
+            "required": true,
+            "review_threshold": 0.8,
+            "normalization_rules": [
+              "strip",
+              "collapse_whitespace"
+            ],
+            "validation_pattern": "^.{3,300}$"
+          }
+        ]
+      },
+      {
+        "type_code": "invoice",
+        "display_name": "Invoice",
+        "family_code": "invoice",
+        "taxonomy_version": "1.0.0",
+        "fields": [
+          {
+            "field_code": "invoice_number",
+            "label": "Invoice number",
+            "value_type": "identifier",
+            "required": true,
+            "review_threshold": 0.85,
+            "normalization_rules": [
+              "strip",
+              "uppercase"
+            ],
+            "validation_pattern": "^[A-Za-z0-9][A-Za-z0-9/._\\-]{0,63}$"
+          },
+          {
+            "field_code": "invoice_date",
+            "label": "Invoice date",
+            "value_type": "date",
+            "required": true,
+            "review_threshold": 0.85,
+            "normalization_rules": [
+              "strip",
+              "date_iso"
+            ],
+            "validation_pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          {
+            "field_code": "supplier_name",
+            "label": "Supplier",
+            "value_type": "string",
+            "required": false,
+            "review_threshold": 0.8,
+            "normalization_rules": [
+              "strip",
+              "collapse_whitespace"
+            ],
+            "validation_pattern": "^[^\\d\\n]{2,120}$"
+          },
+          {
+            "field_code": "vat_number",
+            "label": "VAT number",
+            "value_type": "identifier",
+            "required": false,
+            "review_threshold": 0.8,
+            "normalization_rules": [
+              "strip",
+              "uppercase"
+            ],
+            "validation_pattern": "^[A-Z]{0,2}[0-9A-Z]{6,14}$"
+          },
+          {
+            "field_code": "total_amount",
+            "label": "Total amount",
+            "value_type": "decimal",
+            "required": true,
+            "review_threshold": 0.85,
+            "normalization_rules": [
+              "strip",
+              "decimal"
+            ],
+            "validation_pattern": "^-?\\d+(\\.\\d{1,2})?$"
+          }
+        ]
+      },
+      {
+        "type_code": "building_permit_application",
+        "display_name": "Building permit application",
+        "family_code": "building_permit",
+        "taxonomy_version": "1.0.0",
+        "fields": [
+          {
+            "field_code": "applicant_full_name",
+            "label": "Applicant full name",
+            "value_type": "string",
+            "required": true,
+            "review_threshold": 0.85,
+            "normalization_rules": [
+              "strip",
+              "collapse_whitespace",
+              "title_case"
+            ],
+            "validation_pattern": "^[^\\d\\n]{2,120}$"
+          },
+          {
+            "field_code": "case_number",
+            "label": "Case number",
+            "value_type": "identifier",
+            "required": true,
+            "review_threshold": 0.85,
+            "normalization_rules": [
+              "strip",
+              "uppercase"
+            ],
+            "validation_pattern": "^[A-Za-z0-9][A-Za-z0-9/._\\-]{0,63}$"
+          },
+          {
+            "field_code": "request_date",
+            "label": "Request date",
+            "value_type": "date",
+            "required": true,
+            "review_threshold": 0.85,
+            "normalization_rules": [
+              "strip",
+              "date_iso"
+            ],
+            "validation_pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          {
+            "field_code": "property_address",
+            "label": "Property address",
+            "value_type": "text",
+            "required": false,
+            "review_threshold": 0.8,
+            "normalization_rules": [
+              "strip",
+              "collapse_whitespace"
+            ],
+            "validation_pattern": "^.{5,200}$"
+          }
+        ]
+      },
+      {
+        "type_code": "residence_application",
+        "display_name": "Residence application",
+        "family_code": "residence_application",
+        "taxonomy_version": "1.0.0",
+        "fields": [
+          {
+            "field_code": "applicant_full_name",
+            "label": "Applicant full name",
+            "value_type": "string",
+            "required": true,
+            "review_threshold": 0.85,
+            "normalization_rules": [
+              "strip",
+              "collapse_whitespace",
+              "title_case"
+            ],
+            "validation_pattern": "^[^\\d\\n]{2,120}$"
+          },
+          {
+            "field_code": "application_number",
+            "label": "Application number",
+            "value_type": "identifier",
+            "required": true,
+            "review_threshold": 0.85,
+            "normalization_rules": [
+              "strip",
+              "uppercase"
+            ],
+            "validation_pattern": "^[A-Za-z0-9][A-Za-z0-9/._\\-]{0,63}$"
+          },
+          {
+            "field_code": "request_date",
+            "label": "Request date",
+            "value_type": "date",
+            "required": true,
+            "review_threshold": 0.85,
+            "normalization_rules": [
+              "strip",
+              "date_iso"
+            ],
+            "validation_pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          {
+            "field_code": "new_address",
+            "label": "New address",
+            "value_type": "text",
+            "required": false,
+            "review_threshold": 0.8,
+            "normalization_rules": [
+              "strip",
+              "collapse_whitespace"
+            ],
+            "validation_pattern": "^.{5,200}$"
+          }
+        ]
+      }
+    ]
+  }
+}

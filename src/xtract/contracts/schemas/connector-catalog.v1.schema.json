@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xtract.dev/schemas/connector-catalog.v1.schema.json",
+  "title": "Connector Catalog v1",
+  "description": "Catalog of outbound interoperability connectors supported by the integration hub.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "connectors"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "connectors": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/Connector"
+      }
+    }
+  },
+  "$defs": {
+    "ConnectorId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "ChannelType": {
+      "type": "string",
+      "enum": [
+        "internal_api",
+        "http_api",
+        "local_registry",
+        "file_exchange",
+        "agid_protocollo",
+        "peppol_registry",
+        "webhook"
+      ]
+    },
+    "AuthProfile": {
+      "type": "string",
+      "enum": [
+        "none",
+        "bearer_token",
+        "mtls_oauth2_client_credentials",
+        "service_jwt",
+        "signed_file_delivery",
+        "hmac_signature"
+      ]
+    },
+    "ConnectorOwnership": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_system_of_record",
+        "target_system_of_record",
+        "synchronization_owner"
+      ],
+      "properties": {
+        "source_system_of_record": {
+          "type": "string"
+        },
+        "target_system_of_record": {
+          "type": "string"
+        },
+        "synchronization_owner": {
+          "type": "string"
+        }
+      }
+    },
+    "Connector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "connector_id",
+        "system_name",
+        "description",
+        "channel_type",
+        "auth_profile",
+        "status",
+        "ownership",
+        "authoritative_reference_types",
+        "supported_commands"
+      ],
+      "properties": {
+        "connector_id": {
+          "$ref": "#/$defs/ConnectorId"
+        },
+        "system_name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "channel_type": {
+          "$ref": "#/$defs/ChannelType"
+        },
+        "auth_profile": {
+          "$ref": "#/$defs/AuthProfile"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "planned",
+            "disabled"
+          ]
+        },
+        "base_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "institution_scope": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ownership": {
+          "$ref": "#/$defs/ConnectorOwnership"
+        },
+        "authoritative_reference_types": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "supported_commands": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "protocol.register"
+            ]
+          }
+        },
+        "openapi_ref": {
+          "type": "string"
+        },
+        "audit_tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reference_prefix": {
+          "type": "string",
+          "pattern": "^[A-Z0-9][A-Z0-9_-]*$",
+          "description": "Prefix for references issued by a local_registry connector."
+        },
+        "endpoint_path": {
+          "type": "string",
+          "description": "Path appended to base_url for HTTP delivery."
+        },
+        "auth_token_env": {
+          "type": "string",
+          "description": "Environment variable holding the bearer token."
+        },
+        "webhook_secret_env": {
+          "type": "string",
+          "description": "Environment variable holding the HMAC webhook signing secret."
+        },
+        "agid_administration_code": {
+          "type": "string",
+          "description": "IPA code of the public administration for AgID Segnatura."
+        },
+        "agid_aoo_code": {
+          "type": "string",
+          "description": "AOO code of the administration for AgID Segnatura."
+        },
+        "peppol_endpoint_id": {
+          "type": "string",
+          "description": "Peppol Participant Identifier (e.g. 0201:IT00000000000)."
+        }
+      }
+    }
+  }
+}

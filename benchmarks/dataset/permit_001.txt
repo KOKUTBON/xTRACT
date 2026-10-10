@@ -1,0 +1,7 @@
+BUILDING PERMIT REQUEST
+Applicant: Example Applicant One
+Case number: PRM-2026-0012
+Request date: 21/06/2026
+Property address: Example Street 1, Test City
+
+The applicant requests permission for residential building renovation.

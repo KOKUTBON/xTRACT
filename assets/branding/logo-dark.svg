@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 240" role="img" aria-labelledby="xtract-logo-title">
+  <title id="xtract-logo-title">xTRACT</title>
+  <svg x="12" y="12" width="216" height="216" viewBox="100 84 1054 1054">
+  <defs>
+    <linearGradient id="xw-tile" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#f1f1f1"/>
+    </linearGradient>
+    <linearGradient id="xw-fold" x1="0" y1="0" x2="1" y2="0.4">
+      <stop offset="0" stop-color="#0d0d0d"/>
+      <stop offset="0.45" stop-color="#6b6b6b"/>
+      <stop offset="1" stop-color="#141414"/>
+    </linearGradient>
+  </defs>
+  <rect x="120" y="104" width="1014" height="1014" rx="210" fill="url(#xw-tile)" stroke="#e2e2e2" stroke-width="4"/>
+  <g fill="none" stroke="#141414" stroke-width="30" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M262 372V302q0-40 40-40h72"/>
+    <path d="M878 262h72q40 0 40 40v70"/>
+    <path d="M262 838v68q0 40 40 40h74"/>
+    <path d="M990 838v68q0 40-40 40h-72"/>
+  </g>
+  <g fill="#141414" stroke="#141414" stroke-width="14" stroke-linejoin="round">
+    <path d="M330 850l186-224c10-12 26-12 36-2l92 70-136 156z"/>
+    <path d="M630 466l86-104h156c34 0 50 30 50 66v38l-84-4c-16 0-30 6-42 18l-104 70z"/>
+    <path d="M816 718h96v110z"/>
+  </g>
+  <path d="M500 352L926 846" stroke="#ffffff" stroke-width="22" stroke-linecap="round"/>
+  <path d="M338 360h148l418 482H748z" fill="#141414" stroke="#141414" stroke-width="14" stroke-linejoin="round"/>
+  <path d="M522 628c60 44 150 62 242 70l-40-48c-80-4-150-14-202-22z" fill="url(#xw-fold)"/>
+  <g fill="#141414">
+    <rect x="765" y="522" width="130" height="26" rx="13"/>
+    <rect x="765" y="578" width="124" height="26" rx="13"/>
+    <rect x="765" y="634" width="96" height="26" rx="13"/>
+    <rect x="928" y="472" width="30" height="30" rx="4"/>
+    <rect x="988" y="492" width="36" height="36" rx="5"/>
+    <rect x="942" y="548" width="56" height="56" rx="6"/>
+    <rect x="1034" y="566" width="28" height="28" rx="4"/>
+    <rect x="898" y="620" width="42" height="42" rx="5"/>
+    <rect x="992" y="628" width="34" height="34" rx="4"/>
+    <rect x="942" y="680" width="26" height="26" rx="4"/>
+  </g>
+  </svg>
+  <text x="268" y="146" font-family="Inter, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif" font-size="118" font-weight="800" letter-spacing="-3" fill="#f5f5f5">x<tspan letter-spacing="6">TRACT</tspan></text>
+  <text x="274" y="200" font-family="'JetBrains Mono', 'SF Mono', ui-monospace, Menlo, monospace" font-size="27" letter-spacing="3" fill="#a3a3a3">SCAN · EXTRACT · VERIFY</text>
+</svg>

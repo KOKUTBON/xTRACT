@@ -1,0 +1,8 @@
+COMUNICAZIONE
+Mittente: Example Municipal Records
+Destinatario: Regional Archives
+Data: 10/02/2026
+Protocollo: PROTO-2026-118
+Oggetto: Annual Document Registry Transfer
+
+Si trasmette la documentazione annuale di archivio.

@@ -1,0 +1,20 @@
+{
+  "pack_id": "it-pa",
+  "name": "Italian Public Administration (PA Digitale)",
+  "version": "1.0.0",
+  "description": "Preset per la Pubblica Amministrazione Italiana: Codice Fiscale, PEC, Protocollo Informatico AgID, FatturaPA, SUE edilizia e ANPR anagrafe.",
+  "country_code": "IT",
+  "default_locale": "it",
+  "supported_locales": [
+    "it",
+    "en"
+  ],
+  "author": "xTRACT Sovereign Team",
+  "tags": [
+    "italy",
+    "pa-digitale",
+    "agid",
+    "anpr",
+    "fatturapa"
+  ]
+}

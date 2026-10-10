@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xtract.dev/schemas/validated-document-export.v1.schema.json",
+  "title": "Validated Document Export v1",
+  "description": "Downstream export payload for validated or published document metadata.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "export_id",
+    "export_stage",
+    "generated_at",
+    "source_document_id",
+    "document_type",
+    "metadata"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "export_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "export_stage": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "validated",
+        "published"
+      ]
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_document_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "source_document_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "document_type": {
+      "$ref": "https://xtract.dev/schemas/domain-model.v1.schema.json#/$defs/DocumentType"
+    },
+    "metadata": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ExportedMetadataField"
+      }
+    },
+    "external_references": {
+      "type": "array",
+      "items": {
+        "$ref": "https://xtract.dev/schemas/domain-model.v1.schema.json#/$defs/ExternalReference"
+      }
+    },
+    "trace": {
+      "$ref": "#/$defs/ExportTrace"
+    }
+  },
+  "$defs": {
+    "ExportedMetadataField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "field_code",
+        "label",
+        "value_type",
+        "lifecycle_stage",
+        "normalized_value",
+        "source_snapshot_id"
+      ],
+      "properties": {
+        "field_code": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "value_type": {
+          "$ref": "https://xtract.dev/schemas/domain-model.v1.schema.json#/$defs/ValueType"
+        },
+        "lifecycle_stage": {
+          "$ref": "https://xtract.dev/schemas/domain-model.v1.schema.json#/$defs/LifecycleStage"
+        },
+        "normalized_value": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "display_value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "null_reason": {
+          "oneOf": [
+            {
+              "$ref": "https://xtract.dev/schemas/domain-model.v1.schema.json#/$defs/NullReason"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "confidence_score": {
+          "oneOf": [
+            {
+              "$ref": "https://xtract.dev/schemas/domain-model.v1.schema.json#/$defs/ConfidenceScore"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_snapshot_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    "ExportTrace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workflow_stage",
+        "institution_id"
+      ],
+      "properties": {
+        "workflow_stage": {
+          "$ref": "https://xtract.dev/schemas/domain-model.v1.schema.json#/$defs/WorkflowStage"
+        },
+        "institution_id": {
+          "type": "string"
+        },
+        "office_id": {
+          "type": "string"
+        },
+        "last_reviewed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

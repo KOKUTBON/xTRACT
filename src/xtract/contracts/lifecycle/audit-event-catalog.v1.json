@@ -1,0 +1,411 @@
+{
+  "version": "1.1.0",
+  "events": [
+    {
+      "event_type": "document.acquired",
+      "category": "lifecycle",
+      "description": "The source document is accepted into the platform intake boundary.",
+      "actor_types": [
+        "user",
+        "service"
+      ],
+      "outcomes": [
+        "success",
+        "failure"
+      ],
+      "required_details": [
+        "source_filename",
+        "source_media_type",
+        "checksum_sha256"
+      ],
+      "emitted_at_states": [
+        "acquired"
+      ],
+      "immutable_evidence_required": true,
+      "pii_allowed_in_details": false
+    },
+    {
+      "event_type": "document.converted",
+      "category": "lifecycle",
+      "description": "The source document is normalized into reviewable and processable derivatives.",
+      "actor_types": [
+        "service"
+      ],
+      "outcomes": [
+        "success",
+        "failure"
+      ],
+      "required_details": [
+        "derived_asset_count",
+        "normalized_media_type"
+      ],
+      "emitted_at_states": [
+        "converted"
+      ],
+      "immutable_evidence_required": true,
+      "pii_allowed_in_details": false
+    },
+    {
+      "event_type": "ocr.executed",
+      "category": "lifecycle",
+      "description": "OCR completed and produced machine-readable text or an explicit failure.",
+      "actor_types": [
+        "service"
+      ],
+      "outcomes": [
+        "success",
+        "failure"
+      ],
+      "required_details": [
+        "engine_name",
+        "engine_version",
+        "page_count"
+      ],
+      "emitted_at_states": [
+        "ocr_executed"
+      ],
+      "immutable_evidence_required": true,
+      "pii_allowed_in_details": false
+    },
+    {
+      "event_type": "extraction.completed",
+      "category": "lifecycle",
+      "description": "Metadata and document-type candidates are produced for the document.",
+      "actor_types": [
+        "service"
+      ],
+      "outcomes": [
+        "success",
+        "failure"
+      ],
+      "required_details": [
+        "field_count",
+        "document_type_candidate_count",
+        "unresolved_field_count"
+      ],
+      "emitted_at_states": [
+        "extracted"
+      ],
+      "immutable_evidence_required": true,
+      "pii_allowed_in_details": false
+    },
+    {
+      "event_type": "review.requested",
+      "category": "review",
+      "description": "The document enters the human-review queue.",
+      "actor_types": [
+        "system",
+        "service"
+      ],
+      "outcomes": [
+        "success"
+      ],
+      "required_details": [
+        "queue_id",
+        "reason_code"
+      ],
+      "emitted_at_states": [
+        "to_be_verified"
+      ],
+      "immutable_evidence_required": true,
+      "pii_allowed_in_details": false
+    },
+    {
+      "event_type": "review.completed",
+      "category": "review",
+      "description": "A reviewer validates or rejects the document result.",
+      "actor_types": [
+        "user"
+      ],
+      "outcomes": [
+        "success",
+        "rejected"
+      ],
+      "required_details": [
+        "decision_id",
+        "review_outcome",
+        "reviewer_role"
+      ],
+      "emitted_at_states": [
+        "validated",
+        "discarded"
+      ],
+      "immutable_evidence_required": true,
+      "pii_allowed_in_details": false
+    },
+    {
+      "event_type": "protocol.requested",
+      "category": "records_management",
+      "description": "A validated document is submitted to protocol registration when required.",
+      "actor_types": [
+        "service",
+        "system"
+      ],
+      "outcomes": [
+        "success",
+        "failure"
+      ],
+      "required_details": [
+        "protocol_system",
+        "office_id"
+      ],
+      "emitted_at_states": [
+        "protocol_pending"
+      ],
+      "immutable_evidence_required": true,
+      "pii_allowed_in_details": false
+    },
+    {
+      "event_type": "protocol.registered",
+      "category": "records_management",
+      "description": "The protocol system returns the authoritative protocol reference.",
+      "actor_types": [
+        "service"
+      ],
+      "outcomes": [
+        "success",
+        "failure"
+      ],
+      "required_details": [
+        "protocol_id",
+        "registered_at",
+        "source_system"
+      ],
+      "emitted_at_states": [
+        "protocol_registered"
+      ],
+      "immutable_evidence_required": true,
+      "pii_allowed_in_details": false
+    },
+    {
+      "event_type": "filing.completed",
+      "category": "records_management",
+      "description": "The document is assigned to a fascicle or case grouping.",
+      "actor_types": [
+        "service",
+        "user"
+      ],
+      "outcomes": [
+        "success",
+        "failure"
+      ],
+      "required_details": [
+        "fascicle_id",
+        "classification_code"
+      ],
+      "emitted_at_states": [
+        "filed"
+      ],
+      "immutable_evidence_required": true,
+      "pii_allowed_in_details": false
+    },
+    {
+      "event_type": "publication.completed",
+      "category": "integration",
+      "description": "The validated document result is committed to the authoritative downstream system.",
+      "actor_types": [
+        "service"
+      ],
+      "outcomes": [
+        "success",
+        "failure"
+      ],
+      "required_details": [
+        "target_system",
+        "external_reference_id",
+        "document_version"
+      ],
+      "emitted_at_states": [
+        "published"
+      ],
+      "immutable_evidence_required": true,
+      "pii_allowed_in_details": false
+    },
+    {
+      "event_type": "preservation.archived",
+      "category": "records_management",
+      "description": "The preservation or conservation system acknowledges archival intake.",
+      "actor_types": [
+        "service"
+      ],
+      "outcomes": [
+        "success",
+        "failure"
+      ],
+      "required_details": [
+        "preservation_reference_id",
+        "transfer_report_id"
+      ],
+      "emitted_at_states": [
+        "archived"
+      ],
+      "immutable_evidence_required": true,
+      "pii_allowed_in_details": false
+    },
+    {
+      "event_type": "document.discarded",
+      "category": "exception",
+      "description": "The document is explicitly discarded under a governed policy or review decision.",
+      "actor_types": [
+        "user",
+        "system"
+      ],
+      "outcomes": [
+        "success",
+        "rejected"
+      ],
+      "required_details": [
+        "discard_reason_code",
+        "discard_authority"
+      ],
+      "emitted_at_states": [
+        "discarded"
+      ],
+      "immutable_evidence_required": true,
+      "pii_allowed_in_details": false
+    },
+    {
+      "event_type": "document.failed",
+      "category": "exception",
+      "description": "A document enters a blocked state because of a technical or policy exception.",
+      "actor_types": [
+        "service",
+        "system"
+      ],
+      "outcomes": [
+        "failure"
+      ],
+      "required_details": [
+        "exception_code",
+        "retryable",
+        "recommended_action"
+      ],
+      "emitted_at_states": [
+        "failed"
+      ],
+      "immutable_evidence_required": true,
+      "pii_allowed_in_details": false
+    },
+    {
+      "event_type": "review.field_corrected",
+      "category": "review",
+      "description": "An operator changed an extracted field value.",
+      "actor_types": [
+        "user"
+      ],
+      "outcomes": [
+        "success"
+      ],
+      "required_details": [
+        "field_code"
+      ],
+      "emitted_at_states": [
+        "to_be_verified",
+        "validated"
+      ],
+      "immutable_evidence_required": true,
+      "pii_allowed_in_details": false
+    },
+    {
+      "event_type": "review.field_confirmed",
+      "category": "review",
+      "description": "An operator confirmed an extracted field value.",
+      "actor_types": [
+        "user"
+      ],
+      "outcomes": [
+        "success"
+      ],
+      "required_details": [
+        "field_code"
+      ],
+      "emitted_at_states": [
+        "to_be_verified",
+        "validated"
+      ],
+      "immutable_evidence_required": true,
+      "pii_allowed_in_details": false
+    },
+    {
+      "event_type": "workflow.reprocess_requested",
+      "category": "lifecycle",
+      "description": "An operator requested OCR, extraction, or delivery to run again.",
+      "actor_types": [
+        "user"
+      ],
+      "outcomes": [
+        "success"
+      ],
+      "required_details": [
+        "scope"
+      ],
+      "emitted_at_states": [
+        "to_be_verified",
+        "validated",
+        "failed"
+      ],
+      "immutable_evidence_required": true,
+      "pii_allowed_in_details": false
+    },
+    {
+      "event_type": "protocol.failed",
+      "category": "integration",
+      "description": "Delivery to the registration system failed.",
+      "actor_types": [
+        "service"
+      ],
+      "outcomes": [
+        "success"
+      ],
+      "required_details": [
+        "connector_id"
+      ],
+      "emitted_at_states": [
+        "protocol_pending"
+      ],
+      "immutable_evidence_required": true,
+      "pii_allowed_in_details": false
+    },
+    {
+      "event_type": "exception.resolved",
+      "category": "exception",
+      "description": "An operator resolved an open document exception.",
+      "actor_types": [
+        "user"
+      ],
+      "outcomes": [
+        "success"
+      ],
+      "required_details": [
+        "exception_id"
+      ],
+      "emitted_at_states": [
+        "to_be_verified",
+        "validated",
+        "failed"
+      ],
+      "immutable_evidence_required": true,
+      "pii_allowed_in_details": false
+    },
+    {
+      "event_type": "assistant.answered",
+      "category": "review",
+      "description": "The document assistant answered an operator question.",
+      "actor_types": [
+        "user"
+      ],
+      "outcomes": [
+        "success"
+      ],
+      "required_details": [
+        "intent"
+      ],
+      "emitted_at_states": [
+        "to_be_verified",
+        "validated"
+      ],
+      "immutable_evidence_required": true,
+      "pii_allowed_in_details": false
+    }
+  ]
+}

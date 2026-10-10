@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0.0",
+  "default_connector_id": "local_registry",
+  "routes": [
+    {
+      "route_id": "register_all_validated_documents",
+      "document_family": "*",
+      "command_type": "protocol.register",
+      "trigger_workflow_stage": "validated",
+      "target_connector_id": "local_registry",
+      "authoritative_reference_type": "registration_number",
+      "enabled": true,
+      "retry_profile_id": "transient_retry",
+      "reconciliation_profile_id": "request_response",
+      "field_mapping": [],
+      "sync_contract": {
+        "source_of_truth_fields": [
+          "validated_metadata",
+          "document_type",
+          "source_checksum_sha256"
+        ],
+        "target_of_truth_fields": [
+          "registration_number"
+        ],
+        "update_strategy": "request_response",
+        "synchronization_owner": "integration-hub"
+      }
+    },
+    {
+      "route_id": "agid_correspondence_interop",
+      "document_family": "general_correspondence",
+      "command_type": "protocol.register",
+      "trigger_workflow_stage": "validated",
+      "target_connector_id": "agid_protocollo_hub",
+      "authoritative_reference_type": "registration_number",
+      "enabled": true,
+      "retry_profile_id": "transient_retry",
+      "reconciliation_profile_id": "request_response",
+      "field_mapping": [],
+      "sync_contract": {
+        "source_of_truth_fields": [
+          "validated_metadata",
+          "document_type"
+        ],
+        "target_of_truth_fields": [
+          "registration_number"
+        ],
+        "update_strategy": "request_response",
+        "synchronization_owner": "integration-hub"
+      }
+    }
+  ],
+  "retry_profiles": [
+    {
+      "profile_id": "transient_retry",
+      "max_attempts": 3,
+      "backoff_seconds": 2,
+      "retryable_error_codes": [
+        "timeout",
+        "unreachable",
+        "502",
+        "503",
+        "504"
+      ]
+    }
+  ],
+  "reconciliation_profiles": [
+    {
+      "profile_id": "request_response",
+      "required": true,
+      "max_age_seconds": 300,
+      "resolution_actions": [
+        "mark_synchronized",
+        "raise_ops_ticket"
+      ]
+    }
+  ]
+}

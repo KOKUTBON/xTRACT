@@ -1,0 +1,108 @@
+{
+  "inv_001.txt": {
+    "family_code": "invoice",
+    "type_code": "invoice",
+    "fields": {
+      "invoice_number": "INV-2026-0017",
+      "invoice_date": "2026-03-03",
+      "supplier_name": "Example Supplier One",
+      "vat_number": "IT00000000000",
+      "total_amount": "1220.00"
+    }
+  },
+  "inv_002.txt": {
+    "family_code": "invoice",
+    "type_code": "invoice",
+    "fields": {
+      "invoice_number": "INV-2026-0899",
+      "invoice_date": "2026-04-15",
+      "supplier_name": "Example Supplier Two",
+      "vat_number": "IT00000000000",
+      "total_amount": "3450.50"
+    }
+  },
+  "inv_003.txt": {
+    "family_code": "invoice",
+    "type_code": "invoice",
+    "fields": {
+      "invoice_number": "2026/0441",
+      "invoice_date": "2026-01-20",
+      "supplier_name": "Example Supplier Three",
+      "vat_number": "IT00000000000",
+      "total_amount": "580.00"
+    }
+  },
+  "letter_001.txt": {
+    "family_code": "general_correspondence",
+    "type_code": "general_correspondence",
+    "fields": {
+      "document_date": "2026-03-12",
+      "reference_number": "AB-2026/0042",
+      "sender_name": "Jane Doe",
+      "recipient_name": "City Records Office",
+      "subject": "Request for archive copies"
+    }
+  },
+  "letter_002.txt": {
+    "family_code": "general_correspondence",
+    "type_code": "general_correspondence",
+    "fields": {
+      "document_date": "2026-05-18",
+      "reference_number": "REF-9912-A",
+      "sender_name": "Example Ministry",
+      "recipient_name": "Public Administration Department",
+      "subject": "Compliance Audit Confirmation"
+    }
+  },
+  "letter_003.txt": {
+    "family_code": "general_correspondence",
+    "type_code": "general_correspondence",
+    "fields": {
+      "document_date": "2026-02-10",
+      "reference_number": "PROTO-2026-118",
+      "sender_name": "Example Municipal Records",
+      "recipient_name": "Regional Archives",
+      "subject": "Annual Document Registry Transfer"
+    }
+  },
+  "permit_001.txt": {
+    "family_code": "building_permit",
+    "type_code": "building_permit_application",
+    "fields": {
+      "applicant_full_name": "Example Applicant One",
+      "case_number": "PRM-2026-0012",
+      "request_date": "2026-06-21",
+      "property_address": "Example Street 1, Test City"
+    }
+  },
+  "permit_002.txt": {
+    "family_code": "building_permit",
+    "type_code": "building_permit_application",
+    "fields": {
+      "applicant_full_name": "Example Applicant Two",
+      "case_number": "PRM-2026-0099",
+      "request_date": "2026-07-04",
+      "property_address": "Example Street 2, Test City"
+    }
+  },
+  "residence_001.txt": {
+    "family_code": "residence_application",
+    "type_code": "residence_application",
+    "fields": {
+      "applicant_full_name": "Example Applicant Three",
+      "application_number": "APP-2026-7788",
+      "request_date": "2026-08-11",
+      "new_address": "Example Street 3, Test City"
+    }
+  },
+  "residence_002.txt": {
+    "family_code": "residence_application",
+    "type_code": "residence_application",
+    "fields": {
+      "applicant_full_name": "Example Applicant Four",
+      "application_number": "RES-2026-4432",
+      "request_date": "2026-09-01",
+      "new_address": "Example Street 4, Test City"
+    }
+  }
+}

@@ -1,0 +1,255 @@
+{
+  "version": "1.0.0",
+  "document_types": [
+    {
+      "type_code": "general_correspondence",
+      "display_name": "General correspondence",
+      "family_code": "general_correspondence",
+      "taxonomy_version": "1.0.0",
+      "fields": [
+        {
+          "field_code": "document_date",
+          "label": "Document date",
+          "value_type": "date",
+          "required": true,
+          "review_threshold": 0.8,
+          "normalization_rules": [
+            "strip",
+            "date_iso"
+          ],
+          "validation_pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        {
+          "field_code": "reference_number",
+          "label": "Reference number",
+          "value_type": "identifier",
+          "required": false,
+          "review_threshold": 0.8,
+          "normalization_rules": [
+            "strip",
+            "uppercase"
+          ],
+          "validation_pattern": "^[A-Za-z0-9][A-Za-z0-9/._\\-]{0,63}$"
+        },
+        {
+          "field_code": "sender_name",
+          "label": "Sender",
+          "value_type": "string",
+          "required": false,
+          "review_threshold": 0.8,
+          "normalization_rules": [
+            "strip",
+            "collapse_whitespace"
+          ],
+          "validation_pattern": "^[^\\d\\n]{2,120}$"
+        },
+        {
+          "field_code": "recipient_name",
+          "label": "Recipient",
+          "value_type": "string",
+          "required": false,
+          "review_threshold": 0.8,
+          "normalization_rules": [
+            "strip",
+            "collapse_whitespace"
+          ],
+          "validation_pattern": "^[^\\d\\n]{2,120}$"
+        },
+        {
+          "field_code": "subject",
+          "label": "Subject",
+          "value_type": "text",
+          "required": true,
+          "review_threshold": 0.8,
+          "normalization_rules": [
+            "strip",
+            "collapse_whitespace"
+          ],
+          "validation_pattern": "^.{3,300}$"
+        }
+      ]
+    },
+    {
+      "type_code": "invoice",
+      "display_name": "Invoice",
+      "family_code": "invoice",
+      "taxonomy_version": "1.0.0",
+      "fields": [
+        {
+          "field_code": "invoice_number",
+          "label": "Invoice number",
+          "value_type": "identifier",
+          "required": true,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "uppercase"
+          ],
+          "validation_pattern": "^[A-Za-z0-9][A-Za-z0-9/._\\-]{0,63}$"
+        },
+        {
+          "field_code": "invoice_date",
+          "label": "Invoice date",
+          "value_type": "date",
+          "required": true,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "date_iso"
+          ],
+          "validation_pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        {
+          "field_code": "supplier_name",
+          "label": "Supplier",
+          "value_type": "string",
+          "required": false,
+          "review_threshold": 0.8,
+          "normalization_rules": [
+            "strip",
+            "collapse_whitespace"
+          ],
+          "validation_pattern": "^[^\\d\\n]{2,120}$"
+        },
+        {
+          "field_code": "vat_number",
+          "label": "VAT number",
+          "value_type": "identifier",
+          "required": false,
+          "review_threshold": 0.8,
+          "normalization_rules": [
+            "strip",
+            "uppercase"
+          ],
+          "validation_pattern": "^[A-Z]{0,2}[0-9A-Z]{6,14}$"
+        },
+        {
+          "field_code": "total_amount",
+          "label": "Total amount",
+          "value_type": "decimal",
+          "required": true,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "decimal"
+          ],
+          "validation_pattern": "^-?\\d+(\\.\\d{1,2})?$"
+        }
+      ]
+    },
+    {
+      "type_code": "building_permit_application",
+      "display_name": "Building permit application",
+      "family_code": "building_permit",
+      "taxonomy_version": "1.0.0",
+      "fields": [
+        {
+          "field_code": "applicant_full_name",
+          "label": "Applicant full name",
+          "value_type": "string",
+          "required": true,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "collapse_whitespace",
+            "title_case"
+          ],
+          "validation_pattern": "^[^\\d\\n]{2,120}$"
+        },
+        {
+          "field_code": "case_number",
+          "label": "Case number",
+          "value_type": "identifier",
+          "required": true,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "uppercase"
+          ],
+          "validation_pattern": "^[A-Za-z0-9][A-Za-z0-9/._\\-]{0,63}$"
+        },
+        {
+          "field_code": "request_date",
+          "label": "Request date",
+          "value_type": "date",
+          "required": true,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "date_iso"
+          ],
+          "validation_pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        {
+          "field_code": "property_address",
+          "label": "Property address",
+          "value_type": "text",
+          "required": false,
+          "review_threshold": 0.8,
+          "normalization_rules": [
+            "strip",
+            "collapse_whitespace"
+          ],
+          "validation_pattern": "^.{5,200}$"
+        }
+      ]
+    },
+    {
+      "type_code": "residence_application",
+      "display_name": "Residence application",
+      "family_code": "residence_application",
+      "taxonomy_version": "1.0.0",
+      "fields": [
+        {
+          "field_code": "applicant_full_name",
+          "label": "Applicant full name",
+          "value_type": "string",
+          "required": true,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "collapse_whitespace",
+            "title_case"
+          ],
+          "validation_pattern": "^[^\\d\\n]{2,120}$"
+        },
+        {
+          "field_code": "application_number",
+          "label": "Application number",
+          "value_type": "identifier",
+          "required": true,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "uppercase"
+          ],
+          "validation_pattern": "^[A-Za-z0-9][A-Za-z0-9/._\\-]{0,63}$"
+        },
+        {
+          "field_code": "request_date",
+          "label": "Request date",
+          "value_type": "date",
+          "required": true,
+          "review_threshold": 0.85,
+          "normalization_rules": [
+            "strip",
+            "date_iso"
+          ],
+          "validation_pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        {
+          "field_code": "new_address",
+          "label": "New address",
+          "value_type": "text",
+          "required": false,
+          "review_threshold": 0.8,
+          "normalization_rules": [
+            "strip",
+            "collapse_whitespace"
+          ],
+          "validation_pattern": "^.{5,200}$"
+        }
+      ]
+    }
+  ]
+}

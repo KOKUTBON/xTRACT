@@ -1,0 +1,126 @@
+{
+  "version": "1.1.0",
+  "exceptions": [
+    {
+      "exception_code": "unsupported_media_type",
+      "stage_id": "acquired",
+      "category": "intake",
+      "severity": "medium",
+      "retryable": false,
+      "human_action_required": true,
+      "terminal": true,
+      "description": "The submitted file type is outside the agreed intake perimeter.",
+      "recommended_action": "Reject the document with an explicit operator message and capture the discard reason."
+    },
+    {
+      "exception_code": "source_quality_insufficient",
+      "stage_id": "converted",
+      "category": "conversion",
+      "severity": "medium",
+      "retryable": false,
+      "human_action_required": true,
+      "terminal": false,
+      "description": "The source document is too degraded to produce reliable review assets.",
+      "recommended_action": "Request a better source or route the case to assisted manual handling."
+    },
+    {
+      "exception_code": "ocr_engine_failure",
+      "stage_id": "ocr_executed",
+      "category": "ocr",
+      "severity": "high",
+      "retryable": true,
+      "human_action_required": false,
+      "terminal": false,
+      "description": "The OCR engine failed to process the normalized assets.",
+      "recommended_action": "Retry the OCR run and escalate only after repeated failure."
+    },
+    {
+      "exception_code": "ocr_low_text_coverage",
+      "stage_id": "ocr_executed",
+      "category": "ocr",
+      "severity": "high",
+      "retryable": false,
+      "human_action_required": true,
+      "terminal": false,
+      "description": "OCR completed but text coverage is too poor for reliable extraction.",
+      "recommended_action": "Send the document to manual review and capture the quality issue."
+    },
+    {
+      "exception_code": "required_metadata_missing",
+      "stage_id": "extracted",
+      "category": "extraction",
+      "severity": "high",
+      "retryable": false,
+      "human_action_required": true,
+      "terminal": false,
+      "description": "One or more required metadata fields could not be produced at extraction time.",
+      "recommended_action": "Route the case to review with unresolved field codes and evidence pointers."
+    },
+    {
+      "exception_code": "review_policy_blocker",
+      "stage_id": "to_be_verified",
+      "category": "review",
+      "severity": "high",
+      "retryable": false,
+      "human_action_required": true,
+      "terminal": false,
+      "description": "The reviewer cannot validate the document because a policy or completeness rule is violated.",
+      "recommended_action": "Escalate to supervisor or discard under the documented governance rule."
+    },
+    {
+      "exception_code": "protocol_system_unavailable",
+      "stage_id": "protocol_pending",
+      "category": "protocol",
+      "severity": "high",
+      "retryable": true,
+      "human_action_required": false,
+      "terminal": false,
+      "description": "Protocol registration could not be completed because the downstream system is unavailable.",
+      "recommended_action": "Retry the integration and hold publication until the authoritative reference is returned."
+    },
+    {
+      "exception_code": "fascicle_assignment_rejected",
+      "stage_id": "filing_pending",
+      "category": "filing",
+      "severity": "medium",
+      "retryable": false,
+      "human_action_required": true,
+      "terminal": false,
+      "description": "Fascicle assignment was rejected because the target classification or office context is invalid.",
+      "recommended_action": "Return the case to the competent office or correct the classification input."
+    },
+    {
+      "exception_code": "authoritative_publication_failed",
+      "stage_id": "publication_pending",
+      "category": "publication",
+      "severity": "high",
+      "retryable": true,
+      "human_action_required": false,
+      "terminal": false,
+      "description": "The downstream authoritative publication or export step failed.",
+      "recommended_action": "Retry publication with idempotent delivery and preserve the failed receipt."
+    },
+    {
+      "exception_code": "preservation_transfer_failed",
+      "stage_id": "preservation_pending",
+      "category": "preservation",
+      "severity": "critical",
+      "retryable": true,
+      "human_action_required": true,
+      "terminal": false,
+      "description": "The preservation transfer did not complete successfully.",
+      "recommended_action": "Hold archival completion, preserve the transfer evidence, and escalate to records-management support."
+    },
+    {
+      "exception_code": "discard_without_authority",
+      "stage_id": "discarded",
+      "category": "policy",
+      "severity": "critical",
+      "retryable": false,
+      "human_action_required": true,
+      "terminal": true,
+      "description": "A discard action was attempted without the required authority or evidence.",
+      "recommended_action": "Block the discard, open an incident, and preserve the attempted action in the audit trail."
+    }
+  ]
+}

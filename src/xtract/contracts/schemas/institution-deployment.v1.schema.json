@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xtract.dev/schemas/institution-deployment.v1.schema.json",
+  "title": "Institution Deployment v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "institution_id",
+    "base_pack",
+    "offices",
+    "runtime"
+  ],
+  "properties": {
+    "version": {
+      "const": "1.0.0"
+    },
+    "institution_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-][a-zA-Z0-9_.-]{0,63}$"
+    },
+    "base_pack": {
+      "type": "string",
+      "minLength": 1
+    },
+    "offices": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "office_id",
+          "name",
+          "enabled"
+        ],
+        "properties": {
+          "office_id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-][a-zA-Z0-9_.-]{0,63}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "host",
+        "port",
+        "default_office",
+        "tesseract_lang",
+        "max_upload_bytes"
+      ],
+      "properties": {
+        "host": {
+          "type": "string",
+          "minLength": 1
+        },
+        "port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "default_office": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-][a-zA-Z0-9_.-]{0,63}$"
+        },
+        "tesseract_lang": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_]+(\\+[a-zA-Z0-9_]+)*$"
+        },
+        "max_upload_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 104857600
+        }
+      }
+    }
+  }
+}

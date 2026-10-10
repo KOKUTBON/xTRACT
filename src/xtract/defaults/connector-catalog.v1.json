@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "connectors": [
+    {
+      "connector_id": "local_registry",
+      "system_name": "xtract-registry",
+      "description": "Built-in registry that issues sequential registration numbers per institution and year.",
+      "channel_type": "local_registry",
+      "auth_profile": "none",
+      "status": "active",
+      "reference_prefix": "REG",
+      "ownership": {
+        "source_system_of_record": "xtract",
+        "target_system_of_record": "xtract-registry",
+        "synchronization_owner": "integration-hub"
+      },
+      "authoritative_reference_types": [
+        "registration_number"
+      ],
+      "supported_commands": [
+        "protocol.register"
+      ],
+      "audit_tags": [
+        "registry"
+      ]
+    }
+  ]
+}

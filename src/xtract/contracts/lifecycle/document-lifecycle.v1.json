@@ -1,0 +1,423 @@
+{
+  "version": "1.1.0",
+  "initial_state_id": "acquired",
+  "states": [
+    {
+      "state_id": "acquired",
+      "display_name": "Acquired",
+      "state_kind": "core_required",
+      "description": "The source document is received and registered in the platform.",
+      "requires_human_action": false,
+      "searchable_output_ready": false,
+      "records_step": false,
+      "terminal": false,
+      "legacy_aliases": [
+        "ingested"
+      ]
+    },
+    {
+      "state_id": "converted",
+      "display_name": "Converted",
+      "state_kind": "core_required",
+      "description": "The source file is normalized into processable assets for OCR and review.",
+      "requires_human_action": false,
+      "searchable_output_ready": true,
+      "records_step": false,
+      "terminal": false,
+      "legacy_aliases": [
+        "normalized"
+      ]
+    },
+    {
+      "state_id": "ocr_executed",
+      "display_name": "OCR Executed",
+      "state_kind": "core_required",
+      "description": "OCR completed and generated machine-readable text or a failure outcome.",
+      "requires_human_action": false,
+      "searchable_output_ready": true,
+      "records_step": false,
+      "terminal": false,
+      "legacy_aliases": [
+        "ocr_processed"
+      ]
+    },
+    {
+      "state_id": "extracted",
+      "display_name": "Extracted",
+      "state_kind": "core_required",
+      "description": "Document type and metadata candidates have been produced.",
+      "requires_human_action": false,
+      "searchable_output_ready": true,
+      "records_step": false,
+      "terminal": false,
+      "legacy_aliases": [
+        "classified"
+      ]
+    },
+    {
+      "state_id": "to_be_verified",
+      "display_name": "To Be Verified",
+      "state_kind": "core_required",
+      "description": "The document is queued for human review and validation.",
+      "requires_human_action": true,
+      "searchable_output_ready": true,
+      "records_step": false,
+      "terminal": false,
+      "legacy_aliases": [
+        "needs_review"
+      ]
+    },
+    {
+      "state_id": "validated",
+      "display_name": "Validated",
+      "state_kind": "core_required",
+      "description": "A reviewer approved the current document result for downstream institutional use.",
+      "requires_human_action": true,
+      "searchable_output_ready": true,
+      "records_step": false,
+      "terminal": false,
+      "legacy_aliases": []
+    },
+    {
+      "state_id": "protocol_pending",
+      "display_name": "Protocol Pending",
+      "state_kind": "records_conditional",
+      "description": "The document awaits protocol registration where the process requires it.",
+      "requires_human_action": false,
+      "searchable_output_ready": true,
+      "records_step": true,
+      "terminal": false,
+      "legacy_aliases": []
+    },
+    {
+      "state_id": "protocol_registered",
+      "display_name": "Protocol Registered",
+      "state_kind": "records_conditional",
+      "description": "The protocol system returned an authoritative registration reference.",
+      "requires_human_action": false,
+      "searchable_output_ready": true,
+      "records_step": true,
+      "terminal": false,
+      "legacy_aliases": []
+    },
+    {
+      "state_id": "filing_pending",
+      "display_name": "Filing Pending",
+      "state_kind": "records_conditional",
+      "description": "The document awaits fasciculation or equivalent filing assignment.",
+      "requires_human_action": false,
+      "searchable_output_ready": true,
+      "records_step": true,
+      "terminal": false,
+      "legacy_aliases": []
+    },
+    {
+      "state_id": "filed",
+      "display_name": "Filed",
+      "state_kind": "records_conditional",
+      "description": "The document has been assigned to the proper fascicle or case grouping.",
+      "requires_human_action": false,
+      "searchable_output_ready": true,
+      "records_step": true,
+      "terminal": false,
+      "legacy_aliases": []
+    },
+    {
+      "state_id": "publication_pending",
+      "display_name": "Publication Pending",
+      "state_kind": "core_required",
+      "description": "The validated result is queued for authoritative downstream publication or export.",
+      "requires_human_action": false,
+      "searchable_output_ready": true,
+      "records_step": false,
+      "terminal": false,
+      "legacy_aliases": [
+        "exported"
+      ]
+    },
+    {
+      "state_id": "published",
+      "display_name": "Published",
+      "state_kind": "core_required",
+      "description": "The validated payload was committed to the agreed authoritative downstream system.",
+      "requires_human_action": false,
+      "searchable_output_ready": true,
+      "records_step": false,
+      "terminal": false,
+      "legacy_aliases": []
+    },
+    {
+      "state_id": "preservation_pending",
+      "display_name": "Preservation Pending",
+      "state_kind": "records_conditional",
+      "description": "The document is waiting for transfer to a preservation or conservation system.",
+      "requires_human_action": false,
+      "searchable_output_ready": true,
+      "records_step": true,
+      "terminal": false,
+      "legacy_aliases": []
+    },
+    {
+      "state_id": "archived",
+      "display_name": "Archived",
+      "state_kind": "terminal",
+      "description": "The document or its required package entered the archival or preservation boundary.",
+      "requires_human_action": false,
+      "searchable_output_ready": true,
+      "records_step": true,
+      "terminal": true,
+      "legacy_aliases": []
+    },
+    {
+      "state_id": "discarded",
+      "display_name": "Discarded",
+      "state_kind": "terminal",
+      "description": "The document was explicitly discarded under a governed policy or operator decision.",
+      "requires_human_action": true,
+      "searchable_output_ready": false,
+      "records_step": false,
+      "terminal": true,
+      "legacy_aliases": [
+        "rejected"
+      ]
+    },
+    {
+      "state_id": "failed",
+      "display_name": "Failed",
+      "state_kind": "exception",
+      "description": "The document is blocked by an exception that requires retry or human intervention.",
+      "requires_human_action": true,
+      "searchable_output_ready": false,
+      "records_step": false,
+      "terminal": true,
+      "legacy_aliases": []
+    }
+  ],
+  "transitions": [
+    {
+      "transition_id": "acquired_to_converted",
+      "from_state_id": "acquired",
+      "to_state_id": "converted",
+      "trigger_type": "system",
+      "condition": "always",
+      "event_type": "document.converted",
+      "description": "The uploaded source is normalized into processable derivatives."
+    },
+    {
+      "transition_id": "converted_to_ocr_executed",
+      "from_state_id": "converted",
+      "to_state_id": "ocr_executed",
+      "trigger_type": "system",
+      "condition": "always",
+      "event_type": "ocr.executed",
+      "description": "OCR execution completes and creates a machine-readable result."
+    },
+    {
+      "transition_id": "ocr_executed_to_extracted",
+      "from_state_id": "ocr_executed",
+      "to_state_id": "extracted",
+      "trigger_type": "system",
+      "condition": "always",
+      "event_type": "extraction.completed",
+      "description": "Extraction produces metadata and document-type candidates."
+    },
+    {
+      "transition_id": "extracted_to_to_be_verified",
+      "from_state_id": "extracted",
+      "to_state_id": "to_be_verified",
+      "trigger_type": "system",
+      "condition": "always",
+      "event_type": "review.requested",
+      "description": "The document enters the human review queue."
+    },
+    {
+      "transition_id": "to_be_verified_to_validated",
+      "from_state_id": "to_be_verified",
+      "to_state_id": "validated",
+      "trigger_type": "user",
+      "condition": "always",
+      "event_type": "review.completed",
+      "description": "A reviewer validates the document result."
+    },
+    {
+      "transition_id": "validated_to_protocol_pending",
+      "from_state_id": "validated",
+      "to_state_id": "protocol_pending",
+      "trigger_type": "policy",
+      "condition": "if_protocol_required",
+      "event_type": "protocol.requested",
+      "description": "The document enters protocol registration when required by policy."
+    },
+    {
+      "transition_id": "protocol_pending_to_protocol_registered",
+      "from_state_id": "protocol_pending",
+      "to_state_id": "protocol_registered",
+      "trigger_type": "service",
+      "condition": "always",
+      "event_type": "protocol.registered",
+      "description": "The protocol system returns the authoritative registration."
+    },
+    {
+      "transition_id": "validated_to_filing_pending",
+      "from_state_id": "validated",
+      "to_state_id": "filing_pending",
+      "trigger_type": "policy",
+      "condition": "if_filing_required",
+      "event_type": "filing.requested",
+      "description": "The document enters filing preparation when required by office policy."
+    },
+    {
+      "transition_id": "protocol_registered_to_filing_pending",
+      "from_state_id": "protocol_registered",
+      "to_state_id": "filing_pending",
+      "trigger_type": "policy",
+      "condition": "if_filing_required",
+      "event_type": "filing.requested",
+      "description": "Protocolled documents move to filing when fasciculation is required."
+    },
+    {
+      "transition_id": "filing_pending_to_filed",
+      "from_state_id": "filing_pending",
+      "to_state_id": "filed",
+      "trigger_type": "service",
+      "condition": "always",
+      "event_type": "filing.completed",
+      "description": "The document is assigned to a fascicle or equivalent grouping."
+    },
+    {
+      "transition_id": "validated_to_publication_pending",
+      "from_state_id": "validated",
+      "to_state_id": "publication_pending",
+      "trigger_type": "policy",
+      "condition": "if_publication_required",
+      "event_type": "publication.requested",
+      "description": "Validated documents move toward authoritative downstream publication."
+    },
+    {
+      "transition_id": "filed_to_publication_pending",
+      "from_state_id": "filed",
+      "to_state_id": "publication_pending",
+      "trigger_type": "policy",
+      "condition": "if_publication_required",
+      "event_type": "publication.requested",
+      "description": "Filed documents move toward authoritative downstream publication."
+    },
+    {
+      "transition_id": "publication_pending_to_published",
+      "from_state_id": "publication_pending",
+      "to_state_id": "published",
+      "trigger_type": "service",
+      "condition": "always",
+      "event_type": "publication.completed",
+      "description": "The reviewed result is committed to the agreed downstream system."
+    },
+    {
+      "transition_id": "published_to_preservation_pending",
+      "from_state_id": "published",
+      "to_state_id": "preservation_pending",
+      "trigger_type": "policy",
+      "condition": "if_preservation_required",
+      "event_type": "preservation.requested",
+      "description": "The published document is prepared for preservation transfer when required."
+    },
+    {
+      "transition_id": "preservation_pending_to_archived",
+      "from_state_id": "preservation_pending",
+      "to_state_id": "archived",
+      "trigger_type": "service",
+      "condition": "always",
+      "event_type": "preservation.archived",
+      "description": "The preservation system confirms successful archival intake."
+    },
+    {
+      "transition_id": "to_be_verified_to_discarded",
+      "from_state_id": "to_be_verified",
+      "to_state_id": "discarded",
+      "trigger_type": "user",
+      "condition": "on_discard",
+      "event_type": "document.discarded",
+      "description": "The document is explicitly discarded during human review."
+    },
+    {
+      "transition_id": "validated_to_discarded",
+      "from_state_id": "validated",
+      "to_state_id": "discarded",
+      "trigger_type": "policy",
+      "condition": "on_discard",
+      "event_type": "document.discarded",
+      "description": "The document is explicitly discarded due to policy or governance constraints."
+    },
+    {
+      "transition_id": "acquired_to_failed",
+      "from_state_id": "acquired",
+      "to_state_id": "failed",
+      "trigger_type": "system",
+      "condition": "on_failure",
+      "event_type": "document.failed",
+      "description": "A failure blocks progress immediately after acquisition."
+    },
+    {
+      "transition_id": "converted_to_failed",
+      "from_state_id": "converted",
+      "to_state_id": "failed",
+      "trigger_type": "system",
+      "condition": "on_failure",
+      "event_type": "document.failed",
+      "description": "A failure blocks progress during conversion."
+    },
+    {
+      "transition_id": "ocr_executed_to_failed",
+      "from_state_id": "ocr_executed",
+      "to_state_id": "failed",
+      "trigger_type": "system",
+      "condition": "on_failure",
+      "event_type": "document.failed",
+      "description": "A failure blocks progress after OCR execution."
+    },
+    {
+      "transition_id": "extracted_to_failed",
+      "from_state_id": "extracted",
+      "to_state_id": "failed",
+      "trigger_type": "system",
+      "condition": "on_failure",
+      "event_type": "document.failed",
+      "description": "A failure blocks progress during or after metadata extraction."
+    },
+    {
+      "transition_id": "protocol_pending_to_failed",
+      "from_state_id": "protocol_pending",
+      "to_state_id": "failed",
+      "trigger_type": "service",
+      "condition": "on_failure",
+      "event_type": "document.failed",
+      "description": "A failure blocks progress during protocol registration."
+    },
+    {
+      "transition_id": "filing_pending_to_failed",
+      "from_state_id": "filing_pending",
+      "to_state_id": "failed",
+      "trigger_type": "service",
+      "condition": "on_failure",
+      "event_type": "document.failed",
+      "description": "A failure blocks progress during filing or fasciculation."
+    },
+    {
+      "transition_id": "publication_pending_to_failed",
+      "from_state_id": "publication_pending",
+      "to_state_id": "failed",
+      "trigger_type": "service",
+      "condition": "on_failure",
+      "event_type": "document.failed",
+      "description": "A failure blocks progress during authoritative downstream publication."
+    },
+    {
+      "transition_id": "preservation_pending_to_failed",
+      "from_state_id": "preservation_pending",
+      "to_state_id": "failed",
+      "trigger_type": "service",
+      "condition": "on_failure",
+      "event_type": "document.failed",
+      "description": "A failure blocks progress during preservation transfer."
+    }
+  ]
+}

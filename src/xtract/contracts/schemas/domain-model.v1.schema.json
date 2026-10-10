@@ -1,0 +1,832 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xtract.dev/schemas/domain-model.v1.schema.json",
+  "title": "Metadata Leggibili Canonical Domain Model v1",
+  "description": "Canonical entities for document intelligence workflows in the public-sector platform baseline.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/Document"
+    },
+    {
+      "$ref": "#/$defs/DocumentType"
+    },
+    {
+      "$ref": "#/$defs/MetadataField"
+    },
+    {
+      "$ref": "#/$defs/Alias"
+    },
+    {
+      "$ref": "#/$defs/ExtractionResult"
+    },
+    {
+      "$ref": "#/$defs/ReviewDecision"
+    },
+    {
+      "$ref": "#/$defs/AuditEvent"
+    },
+    {
+      "$ref": "#/$defs/ExternalReference"
+    },
+    {
+      "$ref": "#/$defs/WorkflowState"
+    }
+  ],
+  "$defs": {
+    "Uuid": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "DateTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ConfidenceScore": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "LifecycleStage": {
+      "type": "string",
+      "enum": [
+        "extracted",
+        "validated",
+        "published",
+        "archived"
+      ]
+    },
+    "WorkflowStage": {
+      "type": "string",
+      "enum": [
+        "acquired",
+        "converted",
+        "ocr_executed",
+        "to_be_verified",
+        "protocol_pending",
+        "protocol_registered",
+        "filing_pending",
+        "filed",
+        "publication_pending",
+        "preservation_pending",
+        "discarded",
+        "ingested",
+        "normalized",
+        "ocr_processed",
+        "classified",
+        "extracted",
+        "needs_review",
+        "validated",
+        "exported",
+        "published",
+        "archived",
+        "rejected",
+        "failed"
+      ]
+    },
+    "NullReason": {
+      "type": "string",
+      "enum": [
+        "not_found",
+        "not_applicable",
+        "illegible",
+        "redacted",
+        "withheld",
+        "requires_review"
+      ]
+    },
+    "ValueType": {
+      "type": "string",
+      "enum": [
+        "string",
+        "text",
+        "date",
+        "integer",
+        "decimal",
+        "boolean",
+        "identifier",
+        "code"
+      ]
+    },
+    "SelectionSource": {
+      "type": "string",
+      "enum": [
+        "operator",
+        "system_rule",
+        "model",
+        "external_system"
+      ]
+    },
+    "SourceKind": {
+      "type": "string",
+      "enum": [
+        "ocr_text",
+        "ocr_bbox",
+        "rule_engine",
+        "ml_model",
+        "operator_input",
+        "external_system",
+        "system_default"
+      ]
+    },
+    "BoundingBox": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "page_number",
+        "left",
+        "top",
+        "width",
+        "height"
+      ],
+      "properties": {
+        "page_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "left": {
+          "type": "number",
+          "minimum": 0
+        },
+        "top": {
+          "type": "number",
+          "minimum": 0
+        },
+        "width": {
+          "type": "number",
+          "minimum": 0
+        },
+        "height": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "SourceProvenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provenance_id",
+        "source_kind",
+        "created_at",
+        "created_by"
+      ],
+      "properties": {
+        "provenance_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "source_kind": {
+          "$ref": "#/$defs/SourceKind"
+        },
+        "source_ref": {
+          "type": "string"
+        },
+        "extractor_name": {
+          "type": "string"
+        },
+        "page_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "bounding_box": {
+          "$ref": "#/$defs/BoundingBox"
+        },
+        "created_at": {
+          "$ref": "#/$defs/DateTime"
+        },
+        "created_by": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "AliasScope": {
+      "type": "string",
+      "enum": [
+        "global",
+        "tenant",
+        "document_type",
+        "office"
+      ]
+    },
+    "AliasMatchStrategy": {
+      "type": "string",
+      "enum": [
+        "exact",
+        "normalized",
+        "regex",
+        "fuzzy",
+        "semantic"
+      ]
+    },
+    "ValueSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "snapshot_id",
+        "lifecycle_stage",
+        "value_type",
+        "normalized_value",
+        "provenance",
+        "created_at",
+        "created_by"
+      ],
+      "properties": {
+        "snapshot_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "lifecycle_stage": {
+          "$ref": "#/$defs/LifecycleStage"
+        },
+        "value_type": {
+          "$ref": "#/$defs/ValueType"
+        },
+        "normalized_value": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "display_value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "null_reason": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/NullReason"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "confidence_score": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ConfidenceScore"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "provenance": {
+          "$ref": "#/$defs/SourceProvenance"
+        },
+        "created_at": {
+          "$ref": "#/$defs/DateTime"
+        },
+        "created_by": {
+          "type": "string"
+        },
+        "supersedes_snapshot_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "Alias": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alias_id",
+        "canonical_field_code",
+        "alias_text",
+        "match_strategy",
+        "scope",
+        "active"
+      ],
+      "properties": {
+        "alias_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "canonical_field_code": {
+          "type": "string"
+        },
+        "alias_text": {
+          "type": "string"
+        },
+        "match_strategy": {
+          "$ref": "#/$defs/AliasMatchStrategy"
+        },
+        "scope": {
+          "$ref": "#/$defs/AliasScope"
+        },
+        "locale": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "DocumentType": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type_code",
+        "display_name",
+        "family_code",
+        "taxonomy_version",
+        "selection_source",
+        "is_final"
+      ],
+      "properties": {
+        "type_code": {
+          "type": "string"
+        },
+        "display_name": {
+          "type": "string"
+        },
+        "family_code": {
+          "type": "string"
+        },
+        "taxonomy_version": {
+          "type": "string"
+        },
+        "selection_source": {
+          "$ref": "#/$defs/SelectionSource"
+        },
+        "confidence_score": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ConfidenceScore"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "is_final": {
+          "type": "boolean"
+        }
+      }
+    },
+    "MetadataField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "field_id",
+        "field_code",
+        "label",
+        "data_type",
+        "required",
+        "current_lifecycle_stage",
+        "current_snapshot_id",
+        "snapshots"
+      ],
+      "properties": {
+        "field_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "field_code": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "data_type": {
+          "$ref": "#/$defs/ValueType"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "current_lifecycle_stage": {
+          "$ref": "#/$defs/LifecycleStage"
+        },
+        "current_snapshot_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Alias"
+          }
+        },
+        "snapshots": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/ValueSnapshot"
+          }
+        }
+      }
+    },
+    "WorkflowState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_id",
+        "stage",
+        "updated_at",
+        "updated_by"
+      ],
+      "properties": {
+        "state_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "stage": {
+          "$ref": "#/$defs/WorkflowStage"
+        },
+        "updated_at": {
+          "$ref": "#/$defs/DateTime"
+        },
+        "updated_by": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "previous_stage": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/WorkflowStage"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "ExtractionResultStatus": {
+      "type": "string",
+      "enum": [
+        "success",
+        "partial",
+        "failure"
+      ]
+    },
+    "ExtractionResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "result_id",
+        "document_id",
+        "engine_name",
+        "started_at",
+        "completed_at",
+        "status",
+        "output_stage"
+      ],
+      "properties": {
+        "result_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "document_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "engine_name": {
+          "type": "string"
+        },
+        "engine_version": {
+          "type": "string"
+        },
+        "started_at": {
+          "$ref": "#/$defs/DateTime"
+        },
+        "completed_at": {
+          "$ref": "#/$defs/DateTime"
+        },
+        "status": {
+          "$ref": "#/$defs/ExtractionResultStatus"
+        },
+        "output_stage": {
+          "type": "string",
+          "const": "extracted"
+        },
+        "document_type_candidates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DocumentType"
+          }
+        },
+        "extracted_field_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Uuid"
+          }
+        },
+        "unresolved_field_codes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ReviewOutcome": {
+      "type": "string",
+      "enum": [
+        "accepted",
+        "corrected",
+        "rejected",
+        "escalated"
+      ]
+    },
+    "ReviewTargetType": {
+      "type": "string",
+      "enum": [
+        "field",
+        "document_type",
+        "document",
+        "export"
+      ]
+    },
+    "ReviewDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_id",
+        "document_id",
+        "target_type",
+        "target_id",
+        "decision",
+        "reviewed_by",
+        "reviewed_at"
+      ],
+      "properties": {
+        "decision_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "document_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "target_type": {
+          "$ref": "#/$defs/ReviewTargetType"
+        },
+        "target_id": {
+          "type": "string"
+        },
+        "decision": {
+          "$ref": "#/$defs/ReviewOutcome"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "reviewed_by": {
+          "type": "string"
+        },
+        "reviewed_at": {
+          "$ref": "#/$defs/DateTime"
+        },
+        "resulting_snapshot_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "AuditOutcome": {
+      "type": "string",
+      "enum": [
+        "success",
+        "failure",
+        "rejected"
+      ]
+    },
+    "AuditActorType": {
+      "type": "string",
+      "enum": [
+        "user",
+        "service",
+        "system"
+      ]
+    },
+    "AuditEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "event_type",
+        "actor_type",
+        "actor_id",
+        "occurred_at",
+        "outcome"
+      ],
+      "properties": {
+        "event_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "document_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "event_type": {
+          "type": "string"
+        },
+        "actor_type": {
+          "$ref": "#/$defs/AuditActorType"
+        },
+        "actor_id": {
+          "type": "string"
+        },
+        "occurred_at": {
+          "$ref": "#/$defs/DateTime"
+        },
+        "outcome": {
+          "$ref": "#/$defs/AuditOutcome"
+        },
+        "details": {
+          "type": "object"
+        }
+      }
+    },
+    "ExternalReferenceStatus": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "exported",
+        "synchronized",
+        "failed"
+      ]
+    },
+    "ExternalReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "system_name",
+        "reference_type",
+        "reference_id",
+        "status"
+      ],
+      "properties": {
+        "system_name": {
+          "type": "string"
+        },
+        "reference_type": {
+          "type": "string"
+        },
+        "reference_id": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/ExternalReferenceStatus"
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri"
+        },
+        "synchronized_at": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/DateTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "Document": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "document_id",
+        "tenant_id",
+        "institution_id",
+        "source_filename",
+        "source_media_type",
+        "source_checksum_sha256",
+        "ingested_at",
+        "current_data_stage",
+        "workflow_state",
+        "metadata_fields"
+      ],
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "const": "1.0.0"
+        },
+        "document_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "tenant_id": {
+          "type": "string"
+        },
+        "institution_id": {
+          "type": "string"
+        },
+        "office_id": {
+          "type": "string"
+        },
+        "document_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "supersedes_document_version_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source_filename": {
+          "type": "string"
+        },
+        "source_media_type": {
+          "type": "string"
+        },
+        "source_checksum_sha256": {
+          "type": "string",
+          "pattern": "^[A-Fa-f0-9]{64}$"
+        },
+        "page_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "ingested_at": {
+          "$ref": "#/$defs/DateTime"
+        },
+        "current_data_stage": {
+          "$ref": "#/$defs/LifecycleStage"
+        },
+        "workflow_state": {
+          "$ref": "#/$defs/WorkflowState"
+        },
+        "document_type": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/DocumentType"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "metadata_fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MetadataField"
+          }
+        },
+        "extraction_results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ExtractionResult"
+          }
+        },
+        "review_decisions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ReviewDecision"
+          }
+        },
+        "external_references": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ExternalReference"
+          }
+        },
+        "audit_events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AuditEvent"
+          }
+        }
+      }
+    }
+  }
+}

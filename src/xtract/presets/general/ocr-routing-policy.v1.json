@@ -1,0 +1,46 @@
+{
+  "version": "1.0.0",
+  "engines": [
+    {
+      "engine_id": "text",
+      "description": "Reads born-digital plain text files.",
+      "enabled": true
+    },
+    {
+      "engine_id": "pdf_text",
+      "description": "Extracts the embedded text layer of born-digital PDFs (requires pypdfium2).",
+      "enabled": true
+    },
+    {
+      "engine_id": "tesseract",
+      "description": "OCR for images and scanned PDFs (requires Tesseract, pytesseract, Pillow, pypdfium2).",
+      "enabled": true
+    }
+  ],
+  "preprocess_profiles": [
+    {
+      "profile_id": "standard",
+      "steps": [
+        "grayscale"
+      ]
+    },
+    {
+      "profile_id": "low_contrast_scan",
+      "steps": [
+        "grayscale",
+        "autocontrast"
+      ]
+    }
+  ],
+  "default_route": {
+    "preprocess_profile_id": "standard",
+    "preferred_engines": [
+      "text",
+      "pdf_text",
+      "tesseract"
+    ],
+    "min_confidence": 0.6,
+    "min_text_accuracy": 0.9
+  },
+  "routes": []
+}

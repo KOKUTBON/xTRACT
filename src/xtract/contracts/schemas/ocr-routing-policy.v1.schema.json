@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xtract.dev/schemas/ocr-routing-policy.v1.schema.json",
+  "title": "OCR Routing Policy v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "engines",
+    "preprocess_profiles",
+    "default_route",
+    "routes"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "engines": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "engine_id",
+          "description",
+          "enabled"
+        ],
+        "properties": {
+          "engine_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 10
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "preprocess_profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "profile_id",
+          "steps"
+        ],
+        "properties": {
+          "profile_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "steps": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "default_route": {
+      "$ref": "#/$defs/Route"
+    },
+    "routes": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/Route"
+          },
+          {
+            "type": "object",
+            "required": [
+              "document_family"
+            ],
+            "properties": {
+              "document_family": {
+                "type": "string",
+                "minLength": 2
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "Route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "preprocess_profile_id",
+        "preferred_engines",
+        "min_confidence",
+        "min_text_accuracy"
+      ],
+      "properties": {
+        "document_family": {
+          "type": "string",
+          "minLength": 2
+        },
+        "preprocess_profile_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "preferred_engines": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "uniqueItems": true
+        },
+        "min_confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "min_text_accuracy": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    }
+  }
+}

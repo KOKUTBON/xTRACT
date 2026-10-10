@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0.0",
+  "connectors": [
+    {
+      "connector_id": "local_registry",
+      "system_name": "xtract-registry",
+      "description": "Built-in registry that issues sequential registration numbers per institution and year.",
+      "channel_type": "local_registry",
+      "auth_profile": "none",
+      "status": "active",
+      "reference_prefix": "REG",
+      "ownership": {
+        "source_system_of_record": "xtract",
+        "target_system_of_record": "xtract-registry",
+        "synchronization_owner": "integration-hub"
+      },
+      "authoritative_reference_types": [
+        "registration_number"
+      ],
+      "supported_commands": [
+        "protocol.register"
+      ],
+      "audit_tags": [
+        "registry"
+      ]
+    },
+    {
+      "connector_id": "peppol_hub",
+      "system_name": "peppol-access-point",
+      "description": "Pan-European e-Invoicing Peppol BIS Billing 3.0 / EN 16931 connector.",
+      "channel_type": "peppol_registry",
+      "auth_profile": "none",
+      "status": "active",
+      "reference_prefix": "PEPPOL",
+      "peppol_endpoint_id": "0201:default",
+      "ownership": {
+        "source_system_of_record": "xtract",
+        "target_system_of_record": "peppol-access-point",
+        "synchronization_owner": "integration-hub"
+      },
+      "authoritative_reference_types": [
+        "registration_number"
+      ],
+      "supported_commands": [
+        "protocol.register"
+      ],
+      "audit_tags": [
+        "peppol",
+        "procurement"
+      ]
+    },
+    {
+      "connector_id": "webhook_notifier",
+      "system_name": "outbound-webhook-dispatcher",
+      "description": "Universal notification dispatcher with HMAC-SHA256 signature verification.",
+      "channel_type": "webhook",
+      "auth_profile": "hmac_signature",
+      "status": "active",
+      "webhook_secret_env": "XTRACT_WEBHOOK_SECRET",
+      "ownership": {
+        "source_system_of_record": "xtract",
+        "target_system_of_record": "outbound-webhook-dispatcher",
+        "synchronization_owner": "integration-hub"
+      },
+      "authoritative_reference_types": [
+        "registration_number"
+      ],
+      "supported_commands": [
+        "protocol.register"
+      ],
+      "audit_tags": [
+        "webhook",
+        "notification"
+      ]
+    }
+  ]
+}
