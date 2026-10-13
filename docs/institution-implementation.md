@@ -56,7 +56,7 @@ level, not office level.
 Review the taxonomy with institutional operators. Define the document families,
 required fields, labels, validation patterns, aliases and extraction policies they
 actually use. Test representative documents, including poor scans and missing fields,
-before enabling automatic validation. Configuration validation checks JSON schemas,
+before enabling automatic validation. For a step-by-step guide to configuring new document classes, see [Custom Document Types](custom_document_types.md). Configuration validation checks JSON schemas,
 identity consistency, office defaults, alias regexes and references, and integration
 connector references. It does not prove extraction accuracy.
 

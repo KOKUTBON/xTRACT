@@ -83,6 +83,8 @@ They are application configuration, not sample documents. To add a family:
 2. Add detection keywords to `config/extraction-policy.v1.json`.
 3. Validate schemas and contracts with `make ci`.
 
+For a comprehensive walkthrough with step-by-step examples, see the [Custom Document Types Guide](custom_document_types.md).
+
 JSON Schemas for all contracts are located in [`src/xtract/contracts/schemas/`](../src/xtract/contracts/schemas/).
 
 The default connector assigns local sequential registration references. Remote registration
