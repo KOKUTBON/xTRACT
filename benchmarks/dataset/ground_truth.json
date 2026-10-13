@@ -104,5 +104,58 @@
       "request_date": "2026-09-01",
       "new_address": "Example Street 4, Test City"
     }
+  },
+  "inv_004.txt": {
+    "family_code": "invoice",
+    "type_code": "invoice",
+    "fields": {
+      "invoice_number": "SHP-2026-9041",
+      "invoice_date": "2026-05-18",
+      "supplier_name": "Apex Global Logistics Inc",
+      "vat_number": "IT00000000000",
+      "total_amount": "4850.00"
+    }
+  },
+  "inv_005.txt": {
+    "family_code": "invoice",
+    "type_code": "invoice",
+    "fields": {
+      "invoice_number": "MED-2026-3312",
+      "invoice_date": "2026-06-24",
+      "supplier_name": "St Jude Medical Diagnostics Group",
+      "vat_number": "IT00000000000",
+      "total_amount": "875.50"
+    }
+  },
+  "permit_003.txt": {
+    "family_code": "building_permit",
+    "type_code": "building_permit_application",
+    "fields": {
+      "applicant_full_name": "Horizon Urban Developments Ltd",
+      "case_number": "PRM-2026-4410",
+      "request_date": "2026-07-15",
+      "property_address": "Via Dante Alighieri 45, Turin"
+    }
+  },
+  "residence_003.txt": {
+    "family_code": "residence_application",
+    "type_code": "residence_application",
+    "fields": {
+      "applicant_full_name": "Marco Rossi",
+      "application_number": "APP-2026-9921",
+      "request_date": "2026-08-22",
+      "new_address": "Corso Vittorio Emanuele 102, Rome"
+    }
+  },
+  "letter_004.txt": {
+    "family_code": "general_correspondence",
+    "type_code": "general_correspondence",
+    "fields": {
+      "document_date": "2026-10-05",
+      "reference_number": "INFRA-2026-8802",
+      "sender_name": "Department of Public Infrastructure",
+      "recipient_name": "Metropolitan Transit Authority",
+      "subject": "Quarterly Infrastructure Maintenance Review"
+    }
   }
 }

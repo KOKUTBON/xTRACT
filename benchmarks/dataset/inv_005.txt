@@ -1,0 +1,8 @@
+MEDICAL BILLING INVOICE
+Supplier: St Jude Medical Diagnostics Group
+Invoice number: MED-2026-3312
+Invoice date: 24/06/2026
+VAT number: IT00000000000
+Total amount: 875,50 €
+Department: Clinical Radiology
+Patient Reference: PT-SYNTH-8812
