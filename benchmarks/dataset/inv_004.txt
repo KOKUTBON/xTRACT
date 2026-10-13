@@ -1,0 +1,9 @@
+FREIGHT SHIPPING INVOICE
+Supplier: Apex Global Logistics Inc
+Invoice number: SHP-2026-9041
+Invoice date: 18/05/2026
+VAT number: IT00000000000
+Total amount: 4.850,00 EUR
+Bill of lading: BOL-994821
+Origin: Port of Genoa
+Destination: Milan Freight Terminal
