@@ -1,6 +1,7 @@
 """xTRACT command-line interface.
 
 Commands:
+  xtract run FILE [FILE ...]       extract fields directly from documents (JSON/CSV)
   xtract serve                     start the web portal and API
   xtract ingest FILE [FILE ...]    ingest files and process them
   xtract process                   run all queued jobs once
@@ -102,6 +103,102 @@ def cmd_export(args, config: PlatformConfig) -> int:
     return 0
 
 
+def cmd_run(args, config: PlatformConfig) -> int:
+    """Run extraction pipeline on input documents and output structured results."""
+    import csv
+    import io
+    import tempfile
+
+    temp_dir = None
+    if not args.data_dir and not args.deployment:
+        temp_dir = tempfile.TemporaryDirectory()
+        config.data_dir = Path(temp_dir.name)
+        config.database_path = str(config.data_dir / "xtract.db")
+        config.storage_root = config.data_dir / "storage"
+
+    try:
+        platform = Platform(config)
+        records = []
+        for file_arg in args.files:
+            path = Path(file_arg)
+            if not path.is_file():
+                print(f"File not found: {path}", file=sys.stderr)
+                return 1
+
+            doc, _ = platform.intake.ingest_document(
+                institution_id=args.institution or config.default_institution,
+                office_id=args.office or config.default_office,
+                document_family=args.family,
+                filename=path.name,
+                content=path.read_bytes(),
+                actor_id="cli",
+            )
+            platform.process_pending()
+
+            stored_doc = platform.db.get_document(doc["document_id"])
+            meta = stored_doc["metadata_json"] if stored_doc else {}
+            field_values = platform.db.get_field_values(doc["document_id"])
+
+            fields_dict = {}
+            for f in field_values:
+                val = f["current_value"] if f["current_value"] is not None else f["extracted_value"]
+                fields_dict[f["field_code"]] = val
+
+            records.append(
+                {
+                    "document_id": doc["document_id"],
+                    "source_filename": meta.get("original_filename") or path.name,
+                    "document_family": stored_doc["document_family"] if stored_doc else args.family,
+                    "document_type_code": meta.get("document_type_code")
+                    or (stored_doc["document_family"] if stored_doc else args.family),
+                    "workflow_stage": stored_doc["current_workflow_stage"]
+                    if stored_doc
+                    else "unknown",
+                    "fields": fields_dict,
+                }
+            )
+
+        if args.format == "csv":
+            buffer = io.StringIO()
+            all_field_keys = sorted({k for r in records for k in r["fields"].keys()})
+            fieldnames = [
+                "document_id",
+                "source_filename",
+                "document_family",
+                "document_type_code",
+                "workflow_stage",
+                *all_field_keys,
+            ]
+            writer = csv.DictWriter(buffer, fieldnames=fieldnames)
+            writer.writeheader()
+            for r in records:
+                row = {
+                    "document_id": r["document_id"],
+                    "source_filename": r["source_filename"],
+                    "document_family": r["document_family"],
+                    "document_type_code": r["document_type_code"],
+                    "workflow_stage": r["workflow_stage"],
+                }
+                for k in all_field_keys:
+                    row[k] = r["fields"].get(k, "")
+                writer.writerow(row)
+            content = buffer.getvalue()
+        else:
+            payload = records[0] if len(records) == 1 else records
+            content = json.dumps(payload, indent=2, ensure_ascii=False) + "\n"
+
+        if args.output:
+            Path(args.output).write_text(content, encoding="utf-8")
+            if not getattr(args, "quiet", False):
+                print(f"wrote {args.output}")
+        else:
+            sys.stdout.write(content)
+        return 0
+    finally:
+        if temp_dir is not None:
+            temp_dir.cleanup()
+
+
 def cmd_engines(args, config: PlatformConfig) -> int:
     from xtract.ocr.engines import default_engines
 
@@ -149,6 +246,20 @@ def main(argv: list[str] | None = None) -> int:
     )
     issue.add_argument("--office")
     issue.add_argument("--expires-in", type=int, default=3600)
+
+    run_cmd = sub.add_parser(
+        "run", help="extract fields directly from documents and output results"
+    )
+    run_cmd.add_argument("files", nargs="+", help="one or more documents to extract")
+    run_cmd.add_argument(
+        "--format", choices=["json", "csv"], default="json", help="output format (default: json)"
+    )
+    run_cmd.add_argument("--family", default="auto", help="document family code (default: auto)")
+    run_cmd.add_argument("--institution", help="target institution")
+    run_cmd.add_argument("--office", help="target office")
+    run_cmd.add_argument("--output", "-o", help="destination file for output")
+    run_cmd.add_argument("-q", "--quiet", action="store_true", help="suppress status messages")
+    run_cmd.set_defaults(func=cmd_run)
 
     serve = sub.add_parser("serve", help="start the web portal and API")
     serve.add_argument("--host")
