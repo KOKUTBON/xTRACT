@@ -235,7 +235,7 @@ make ci
 | **Building Permit** | `building_permit_application` | `applicant_full_name`, `case_number`, `request_date`, `property_address` |
 | **Residence Application** | `residence_application` | `applicant_full_name`, `application_number`, `request_date`, `new_address` |
 
-Adding custom document types requires only JSON configuration in `config/field-taxonomy.v1.json`, `config/alias-dictionary.v1.json`, and `config/extraction-policy.v1.json`. See [docs/configuration.md](docs/configuration.md).
+Adding custom document types requires only JSON configuration in `config/field-taxonomy.v1.json`, `config/alias-dictionary.v1.json`, and `config/extraction-policy.v1.json`. See the step-by-step [Custom Document Types Guide](docs/custom_document_types.md) and [Configuration Guide](docs/configuration.md).
 
 ---
 
@@ -271,7 +271,7 @@ apps/operator-portal/   Zero-build ES-module Operator Console (HTML, CSS, JS)
 assets/branding/        Logo, wordmark, and app icon
 benchmarks/             Reproducible benchmark suite, evaluator, and dataset
 config/                 Runtime taxonomy, alias dictionary, and policies
-docs/                   OpenAPI 3.1 spec, architecture, configuration guides
+docs/                   OpenAPI 3.1 spec, architecture, configuration, [custom document types](docs/custom_document_types.md)
 tests/                  Automated unit, contract, frontend, and API tests
 ```
 
