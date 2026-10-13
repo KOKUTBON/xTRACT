@@ -36,7 +36,7 @@ See [docs/configuration.md](docs/configuration.md) for detailed reference.
 
 ## License
 
-By contributing, you agree that your contributions are licensed under the [MIT License](LICENSE).
+By contributing, you agree that your contributions are licensed under the [Apache-2.0 License](LICENSE).
 
 ## Community participation
 
