@@ -1,0 +1,545 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xtract.dev/schemas/document-workspace.v1.schema.json",
+  "title": "Document Workspace v1",
+  "description": "Case-level operational workspace for review, exceptions, and audit.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "document_id",
+    "institution_id",
+    "office_id",
+    "workflow_state",
+    "viewer",
+    "field_panels",
+    "review_history",
+    "audit_timeline",
+    "exception_context",
+    "permitted_actions"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "document_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "institution_id": {
+      "type": "string"
+    },
+    "office_id": {
+      "type": "string"
+    },
+    "workflow_state": {
+      "$ref": "#/$defs/WorkflowState"
+    },
+    "queue_context": {
+      "$ref": "#/$defs/QueueContext"
+    },
+    "viewer": {
+      "$ref": "#/$defs/Viewer"
+    },
+    "field_panels": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/FieldPanel"
+      }
+    },
+    "review_history": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ReviewHistoryItem"
+      }
+    },
+    "audit_timeline": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/AuditItem"
+      }
+    },
+    "exception_context": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ExceptionRef"
+      }
+    },
+    "external_references": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ExternalReference"
+      }
+    },
+    "permitted_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "document_summary": {
+      "$ref": "#/$defs/DocumentSummary"
+    },
+    "processing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "active"
+      ],
+      "properties": {
+        "active": {
+          "type": "boolean"
+        },
+        "jobs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/JobItem"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "WorkflowState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage",
+        "updated_at",
+        "updated_by"
+      ],
+      "properties": {
+        "stage": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_by": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    },
+    "QueueContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "queue_status",
+        "priority",
+        "reason_codes"
+      ],
+      "properties": {
+        "task_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "queue_status": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "string"
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Viewer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_filename",
+        "page_count",
+        "ocr_text",
+        "review_copy_path"
+      ],
+      "properties": {
+        "source_filename": {
+          "type": "string"
+        },
+        "page_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "ocr_text": {
+          "type": "string"
+        },
+        "review_copy_path": {
+          "type": "string"
+        }
+      }
+    },
+    "FieldSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lifecycle_stage",
+        "value",
+        "created_at",
+        "created_by"
+      ],
+      "properties": {
+        "lifecycle_stage": {
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "string",
+            "number",
+            "boolean",
+            "null"
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "created_by": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "FieldPanel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "field_code",
+        "label",
+        "value_type",
+        "extracted_value",
+        "current_value",
+        "review_required",
+        "review_reason_codes",
+        "confidence_score",
+        "snapshots"
+      ],
+      "properties": {
+        "field_code": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "value_type": {
+          "type": "string"
+        },
+        "extracted_value": {
+          "type": [
+            "string",
+            "number",
+            "boolean",
+            "null"
+          ]
+        },
+        "validated_value": {
+          "type": [
+            "string",
+            "number",
+            "boolean",
+            "null"
+          ]
+        },
+        "current_value": {
+          "type": [
+            "string",
+            "number",
+            "boolean",
+            "null"
+          ]
+        },
+        "review_required": {
+          "type": "boolean"
+        },
+        "review_reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "confidence_score": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "snapshots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FieldSnapshot"
+          }
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "validation_pattern": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_text": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_page_number": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      }
+    },
+    "ReviewHistoryItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "reviewed_by",
+        "reviewed_at"
+      ],
+      "properties": {
+        "decision": {
+          "type": "string"
+        },
+        "target_id": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "reviewed_by": {
+          "type": "string"
+        },
+        "reviewed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "AuditItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_type",
+        "occurred_at",
+        "actor_id",
+        "outcome"
+      ],
+      "properties": {
+        "event_type": {
+          "type": "string"
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "actor_id": {
+          "type": "string"
+        },
+        "outcome": {
+          "type": "string"
+        },
+        "details_summary": {
+          "type": "string"
+        }
+      }
+    },
+    "ExceptionRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "exception_id",
+        "exception_code",
+        "status"
+      ],
+      "properties": {
+        "exception_id": {
+          "type": "string"
+        },
+        "exception_code": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "opened_at": {
+          "type": "string"
+        }
+      }
+    },
+    "ExternalReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "system_name",
+        "reference_type",
+        "reference_id",
+        "status"
+      ],
+      "properties": {
+        "system_name": {
+          "type": "string"
+        },
+        "reference_type": {
+          "type": "string"
+        },
+        "reference_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "uri": {
+          "type": "string"
+        },
+        "synchronized_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        }
+      }
+    },
+    "DocumentSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "document_family",
+        "created_at"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "document_family": {
+          "type": "string"
+        },
+        "document_type_code": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "document_type_display_name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "mime_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "byte_size": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "sha256": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ocr_engine": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ocr_confidence": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "registration_reference": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "JobItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "job_id",
+        "job_type",
+        "status",
+        "attempts"
+      ],
+      "properties": {
+        "job_id": {
+          "type": "string"
+        },
+        "job_type": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "attempts": {
+          "type": "integer"
+        },
+        "max_attempts": {
+          "type": "integer"
+        },
+        "last_error_message": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

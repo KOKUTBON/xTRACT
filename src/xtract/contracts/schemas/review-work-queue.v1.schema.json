@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xtract.dev/schemas/review-work-queue.v1.schema.json",
+  "title": "Review Work Queue v1",
+  "description": "Operational queue of documents requiring operator review.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "items",
+    "summary"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/QueueItem"
+      }
+    },
+    "summary": {
+      "$ref": "#/$defs/Summary"
+    }
+  },
+  "$defs": {
+    "QueueItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_id",
+        "document_id",
+        "institution_id",
+        "office_id",
+        "workflow_stage",
+        "queue_status",
+        "priority",
+        "reason_codes",
+        "document_summary",
+        "assigned_role",
+        "available_actions"
+      ],
+      "properties": {
+        "task_id": {
+          "type": "string"
+        },
+        "document_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "institution_id": {
+          "type": "string"
+        },
+        "office_id": {
+          "type": "string"
+        },
+        "workflow_stage": {
+          "type": "string"
+        },
+        "queue_status": {
+          "type": "string",
+          "enum": [
+            "ready",
+            "in_review",
+            "blocked",
+            "completed"
+          ]
+        },
+        "priority": {
+          "type": "string",
+          "enum": [
+            "low",
+            "normal",
+            "high",
+            "urgent"
+          ]
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "document_summary": {
+          "$ref": "#/$defs/DocumentSummary"
+        },
+        "assigned_role": {
+          "type": "string"
+        },
+        "available_actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "DocumentSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_filename",
+        "document_type_display_name",
+        "excerpt"
+      ],
+      "properties": {
+        "source_filename": {
+          "type": "string"
+        },
+        "document_type_display_name": {
+          "type": "string"
+        },
+        "excerpt": {
+          "type": "string"
+        }
+      }
+    },
+    "Summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total_items",
+        "ready_items",
+        "blocked_items"
+      ],
+      "properties": {
+        "total_items": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "ready_items": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "blocked_items": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

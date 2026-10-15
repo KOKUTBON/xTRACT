@@ -1,0 +1,318 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xtract.dev/schemas/ocr-normalized-output.v1.schema.json",
+  "title": "OCR Normalized Output v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "job_id",
+    "batch_id",
+    "document_id",
+    "tenant_id",
+    "institution_id",
+    "source_media_type",
+    "source_checksum_sha256",
+    "dedup_status",
+    "processing_status",
+    "preprocess_profile_id",
+    "preprocess_steps",
+    "attempted_engines",
+    "derived_artifacts"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "job_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "batch_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "document_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "tenant_id": {
+      "type": "string"
+    },
+    "institution_id": {
+      "type": "string"
+    },
+    "office_id": {
+      "type": "string"
+    },
+    "source_media_type": {
+      "type": "string"
+    },
+    "source_checksum_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "dedup_status": {
+      "type": "string",
+      "enum": [
+        "processed",
+        "duplicate_skipped"
+      ]
+    },
+    "processing_status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "duplicate",
+        "rejected",
+        "failed"
+      ]
+    },
+    "preprocess_profile_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "preprocess_steps": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_]+$"
+      },
+      "uniqueItems": true
+    },
+    "selected_engine": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "attempted_engines": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "engine_id",
+          "status",
+          "reason"
+        ],
+        "properties": {
+          "engine_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "selected",
+              "threshold_not_met",
+              "engine_failure",
+              "unavailable",
+              "skipped"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 2
+          },
+          "avg_confidence": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 1
+          },
+          "text_accuracy": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      }
+    },
+    "pages": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Page"
+      }
+    },
+    "full_text": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "avg_confidence",
+        "text_accuracy",
+        "block_count",
+        "character_count"
+      ],
+      "properties": {
+        "avg_confidence": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "text_accuracy": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "block_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "character_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "derived_artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifact_id",
+          "artifact_type",
+          "path",
+          "media_type"
+        ],
+        "properties": {
+          "artifact_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "artifact_type": {
+            "type": "string",
+            "enum": [
+              "normalized_review_copy",
+              "ocr_text",
+              "bounding_boxes",
+              "engine_attempt_trace"
+            ]
+          },
+          "path": {
+            "type": "string",
+            "minLength": 3
+          },
+          "media_type": {
+            "type": "string",
+            "minLength": 3
+          }
+        }
+      }
+    },
+    "canonical_document_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "rejection_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "exception_code": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "$defs": {
+    "BoundingBox": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "left",
+        "top",
+        "width",
+        "height"
+      ],
+      "properties": {
+        "left": {
+          "type": "number"
+        },
+        "top": {
+          "type": "number"
+        },
+        "width": {
+          "type": "number",
+          "minimum": 0
+        },
+        "height": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "TextBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "block_id",
+        "text",
+        "confidence",
+        "bounding_box"
+      ],
+      "properties": {
+        "block_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "text": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "bounding_box": {
+          "$ref": "#/$defs/BoundingBox"
+        }
+      }
+    },
+    "Page": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "page_number",
+        "text_blocks"
+      ],
+      "properties": {
+        "page_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "text_blocks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TextBlock"
+          }
+        }
+      }
+    }
+  }
+}

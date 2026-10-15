@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#f6f6f4" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0b0b0c" media="(prefers-color-scheme: dark)">
+    <title id="app-page-title">xTRACT · Operator Console</title>
+    <link id="app-favicon" rel="icon" type="image/svg+xml" href="./branding/logo-mark.svg">
+    <link id="app-apple-touch-icon" rel="apple-touch-icon" href="./branding/logo-app-icon.png">
+    <script src="./modules/theme.js"></script>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <svg class="sprite" aria-hidden="true" focusable="false">
+      <defs>
+        <symbol id="i-review" viewBox="0 0 24 24"><path d="M4 13.5 6.6 5.8A2 2 0 0 1 8.5 4.5h7a2 2 0 0 1 1.9 1.3L20 13.5V18a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18z"/><path d="M4 13.5h4.5l1.2 2.2h4.6l1.2-2.2H20"/><path d="m9.5 9.5 1.8 1.8 3.2-3.3"/></symbol>
+        <symbol id="i-documents" viewBox="0 0 24 24"><path d="M8 3.5h6.5L19 8v10.5a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-13a2 2 0 0 1 2-2z"/><path d="M14 3.5V8h5"/><path d="M9.5 12.5h6M9.5 16h4"/><path d="M3 7v11.5A3.5 3.5 0 0 0 6.5 22"/></symbol>
+        <symbol id="i-exception" viewBox="0 0 24 24"><path d="M10.3 4.2 2.9 17.3A2 2 0 0 0 4.6 20.3h14.8a2 2 0 0 0 1.7-3L13.7 4.2a2 2 0 0 0-3.4 0z"/><path d="M12 9.5v4.2"/><path d="M12 17h.01"/></symbol>
+        <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15.5V4"/><path d="m7.5 8.5 4.5-4.5 4.5 4.5"/><path d="M4.5 14.5v3.5a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-3.5"/></symbol>
+        <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11.5"/><path d="m7.5 11 4.5 4.5 4.5-4.5"/><path d="M4.5 16v2a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-2"/></symbol>
+        <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></symbol>
+        <symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M8 9.5h8M8 12h8M8 14.5h5"/></symbol>
+        <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
+        <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></symbol>
+        <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></symbol>
+        <symbol id="i-system" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12.5" rx="2"/><path d="M8.5 20h7M12 16.5V20"/><path d="M12 4v12.5" /></symbol>
+        <symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6.5 10h.01M10 10h.01M14 10h.01M17.5 10h.01M8 14h8"/></symbol>
+        <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+        <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="m8.5 12.2 2.4 2.4 4.8-4.9"/></symbol>
+        <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+        <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M19.5 12a7.5 7.5 0 0 1-13 5.1"/><path d="M4.5 12a7.5 7.5 0 0 1 13-5.1"/><path d="M17.5 3v4h-4M6.5 21v-4h4"/></symbol>
+        <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4.5 7h15M9.5 7V4.5h5V7"/><path d="M6.5 7l.9 11.6a2 2 0 0 0 2 1.9h5.2a2 2 0 0 0 2-1.9L17.5 7"/><path d="M10 11v5.5M14 11v5.5"/></symbol>
+        <symbol id="i-locate" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/></symbol>
+        <symbol id="i-assistant" viewBox="0 0 24 24"><path d="M20 12.5a7.5 7.5 0 0 1-11.2 6.5L4 20l1.1-4.4A7.5 7.5 0 1 1 20 12.5z"/><path d="M12.5 8.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></symbol>
+        <symbol id="i-registry" viewBox="0 0 24 24"><path d="M4.5 5.5h15v13h-15z"/><path d="M4.5 9.5h15"/><path d="M8 13h4M8 15.5h7"/><path d="M8 3v5M16 3v5"/></symbol>
+        <symbol id="i-jobs" viewBox="0 0 24 24"><rect x="6.5" y="6.5" width="11" height="11" rx="2"/><path d="M9.5 3v3.5M14.5 3v3.5M9.5 17.5V21M14.5 17.5V21M3 9.5h3.5M3 14.5h3.5M17.5 9.5H21M17.5 14.5H21"/><path d="M10 10h4v4h-4z"/></symbol>
+        <symbol id="i-audit" viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.5-6"/><path d="M3.5 4v4h4"/><path d="M12 7.5V12l3 2"/></symbol>
+        <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6.5 9.5 5.5 5.5 5.5-5.5"/></symbol>
+        <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9.5 6.5 5.5 5.5-5.5 5.5"/></symbol>
+        <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M4.5 12h15M14 6.5l5.5 5.5-5.5 5.5"/></symbol>
+        <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.8"/></symbol>
+        <symbol id="i-text" viewBox="0 0 24 24"><path d="M4.5 6h15M4.5 10h15M4.5 14h15M4.5 18h9"/></symbol>
+        <symbol id="i-image" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="m20.5 16-5-5-9.5 8.5"/></symbol>
+        <symbol id="i-send" viewBox="0 0 24 24"><path d="M20.5 3.5 10 14M20.5 3.5 14 20.5l-4-6.5-6.5-4z"/></symbol>
+        <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.6 3.1 8.2 7.5 9.5 4.4-1.3 7.5-4.9 7.5-9.5V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></symbol>
+        <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></symbol>
+        <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8h.01"/></symbol>
+        <symbol id="i-history" viewBox="0 0 24 24"><path d="M12 7.5V12l3 2"/><circle cx="12" cy="12" r="8.5"/></symbol>
+        <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 5.5h16l-6.2 7.3V19l-3.6-1.8v-4.4z"/></symbol>
+        <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2.5 5 13.5h6l-1 8 8-11h-6z"/></symbol>
+        <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5a13 13 0 0 1 3.5 8.5 13 13 0 0 1-3.5 8.5 13 13 0 0 1-3.5-8.5A13 13 0 0 1 12 3.5z"/></symbol>
+      </defs>
+    </svg>
+
+    <a class="skip-link" href="#workspace">Skip to workspace</a>
+    <div id="status-live" class="sr-only" aria-live="polite"></div>
+    <div id="toasts" class="toasts" role="status"></div>
+
+    <div class="app">
+      <nav class="nav" aria-label="Primary">
+        <a id="nav-brand-link" class="nav-brand" href="./" aria-label="xTRACT home">
+          <img id="nav-brand-logo" src="./branding/logo-mark.svg" alt="" width="40" height="40">
+        </a>
+        <div class="nav-group">
+          <button type="button" class="nav-item" data-list="queue" aria-current="page" data-tip="Review queue" data-i18n-tip="nav_queue" data-key="1">
+            <svg class="icon"><use href="#i-review"/></svg><span class="sr-only" data-i18n="nav_queue">Review queue</span>
+            <span id="count-queue" class="nav-badge"></span>
+          </button>
+          <button type="button" class="nav-item" data-list="documents" data-tip="All documents" data-i18n-tip="nav_documents" data-key="2">
+            <svg class="icon"><use href="#i-documents"/></svg><span class="sr-only" data-i18n="nav_documents">All documents</span>
+            <span id="count-documents" class="nav-badge muted"></span>
+          </button>
+          <button type="button" class="nav-item" data-list="exceptions" data-tip="Exceptions" data-i18n-tip="nav_exceptions" data-key="3">
+            <svg class="icon"><use href="#i-exception"/></svg><span class="sr-only" data-i18n="nav_exceptions">Exceptions</span>
+            <span id="count-exceptions" class="nav-badge danger"></span>
+          </button>
+        </div>
+        <div class="nav-group nav-bottom">
+          <button type="button" class="nav-item" id="shortcuts-button" data-tip="Keyboard shortcuts" data-i18n-tip="nav_shortcuts" data-key="?">
+            <svg class="icon"><use href="#i-keyboard"/></svg><span class="sr-only" data-i18n="nav_shortcuts">Keyboard shortcuts</span>
+          </button>
+          <button type="button" class="nav-item" id="theme-button" data-tip="Switch theme" data-i18n-tip="nav_theme">
+            <svg class="icon"><use id="theme-icon" href="#i-system"/></svg><span class="sr-only" data-i18n="nav_theme">Switch theme</span>
+          </button>
+          <button type="button" class="nav-item avatar" id="settings-button" data-tip="Operator settings" data-i18n-tip="nav_settings">
+            <span id="operator-initials" aria-hidden="true">OP</span><span class="sr-only" data-i18n="nav_settings">Operator settings</span>
+          </button>
+        </div>
+      </nav>
+
+      <div class="main">
+        <header class="topbar">
+          <div class="crumbs">
+            <span class="wordmark">x<b>TRACT</b></span>
+            <svg class="icon sm faint"><use href="#i-chevron-right"/></svg>
+            <span id="crumb-list">Review queue</span>
+          </div>
+
+          <form id="search-form" class="search" role="search">
+            <svg class="icon sm"><use href="#i-search"/></svg>
+            <label class="sr-only" for="search-text" data-i18n="search_label">Search documents</label>
+            <input id="search-text" type="search" placeholder="Search OCR text, values, references, file names" data-i18n-placeholder="search_placeholder" autocomplete="off">
+            <kbd class="search-kbd">/</kbd>
+            <label class="sr-only" for="stage-filter" data-i18n="stage_filter_label">Workflow stage</label>
+            <span class="select-wrap">
+              <svg class="icon sm"><use href="#i-filter"/></svg>
+              <select id="stage-filter">
+                <option value="" data-i18n="stage_filter_all">All stages</option>
+              </select>
+            </span>
+          </form>
+
+          <div class="toolbar">
+            <span id="engine-status" class="engine-status" hidden></span>
+            <div class="menu">
+              <button type="button" id="export-button" class="btn ghost" aria-haspopup="true" aria-expanded="false">
+                <svg class="icon sm"><use href="#i-download"/></svg> <span data-i18n="export">Export</span>
+                <svg class="icon xs"><use href="#i-chevron-down"/></svg>
+              </button>
+              <div id="export-menu" class="menu-list" hidden>
+                <p class="menu-label" data-i18n="export_menu_label">Research datasets</p>
+                <a data-export="/api/v1/export/fields.csv" href="#"><span class="fmt">CSV</span> <span data-i18n="export_fields_csv">Field values</span></a>
+                <a data-export="/api/v1/export/documents.jsonl" href="#"><span class="fmt">JSONL</span> <span data-i18n="export_jsonl">Research dataset</span></a>
+                <a data-export="/api/v1/export/documents.jsonl?include_text=true" href="#"><span class="fmt">JSONL</span> <span data-i18n="export_jsonl_ocr">Dataset + OCR text</span></a>
+                <a data-export="/api/v1/export/documents.json" href="#"><span class="fmt">JSON</span> <span data-i18n="export_json">Validated exports</span></a>
+              </div>
+            </div>
+            <button type="button" id="upload-button" class="btn primary">
+              <svg class="icon sm"><use href="#i-upload"/></svg> <span data-i18n="upload">Upload</span>
+              <kbd>U</kbd>
+            </button>
+          </div>
+        </header>
+
+        <section class="pipeline" id="pipeline" aria-label="Workflow pipeline"></section>
+
+        <main class="shell">
+          <aside class="list-pane" aria-labelledby="list-title">
+            <div class="pane-head">
+              <div>
+                <p class="eyebrow" id="list-eyebrow">Human in the loop</p>
+                <h2 id="list-title">Review queue</h2>
+              </div>
+              <span id="list-count" class="count-chip"></span>
+            </div>
+            <div id="list-filters" class="list-filters" hidden></div>
+            <ul id="item-list" class="item-list" aria-live="polite"></ul>
+          </aside>
+
+          <section id="workspace" class="workspace" tabindex="-1" aria-labelledby="workspace-title">
+            <div id="empty-workspace" class="empty-workspace">
+              <div class="empty-art brackets" aria-hidden="true">
+                <img id="empty-brand-logo" src="./branding/logo-mark.svg" alt="" width="88" height="88">
+                <span class="pixels"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+              </div>
+              <h2 data-i18n="empty_title">Drop a document to begin</h2>
+              <p data-i18n="empty_desc">Text files, PDFs, and scanned images are OCR'd locally, classified, and extracted. Uncertain values wait here for your review.</p>
+              <div class="empty-actions">
+                <button type="button" class="btn primary" data-open-upload><svg class="icon sm"><use href="#i-upload"/></svg> <span data-i18n="empty_upload_btn">Upload documents</span></button>
+                <button type="button" class="btn ghost" data-list-jump="documents"><svg class="icon sm"><use href="#i-documents"/></svg> <span data-i18n="empty_browse_btn">Browse all</span></button>
+              </div>
+              <ol class="how" aria-label="How it works">
+                <li><svg class="icon"><use href="#i-scan"/></svg><strong data-i18n="empty_scan_title">Scan</strong><span data-i18n="empty_scan_desc">Text layer, PDF, or Tesseract OCR</span></li>
+                <li><svg class="icon"><use href="#i-bolt"/></svg><strong data-i18n="empty_extract_title">Extract</strong><span data-i18n="empty_extract_desc">Taxonomy rules with confidence signals</span></li>
+                <li><svg class="icon"><use href="#i-shield"/></svg><strong data-i18n="empty_verify_title">Verify</strong><span data-i18n="empty_verify_desc">Side-by-side review, full audit trail</span></li>
+              </ol>
+            </div>
+
+            <div id="document-view" class="document-view" hidden>
+              <div class="workspace-head">
+                <div class="doc-id">
+                  <span id="doc-glyph" class="file-glyph lg">TXT</span>
+                  <div>
+                    <p class="eyebrow"><span id="stage-pill" class="pill"></span> <span id="doc-type"></span></p>
+                    <h2 id="workspace-title"></h2>
+                    <p id="doc-meta" class="meta mono"></p>
+                  </div>
+                </div>
+                <div id="action-bar" class="action-bar" aria-label="Document actions"></div>
+              </div>
+
+              <ol id="lifecycle" class="lifecycle" aria-label="Document lifecycle"></ol>
+
+              <div id="processing-banner" class="banner" hidden>
+                <span class="pixel-loader" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                <span id="processing-text">Processing…</span>
+              </div>
+
+              <div class="workspace-grid">
+                <article class="panel viewer">
+                  <div class="panel-head">
+                    <div class="segmented" role="tablist" aria-label="Document view">
+                      <button role="tab" type="button" data-view="text" aria-selected="true"><svg class="icon xs"><use href="#i-text"/></svg> <span data-i18n="view_ocr_text">OCR text</span></button>
+                      <button role="tab" type="button" data-view="original" aria-selected="false"><svg class="icon xs"><use href="#i-image"/></svg> <span data-i18n="view_original">Original</span></button>
+                    </div>
+                    <p id="viewer-meta" class="meta mono"></p>
+                  </div>
+                  <div class="viewer-body brackets">
+                    <div class="scanline" aria-hidden="true"></div>
+                    <ol id="ocr-lines" class="ocr-lines"></ol>
+                    <div id="original-view" class="original" hidden></div>
+                  </div>
+                </article>
+
+                <article class="panel fields">
+                  <div class="panel-head">
+                    <div>
+                      <h3 data-i18n="fields_title">Extracted fields</h3>
+                      <p id="fields-meta" class="meta"></p>
+                    </div>
+                    <div id="fields-progress" class="ring" aria-hidden="true"><span></span></div>
+                  </div>
+                  <div id="field-list" class="field-list"></div>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <aside class="inspector" aria-label="Document context">
+            <div class="inspector-tabs" role="tablist" aria-label="Context">
+              <button role="tab" type="button" data-panel="assistant" aria-selected="true" aria-controls="panel-assistant"><svg class="icon sm"><use href="#i-assistant"/></svg><span data-i18n="tab_assistant">Assistant</span></button>
+              <button role="tab" type="button" data-panel="exceptions" aria-selected="false" aria-controls="panel-exceptions"><svg class="icon sm"><use href="#i-exception"/></svg><span data-i18n="tab_issues">Issues</span><em id="tab-count-exceptions"></em></button>
+              <button role="tab" type="button" data-panel="registration" aria-selected="false" aria-controls="panel-registration"><svg class="icon sm"><use href="#i-registry"/></svg><span data-i18n="tab_registry">Registry</span></button>
+              <button role="tab" type="button" data-panel="jobs" aria-selected="false" aria-controls="panel-jobs"><svg class="icon sm"><use href="#i-jobs"/></svg><span data-i18n="tab_jobs">Jobs</span></button>
+              <button role="tab" type="button" data-panel="audit" aria-selected="false" aria-controls="panel-audit"><svg class="icon sm"><use href="#i-audit"/></svg><span data-i18n="tab_audit">Audit</span></button>
+            </div>
+
+            <section id="panel-assistant" class="inspector-panel" role="tabpanel" aria-labelledby="assistant-heading">
+              <div class="panel-intro">
+                <h2 id="assistant-heading" data-i18n="assistant_heading">Document assistant</h2>
+                <span class="pill neutral"><svg class="icon xs"><use href="#i-shield"/></svg> <span data-i18n="assistant_source_bounded">Source-bounded</span></span>
+              </div>
+              <p class="note" data-i18n="assistant_note">Answers are grounded only in this document's text, fields, and history — every claim is cited. Decisions stay with you.</p>
+              <div id="assistant-suggestions" class="chips"></div>
+              <article id="assistant-answer" class="answer" hidden aria-live="polite"></article>
+              <form id="assistant-form" class="composer">
+                <label class="sr-only" for="assistant-prompt" data-i18n="assistant_prompt_placeholder">Ask about the selected document</label>
+                <input id="assistant-prompt" type="text" maxlength="500" placeholder="Ask about this document…" data-i18n-placeholder="assistant_prompt_placeholder" disabled>
+                <button type="submit" id="assistant-submit" class="btn primary icon-only" disabled aria-label="Ask" data-i18n-aria-label="assistant_ask_btn"><svg class="icon sm"><use href="#i-send"/></svg></button>
+              </form>
+            </section>
+
+            <section id="panel-exceptions" class="inspector-panel" role="tabpanel" aria-labelledby="exceptions-heading" hidden>
+              <div class="panel-intro"><h2 id="exceptions-heading" data-i18n="exceptions_heading">Exceptions</h2></div>
+              <ul id="doc-exceptions" class="stack"></ul>
+            </section>
+
+            <section id="panel-registration" class="inspector-panel" role="tabpanel" aria-labelledby="registration-heading" hidden>
+              <div class="panel-intro"><h2 id="registration-heading" data-i18n="registration_heading">Protocol registration</h2></div>
+              <ul id="doc-references" class="stack"></ul>
+            </section>
+
+            <section id="panel-jobs" class="inspector-panel" role="tabpanel" aria-labelledby="jobs-heading" hidden>
+              <div class="panel-intro"><h2 id="jobs-heading" data-i18n="jobs_heading">Processing jobs</h2></div>
+              <ul id="doc-jobs" class="stack"></ul>
+            </section>
+
+            <section id="panel-audit" class="inspector-panel" role="tabpanel" aria-labelledby="audit-heading" hidden>
+              <div class="panel-intro"><h2 id="audit-heading" tabindex="-1" data-i18n="audit_heading">Audit trail</h2><span class="pill neutral"><svg class="icon xs"><use href="#i-shield"/></svg> <span data-i18n="audit_immutable">Immutable</span></span></div>
+              <ol id="doc-audit" class="timeline"></ol>
+            </section>
+          </aside>
+        </main>
+      </div>
+    </div>
+
+    <div id="drop-overlay" class="drop-overlay" hidden>
+      <div class="drop-target brackets">
+        <svg class="icon xl"><use href="#i-upload"/></svg>
+        <strong data-i18n="drop_overlay_title">Release to upload</strong>
+        <span data-i18n="drop_overlay_desc">Files are processed locally — nothing leaves this machine.</span>
+      </div>
+    </div>
+
+    <dialog id="upload-dialog">
+      <form id="upload-form" method="dialog" class="dialog-form">
+        <header class="dialog-head">
+          <div>
+            <p class="eyebrow" data-i18n="dialog_upload_eyebrow">Intake</p>
+            <h2 data-i18n="dialog_upload_title">Upload documents</h2>
+          </div>
+          <button type="button" class="btn ghost icon-only" data-close aria-label="Close" data-i18n-aria-label="action_close"><svg class="icon sm"><use href="#i-close"/></svg></button>
+        </header>
+        <label class="dropzone brackets" for="upload-files" id="dropzone">
+          <svg class="icon xl"><use href="#i-upload"/></svg>
+          <strong data-i18n="dialog_upload_dropzone">Drop files here or browse</strong>
+          <span id="upload-hint" class="meta"></span>
+          <input id="upload-files" type="file" multiple required>
+        </label>
+        <ul id="upload-selection" class="file-rows"></ul>
+        <div class="row">
+          <div>
+            <label for="upload-family" data-i18n="dialog_upload_type">Document type</label>
+            <select id="upload-family"><option value="auto" data-i18n="dialog_upload_auto">Detect automatically</option></select>
+          </div>
+          <div>
+            <label for="upload-institution" data-i18n="dialog_upload_institution">Institution</label>
+            <input id="upload-institution" type="text" maxlength="64">
+          </div>
+          <div>
+            <label for="upload-office" data-i18n="dialog_upload_office">Office</label>
+            <input id="upload-office" type="text" maxlength="64">
+          </div>
+        </div>
+        <ul id="upload-progress" class="file-rows"></ul>
+        <div class="dialog-actions">
+          <span class="meta"><svg class="icon xs"><use href="#i-shield"/></svg> <span data-i18n="dialog_upload_security">SHA-256 deduplicated · processed on-device</span></span>
+          <button type="button" class="btn ghost" data-close data-i18n="action_close">Close</button>
+          <button type="submit" class="btn primary" id="upload-submit"><svg class="icon sm"><use href="#i-upload"/></svg> <span data-i18n="upload">Upload</span></button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="reprocess-dialog">
+      <form id="reprocess-form" method="dialog" class="dialog-form">
+        <header class="dialog-head">
+          <div><p class="eyebrow">Pipeline</p><h2 data-i18n="dialog_reprocess_title">Request reprocessing</h2></div>
+          <button type="button" class="btn ghost icon-only" data-close aria-label="Close" data-i18n-aria-label="action_close"><svg class="icon sm"><use href="#i-close"/></svg></button>
+        </header>
+        <fieldset class="choice-group">
+          <legend data-i18n="dialog_reprocess_scope_legend">What should run again?</legend>
+          <label class="choice"><input type="radio" name="scope" value="extraction" checked><span><strong data-i18n="dialog_reprocess_scope_ext">Metadata extraction</strong><small data-i18n="dialog_reprocess_scope_ext_sub">Keeps the current OCR text</small></span></label>
+          <label class="choice"><input type="radio" name="scope" value="ocr"><span><strong data-i18n="dialog_reprocess_scope_ocr">OCR and extraction</strong><small data-i18n="dialog_reprocess_scope_ocr_sub">Re-reads the original file from scratch</small></span></label>
+        </fieldset>
+        <label for="reprocess-comment" data-i18n="dialog_reprocess_comment">Comment</label>
+        <input id="reprocess-comment" type="text" maxlength="300" placeholder="Optional — recorded in the audit trail" data-i18n-placeholder="dialog_reprocess_comment_ph">
+        <p class="meta" data-i18n="dialog_reprocess_note">Pending review work on this document is cancelled and recreated by the new run.</p>
+        <div class="dialog-actions">
+          <button type="button" class="btn ghost" data-close data-i18n="action_cancel">Cancel</button>
+          <button type="submit" class="btn primary"><svg class="icon sm"><use href="#i-refresh"/></svg> <span data-i18n="action_request_reprocessing">Reprocess</span></button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="reason-dialog">
+      <form id="reason-form" method="dialog" class="dialog-form">
+        <header class="dialog-head">
+          <div><p class="eyebrow" data-i18n="dialog_settings_name_meta">Recorded in audit trail</p><h2 id="reason-title"></h2></div>
+          <button type="button" class="btn ghost icon-only" data-close aria-label="Close" data-i18n-aria-label="action_close"><svg class="icon sm"><use href="#i-close"/></svg></button>
+        </header>
+        <p id="reason-text" class="meta"></p>
+        <label for="reason-input" data-i18n="dialog_reprocess_comment">Reason</label>
+        <input id="reason-input" type="text" maxlength="300" required>
+        <div class="dialog-actions">
+          <button type="button" class="btn ghost" data-close data-i18n="action_cancel">Cancel</button>
+          <button type="submit" class="btn primary" id="reason-submit" data-i18n="action_confirm">Confirm</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="settings-dialog">
+      <form id="settings-form" method="dialog" class="dialog-form">
+        <header class="dialog-head">
+          <div><p class="eyebrow" data-i18n="dialog_settings_eyebrow">Operator</p><h2 data-i18n="dialog_settings_title">Settings</h2></div>
+          <button type="button" class="btn ghost icon-only" data-close aria-label="Close" data-i18n-aria-label="action_close"><svg class="icon sm"><use href="#i-close"/></svg></button>
+        </header>
+        <div id="settings-institution" class="institution-meta-card">
+          <span class="institution-name" id="institution-name-display">xTRACT</span>
+          <span class="institution-tagline meta" id="institution-tagline-display">Local-First Document Intake &amp; Extraction</span>
+          <div class="institution-pack-badge" id="institution-pack-display"><span class="pill primary"><svg class="icon xs"><use href="#i-globe"/></svg> <span id="pack-name-display">General International [XX]</span></span></div>
+          <div class="institution-user-badge" id="settings-user-role-wrap"><span class="pill muted"><svg class="icon xs"><use href="#i-user"/></svg> <span id="settings-user-role-display">Operator</span></span></div>
+        </div>
+        <label for="settings-operator"><span data-i18n="dialog_settings_name">Your name</span> <span class="meta">— <span data-i18n="dialog_settings_name_meta">recorded in the audit trail</span></span></label>
+        <input id="settings-operator" type="text" maxlength="80" required>
+        <label for="settings-locale" data-i18n="dialog_settings_language">Language</label>
+        <select id="settings-locale"></select>
+        <label for="settings-token" data-i18n="dialog_settings_token">API token</label>
+        <input id="settings-token" type="password" autocomplete="off" placeholder="Only if the server sets XTRACT_API_TOKEN" data-i18n-placeholder="dialog_settings_token_ph">
+        <p class="meta"><svg class="icon xs"><use href="#i-shield"/></svg> <span data-i18n="dialog_settings_token_meta">Kept in session storage only and sent as a Bearer header.</span></p>
+        <div id="settings-engines" class="engine-list"></div>
+        <div class="dialog-actions">
+          <button type="button" class="btn ghost" data-close data-i18n="action_cancel">Cancel</button>
+          <button type="submit" class="btn primary" data-i18n="action_save">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="shortcuts-dialog">
+      <div class="dialog-form">
+        <header class="dialog-head">
+          <div><p class="eyebrow" data-i18n="dialog_shortcuts_eyebrow">Work faster</p><h2 data-i18n="dialog_shortcuts_title">Keyboard shortcuts</h2></div>
+          <button type="button" class="btn ghost icon-only" data-close aria-label="Close" data-i18n-aria-label="action_close"><svg class="icon sm"><use href="#i-close"/></svg></button>
+        </header>
+        <dl class="shortcuts">
+          <div><dt><kbd>/</kbd></dt><dd data-i18n="shortcut_search">Search documents</dd></div>
+          <div><dt><kbd>U</kbd></dt><dd data-i18n="shortcut_upload">Upload documents</dd></div>
+          <div><dt><kbd>J</kbd> <kbd>K</kbd></dt><dd data-i18n="shortcut_nav">Next / previous document</dd></div>
+          <div><dt><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd></dt><dd data-i18n="shortcut_lists">Review · Documents · Exceptions</dd></div>
+          <div><dt><kbd>O</kbd></dt><dd data-i18n="shortcut_toggle_view">Toggle OCR text / original</dd></div>
+          <div><dt><kbd>A</kbd></dt><dd data-i18n="shortcut_assistant">Ask the assistant</dd></div>
+          <div><dt><kbd>T</kbd></dt><dd data-i18n="shortcut_theme">Cycle theme</dd></div>
+          <div><dt><kbd>Enter</kbd></dt><dd data-i18n="shortcut_save_field">Save the focused field</dd></div>
+          <div><dt><kbd>?</kbd></dt><dd data-i18n="shortcut_help">Show this help</dd></div>
+        </dl>
+      </div>
+    </dialog>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

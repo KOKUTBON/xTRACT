@@ -1,0 +1,7 @@
+RICHIESTA PERMESSO DI COSTRUIRE
+Richiedente: Example Applicant Two
+Numero pratica: PRM-2026-0099
+Data richiesta: 04/07/2026
+Indirizzo immobile: Example Street 2, Test City
+
+Si richiede il rilascio del permesso di costruire per manutenzione straordinaria.

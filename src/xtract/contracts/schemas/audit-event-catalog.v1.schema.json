@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xtract.dev/schemas/audit-event-catalog.v1.schema.json",
+  "title": "Audit Event Catalog v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "events"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "events": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "event_type",
+          "category",
+          "description",
+          "actor_types",
+          "outcomes",
+          "required_details",
+          "emitted_at_states",
+          "immutable_evidence_required"
+        ],
+        "properties": {
+          "event_type": {
+            "type": "string",
+            "pattern": "^[a-z0-9_.]+$"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "lifecycle",
+              "review",
+              "records_management",
+              "integration",
+              "exception"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "minLength": 10
+          },
+          "actor_types": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "user",
+                "service",
+                "system"
+              ]
+            },
+            "uniqueItems": true
+          },
+          "outcomes": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "success",
+                "failure",
+                "rejected"
+              ]
+            },
+            "uniqueItems": true
+          },
+          "required_details": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            },
+            "uniqueItems": true
+          },
+          "emitted_at_states": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            },
+            "uniqueItems": true
+          },
+          "immutable_evidence_required": {
+            "type": "boolean"
+          },
+          "pii_allowed_in_details": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}

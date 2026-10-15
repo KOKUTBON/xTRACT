@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xtract.dev/schemas/integration-policy.v1.schema.json",
+  "title": "Integration Policy v1",
+  "description": "Route selection, ownership, retry, and reconciliation policy for the integration hub.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "default_connector_id",
+    "routes",
+    "retry_profiles",
+    "reconciliation_profiles"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "default_connector_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "routes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/Route"
+      }
+    },
+    "retry_profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/RetryProfile"
+      }
+    },
+    "reconciliation_profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/ReconciliationProfile"
+      }
+    }
+  },
+  "$defs": {
+    "Route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route_id",
+        "document_family",
+        "command_type",
+        "trigger_workflow_stage",
+        "target_connector_id",
+        "authoritative_reference_type",
+        "enabled",
+        "retry_profile_id",
+        "reconciliation_profile_id",
+        "field_mapping",
+        "sync_contract"
+      ],
+      "properties": {
+        "route_id": {
+          "type": "string"
+        },
+        "document_family": {
+          "type": "string",
+          "description": "Document family code, or * to match every family."
+        },
+        "command_type": {
+          "type": "string",
+          "enum": [
+            "protocol.register"
+          ]
+        },
+        "trigger_workflow_stage": {
+          "type": "string",
+          "enum": [
+            "validated",
+            "protocol_pending"
+          ]
+        },
+        "target_connector_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]*$"
+        },
+        "authoritative_reference_type": {
+          "type": "string"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "retry_profile_id": {
+          "type": "string"
+        },
+        "reconciliation_profile_id": {
+          "type": "string"
+        },
+        "field_mapping": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FieldMapping"
+          }
+        },
+        "sync_contract": {
+          "$ref": "#/$defs/SyncContract"
+        }
+      }
+    },
+    "FieldMapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "field_code",
+        "target_name",
+        "required"
+      ],
+      "properties": {
+        "field_code": {
+          "type": "string"
+        },
+        "target_name": {
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        }
+      }
+    },
+    "SyncContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_of_truth_fields",
+        "target_of_truth_fields",
+        "update_strategy",
+        "synchronization_owner"
+      ],
+      "properties": {
+        "source_of_truth_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "target_of_truth_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "update_strategy": {
+          "type": "string",
+          "enum": [
+            "request_response",
+            "async_callback",
+            "manual_reconciliation"
+          ]
+        },
+        "synchronization_owner": {
+          "type": "string"
+        }
+      }
+    },
+    "RetryProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "max_attempts",
+        "backoff_seconds",
+        "retryable_error_codes"
+      ],
+      "properties": {
+        "profile_id": {
+          "type": "string"
+        },
+        "max_attempts": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "backoff_seconds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "retryable_error_codes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ReconciliationProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "required",
+        "max_age_seconds",
+        "resolution_actions"
+      ],
+      "properties": {
+        "profile_id": {
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "max_age_seconds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "resolution_actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

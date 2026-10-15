@@ -1,0 +1,171 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100/
+.Trashes/
+.fseventsd/
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+.Trash-*
+.nfs*
+
+# Editors and IDEs
+.idea/
+.vscode/
+*.code-workspace
+*.sublime-project
+*.sublime-workspace
+
+# Editor swap and backup files
+*~
+*.bak
+*.swp
+*.swo
+*.tmp
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python build and packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+MANIFEST
+pip-wheel-metadata/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+venv.bak/
+env.bak/
+.virtualenv/
+__pypackages__/
+
+# Testing and coverage
+.tox/
+.nox/
+.pytest_cache/
+.coverage
+.coverage.*
+.coverage.xml
+htmlcov/
+.hypothesis/
+
+# Type checking and lint caches
+.mypy_cache/
+.pytype/
+.pyre/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# Local config
+.env
+.env.*
+!.env.example
+!.env.sample
+.python-version
+
+# Credentials and secrets
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.asc
+*.jks
+*.keystore
+*.mobileprovision
+*.provisionprofile
+credentials/
+secrets/
+tokens/
+private/
+
+# Databases
+*.sqlite
+*.sqlite3
+*.db
+*.db-wal
+*.db-shm
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3-wal
+*.sqlite3-shm
+*.dump
+*.sql.gz
+
+# Generated/local data and temporary outputs
+uploads/
+artifacts/
+outputs/
+reports/
+backups/
+dumps/
+data/storage/
+data/uploads/
+embeddings/
+vector_store/
+model_cache/
+cache/
+tmp/
+scratch/
+notes/
+planning/
+target/
+bin/
+obj/
+coverage/
+node_modules/
+*.tsbuildinfo
+
+# Runtime documents, storage, and exports
+/data/
+/storage/
+/exports/
+/output/
+
+# AI development tools
+.claude/
+.codex/
+.cursor/
+.windsurf/
+.github/agents/
+
+
+# Local browser verification
+.playwright-cli/
+
+# Local deployment records and private credentials
+.env.local
+.env.production
+*.pem
+*.key
+*.sqlite
+*.sqlite3
+*.db
+/data/private/
+/backups/

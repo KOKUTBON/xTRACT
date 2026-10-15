@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xtract.dev/schemas/extraction-policy.v1.schema.json",
+  "title": "Extraction Policy v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "strategy_stack",
+    "document_type_keyword_rules",
+    "global_thresholds",
+    "review_reason_codes"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "strategy_stack": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "strategy_id",
+          "source_kind",
+          "enabled",
+          "implemented",
+          "weight",
+          "purpose"
+        ],
+        "properties": {
+          "strategy_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "source_kind": {
+            "type": "string",
+            "enum": [
+              "rule_engine",
+              "ocr_bbox",
+              "ml_model"
+            ]
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "weight": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "purpose": {
+            "type": "string",
+            "minLength": 10
+          },
+          "implemented": {
+            "type": "boolean",
+            "description": "Whether the extraction engine executes this strategy."
+          }
+        }
+      }
+    },
+    "document_type_keyword_rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "family_code",
+          "type_code",
+          "display_name",
+          "keywords"
+        ],
+        "properties": {
+          "family_code": {
+            "type": "string"
+          },
+          "type_code": {
+            "type": "string"
+          },
+          "display_name": {
+            "type": "string"
+          },
+          "keywords": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "global_thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "auto_validate_threshold",
+        "review_threshold",
+        "validation_penalty"
+      ],
+      "properties": {
+        "auto_validate_threshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "review_threshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "validation_penalty": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "review_reason_codes": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_]+$"
+      },
+      "uniqueItems": true
+    },
+    "default_family": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$",
+      "description": "Family used when auto-detection finds no keyword match."
+    },
+    "date_order": {
+      "type": "string",
+      "enum": [
+        "DMY",
+        "MDY",
+        "YMD"
+      ],
+      "description": "Order of day and month in ambiguous numeric dates."
+    }
+  }
+}

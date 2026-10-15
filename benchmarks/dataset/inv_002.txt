@@ -1,0 +1,6 @@
+TAX INVOICE
+Supplier: Example Supplier Two
+Invoice number: INV-2026-0899
+Invoice date: 15/04/2026
+VAT number: IT00000000000
+Total amount: 3.450,50 EUR

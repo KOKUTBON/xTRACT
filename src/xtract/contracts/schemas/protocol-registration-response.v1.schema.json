@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xtract.dev/schemas/protocol-registration-response.v1.schema.json",
+  "title": "Protocol Registration Response v1",
+  "description": "Authoritative response returned by a protocol connector.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "command_id",
+    "connector_id",
+    "document_id",
+    "delivery_status",
+    "audit_correlation_id"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "command_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "connector_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "document_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "delivery_status": {
+      "type": "string",
+      "enum": [
+        "accepted",
+        "synchronized",
+        "failed"
+      ]
+    },
+    "remote_reference": {
+      "$ref": "#/$defs/RemoteReference"
+    },
+    "error_code": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "audit_correlation_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "raw_payload": {
+      "type": "string",
+      "description": "Optional serialized envelope or protocol payload (e.g. AgID Segnatura.xml, Peppol UBL invoice XML)."
+    }
+  },
+  "$defs": {
+    "RemoteReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reference_type",
+        "reference_id",
+        "status",
+        "uri",
+        "synchronized_at"
+      ],
+      "properties": {
+        "reference_type": {
+          "type": "string"
+        },
+        "reference_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "exported",
+            "synchronized",
+            "failed"
+          ]
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri"
+        },
+        "synchronized_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

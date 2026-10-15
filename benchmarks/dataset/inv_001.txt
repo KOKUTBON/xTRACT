@@ -1,0 +1,7 @@
+INVOICE
+Supplier: Example Supplier One
+Invoice number: INV-2026-0017
+Invoice date: 3 March 2026
+VAT number: IT00000000000
+Subtotal 1.000,00
+Total amount: 1.220,00 €

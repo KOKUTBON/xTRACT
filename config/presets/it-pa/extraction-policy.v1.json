@@ -1,0 +1,111 @@
+{
+  "version": "1.0.0",
+  "default_family": "general_correspondence",
+  "date_order": "DMY",
+  "strategy_stack": [
+    {
+      "strategy_id": "alias_rule",
+      "source_kind": "rule_engine",
+      "enabled": true,
+      "implemented": true,
+      "weight": 0.35,
+      "purpose": "Localizza le ancore dei campi tramite il dizionario alias."
+    },
+    {
+      "strategy_id": "regex_pattern",
+      "source_kind": "rule_engine",
+      "enabled": true,
+      "implemented": true,
+      "weight": 0.35,
+      "purpose": "Estrae valori candidati tramite espressioni regolari."
+    },
+    {
+      "strategy_id": "ocr_confidence_signal",
+      "source_kind": "ocr_bbox",
+      "enabled": true,
+      "implemented": true,
+      "weight": 0.3,
+      "purpose": "Combina la confidenza OCR con la confidenza del campo."
+    }
+  ],
+  "document_type_keyword_rules": [
+    {
+      "family_code": "invoice",
+      "type_code": "invoice",
+      "display_name": "Fattura / FatturaPA",
+      "keywords": [
+        "fattura",
+        "fattura elettronica",
+        "parcella",
+        "cedente",
+        "prestatore",
+        "imponibile",
+        "aliquota iva",
+        "totale documento",
+        "fatturapa",
+        "scissione dei pagamenti"
+      ]
+    },
+    {
+      "family_code": "building_permit",
+      "type_code": "building_permit_application",
+      "display_name": "Istanza edilizia / Permesso di costruire",
+      "keywords": [
+        "permesso di costruire",
+        "istanza edilizia",
+        "segnalazione certificata",
+        "scia",
+        "cila",
+        "pratica edilizia",
+        "titolo abilitativo",
+        "sportello unico edilizia",
+        "sue",
+        "richiesta permesso"
+      ]
+    },
+    {
+      "family_code": "residence_application",
+      "type_code": "residence_application",
+      "display_name": "Dichiarazione di residenza (ANPR)",
+      "keywords": [
+        "dichiarazione di residenza",
+        "cambio residenza",
+        "cambio di residenza",
+        "iscrizione anagrafica",
+        "anpr",
+        "ufficio anagrafe",
+        "istanza di residenza",
+        "mutazione anagrafica"
+      ]
+    },
+    {
+      "family_code": "general_correspondence",
+      "type_code": "general_correspondence",
+      "display_name": "Protocollo generale / Corrispondenza",
+      "keywords": [
+        "protocollo",
+        "oggetto",
+        "spett.le",
+        "in allegato",
+        "alla cortese attenzione",
+        "si trasmette",
+        "raccomandata",
+        "posta elettronica certificata",
+        "pec",
+        "comune di",
+        "egregio signor"
+      ]
+    }
+  ],
+  "global_thresholds": {
+    "auto_validate_threshold": 0.9,
+    "review_threshold": 0.8,
+    "validation_penalty": 0.25
+  },
+  "review_reason_codes": [
+    "low_confidence",
+    "validation_pattern_mismatch",
+    "required_field_missing",
+    "manual_policy_review"
+  ]
+}

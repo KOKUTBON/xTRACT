@@ -1,0 +1,3 @@
+recursive-include apps/operator-portal *.html *.css *.js
+recursive-include assets/branding *.svg *.png
+recursive-include src/xtract/presets *.json

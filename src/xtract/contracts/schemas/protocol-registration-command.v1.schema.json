@@ -1,0 +1,243 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xtract.dev/schemas/protocol-registration-command.v1.schema.json",
+  "title": "Protocol Registration Command v1",
+  "description": "Canonical outbound command sent by the integration hub to a protocol connector.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "command_id",
+    "command_type",
+    "connector_id",
+    "generated_at",
+    "document_id",
+    "idempotency_key",
+    "source_export",
+    "caller",
+    "ownership",
+    "audit_context",
+    "payload"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "command_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "command_type": {
+      "type": "string",
+      "const": "protocol.register"
+    },
+    "connector_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "document_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "idempotency_key": {
+      "type": "string"
+    },
+    "source_export": {
+      "$ref": "#/$defs/SourceExport"
+    },
+    "caller": {
+      "$ref": "#/$defs/Caller"
+    },
+    "ownership": {
+      "$ref": "#/$defs/Ownership"
+    },
+    "audit_context": {
+      "$ref": "#/$defs/AuditContext"
+    },
+    "payload": {
+      "$ref": "#/$defs/Payload"
+    }
+  },
+  "$defs": {
+    "SourceExport": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "export_id",
+        "export_stage",
+        "source_document_id",
+        "source_document_version",
+        "path"
+      ],
+      "properties": {
+        "export_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "export_stage": {
+          "type": "string",
+          "enum": [
+            "validated",
+            "published"
+          ]
+        },
+        "source_document_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "source_document_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "path": {
+          "type": "string"
+        }
+      }
+    },
+    "Caller": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "institution_id",
+        "office_id",
+        "service_name"
+      ],
+      "properties": {
+        "institution_id": {
+          "type": "string"
+        },
+        "office_id": {
+          "type": "string"
+        },
+        "service_name": {
+          "type": "string"
+        }
+      }
+    },
+    "Ownership": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_of_truth_fields",
+        "target_of_truth_fields",
+        "synchronization_owner"
+      ],
+      "properties": {
+        "source_of_truth_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "target_of_truth_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "synchronization_owner": {
+          "type": "string"
+        }
+      }
+    },
+    "AuditContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "correlation_id",
+        "initiated_by",
+        "reason"
+      ],
+      "properties": {
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "initiated_by": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    },
+    "MappedMetadataField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "field_code",
+        "target_name",
+        "required",
+        "value"
+      ],
+      "properties": {
+        "field_code": {
+          "type": "string"
+        },
+        "target_name": {
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "value": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "Payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "document_type_code",
+        "document_type_name",
+        "source_filename",
+        "checksum_sha256",
+        "requested_reference_type",
+        "metadata"
+      ],
+      "properties": {
+        "document_type_code": {
+          "type": "string"
+        },
+        "document_type_name": {
+          "type": "string"
+        },
+        "source_filename": {
+          "type": "string"
+        },
+        "checksum_sha256": {
+          "type": "string",
+          "pattern": "^[A-Fa-f0-9]{64}$"
+        },
+        "requested_reference_type": {
+          "type": "string"
+        },
+        "metadata": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MappedMetadataField"
+          }
+        }
+      }
+    }
+  }
+}

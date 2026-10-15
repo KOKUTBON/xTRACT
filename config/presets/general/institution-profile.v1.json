@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "institution_id": "default",
+  "institution_name": "xTRACT",
+  "app_title": "xTRACT · Operator Console",
+  "tagline": "Local-First Document Intake, OCR, and Metadata Extraction",
+  "logo_url": "/branding/logo-mark.svg",
+  "logo_dark_url": "/branding/logo-mark.svg",
+  "app_icon_url": "/branding/logo-app-icon.png",
+  "favicon_url": "/branding/logo-mark.svg",
+  "accent_color": "#111111",
+  "accent_color_dark": "#ffffff",
+  "country_code": "IT",
+  "default_locale": "en",
+  "supported_locales": [
+    "en",
+    "it"
+  ],
+  "contact_email": ""
+}

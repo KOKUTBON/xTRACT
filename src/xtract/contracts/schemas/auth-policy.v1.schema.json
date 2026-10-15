@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xtract.dev/schemas/auth-policy.v1.schema.json",
+  "title": "Auth Policy v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "auth_mode",
+    "roles",
+    "default_role"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "auth_mode": {
+      "type": "string",
+      "enum": [
+        "none",
+        "token",
+        "jwt",
+        "oidc",
+        "header",
+        "auto"
+      ]
+    },
+    "default_role": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "supervisor",
+        "operator",
+        "viewer",
+        "auditor"
+      ]
+    },
+    "roles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "role",
+          "display_name",
+          "permissions"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "display_name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "oidc": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "issuer_url": {
+          "type": "string"
+        },
+        "client_id": {
+          "type": "string"
+        },
+        "audience": {
+          "type": "string"
+        },
+        "roles_claim": {
+          "type": "string"
+        }
+      }
+    },
+    "header_federation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "user_header": {
+          "type": "string"
+        },
+        "email_header": {
+          "type": "string"
+        },
+        "roles_header": {
+          "type": "string"
+        },
+        "institution_header": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+DOMANDA CAMBIO RESIDENZA
+Richiedente: Example Applicant Four
+Numero domanda: RES-2026-4432
+Data richiesta: 01/09/2026
+Nuovo indirizzo: Example Street 4, Test City
+
+Dichiarazione di trasferimento di residenza nel comune di Bologna.

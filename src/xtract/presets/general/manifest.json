@@ -1,0 +1,21 @@
+{
+  "pack_id": "general",
+  "name": "General International",
+  "version": "1.0.0",
+  "description": "Standard international correspondence, invoices, and generic public records.",
+  "country_code": "XX",
+  "default_locale": "en",
+  "supported_locales": [
+    "en",
+    "it",
+    "es",
+    "fr",
+    "de"
+  ],
+  "author": "xTRACT Core Team",
+  "tags": [
+    "international",
+    "default",
+    "general"
+  ]
+}

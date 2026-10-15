@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xtract.dev/schemas/document-lifecycle.v1.schema.json",
+  "title": "Document Lifecycle v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "initial_state_id",
+    "states",
+    "transitions"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "initial_state_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "states": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "state_id",
+          "display_name",
+          "state_kind",
+          "description",
+          "requires_human_action",
+          "searchable_output_ready",
+          "terminal"
+        ],
+        "properties": {
+          "state_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "display_name": {
+            "type": "string",
+            "minLength": 3
+          },
+          "state_kind": {
+            "type": "string",
+            "enum": [
+              "core_required",
+              "records_conditional",
+              "terminal",
+              "exception"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "minLength": 10
+          },
+          "requires_human_action": {
+            "type": "boolean"
+          },
+          "searchable_output_ready": {
+            "type": "boolean"
+          },
+          "records_step": {
+            "type": "boolean"
+          },
+          "terminal": {
+            "type": "boolean"
+          },
+          "legacy_aliases": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_]+$"
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "transitions": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "transition_id",
+          "from_state_id",
+          "to_state_id",
+          "trigger_type",
+          "condition",
+          "event_type",
+          "description"
+        ],
+        "properties": {
+          "transition_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "from_state_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "to_state_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "trigger_type": {
+            "type": "string",
+            "enum": [
+              "system",
+              "user",
+              "service",
+              "policy"
+            ]
+          },
+          "condition": {
+            "type": "string",
+            "enum": [
+              "always",
+              "if_protocol_required",
+              "if_filing_required",
+              "if_publication_required",
+              "if_preservation_required",
+              "on_failure",
+              "on_discard"
+            ]
+          },
+          "event_type": {
+            "type": "string",
+            "pattern": "^[a-z0-9_.]+$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 10
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xtract.dev/schemas/reconciliation-report.v1.schema.json",
+  "title": "Reconciliation Report v1",
+  "description": "Reconciliation outcome for synchronized external references.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "report_id",
+    "connector_id",
+    "generated_at",
+    "items",
+    "summary"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "report_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "connector_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ReconciliationItem"
+      }
+    },
+    "summary": {
+      "$ref": "#/$defs/Summary"
+    }
+  },
+  "$defs": {
+    "ReconciliationItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "document_id",
+        "command_id",
+        "reference_type",
+        "delivery_status",
+        "reconciliation_status",
+        "local_document_update",
+        "owner_of_truth"
+      ],
+      "properties": {
+        "document_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "command_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "reference_type": {
+          "type": "string"
+        },
+        "remote_reference_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "delivery_status": {
+          "type": "string",
+          "enum": [
+            "synchronized",
+            "failed",
+            "skipped"
+          ]
+        },
+        "reconciliation_status": {
+          "type": "string",
+          "enum": [
+            "matched",
+            "missing",
+            "not_applicable"
+          ]
+        },
+        "local_document_update": {
+          "type": "string",
+          "enum": [
+            "applied",
+            "failed",
+            "skipped"
+          ]
+        },
+        "owner_of_truth": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "Summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "matched_count",
+        "missing_count",
+        "not_applicable_count"
+      ],
+      "properties": {
+        "matched_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "missing_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "not_applicable_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

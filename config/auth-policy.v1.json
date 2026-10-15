@@ -1,0 +1,76 @@
+{
+  "version": "1.0.0",
+  "auth_mode": "auto",
+  "default_role": "operator",
+  "roles": [
+    {
+      "role": "admin",
+      "display_name": "Administrator",
+      "description": "Full access to all tenant documents, configuration, and administrative tasks.",
+      "permissions": [
+        "doc:read",
+        "field:edit",
+        "doc:approve",
+        "doc:discard",
+        "doc:reprocess",
+        "export:read",
+        "admin:manage"
+      ]
+    },
+    {
+      "role": "supervisor",
+      "display_name": "Supervisor",
+      "description": "Supervise document reviews, approve, discard, or reprocess across offices.",
+      "permissions": [
+        "doc:read",
+        "field:edit",
+        "doc:approve",
+        "doc:discard",
+        "doc:reprocess",
+        "export:read"
+      ]
+    },
+    {
+      "role": "operator",
+      "display_name": "Operator",
+      "description": "Standard document intake, metadata verification, and field editing.",
+      "permissions": [
+        "doc:read",
+        "field:edit",
+        "doc:approve",
+        "export:read"
+      ]
+    },
+    {
+      "role": "viewer",
+      "display_name": "Viewer",
+      "description": "Read-only access to documents and extraction results.",
+      "permissions": [
+        "doc:read",
+        "export:read"
+      ]
+    },
+    {
+      "role": "auditor",
+      "display_name": "Auditor",
+      "description": "Read-only access to workspaces, documents, and compliance audit logs.",
+      "permissions": [
+        "doc:read",
+        "export:read"
+      ]
+    }
+  ],
+  "oidc": {
+    "issuer_url": "",
+    "client_id": "xtract-console",
+    "audience": "xtract-api",
+    "roles_claim": "roles"
+  },
+  "header_federation": {
+    "enabled": false,
+    "user_header": "X-Forwarded-User",
+    "email_header": "X-Forwarded-Email",
+    "roles_header": "X-Forwarded-Roles",
+    "institution_header": "X-Forwarded-Institution"
+  }
+}

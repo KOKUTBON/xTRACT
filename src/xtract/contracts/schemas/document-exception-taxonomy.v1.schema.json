@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xtract.dev/schemas/document-exception-taxonomy.v1.schema.json",
+  "title": "Document Exception Taxonomy v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "exceptions"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "exceptions": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "exception_code",
+          "stage_id",
+          "category",
+          "severity",
+          "retryable",
+          "human_action_required",
+          "terminal",
+          "description",
+          "recommended_action"
+        ],
+        "properties": {
+          "exception_code": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "stage_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "intake",
+              "conversion",
+              "ocr",
+              "extraction",
+              "review",
+              "protocol",
+              "filing",
+              "publication",
+              "preservation",
+              "policy"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "retryable": {
+            "type": "boolean"
+          },
+          "human_action_required": {
+            "type": "boolean"
+          },
+          "terminal": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 10
+          },
+          "recommended_action": {
+            "type": "string",
+            "minLength": 10
+          }
+        }
+      }
+    }
+  }
+}

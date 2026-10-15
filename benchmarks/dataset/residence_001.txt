@@ -1,0 +1,7 @@
+RESIDENCE REGISTRATION APPLICATION
+Applicant: Example Applicant Three
+Application number: APP-2026-7788
+Request date: 11/08/2026
+New address: Example Street 3, Test City
+
+The applicant declares change of primary residence.
